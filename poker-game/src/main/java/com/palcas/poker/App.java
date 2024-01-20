@@ -1,4 +1,4 @@
-package main.java.com.palcas.poker;
+package com.palcas.poker;
 
 public class App {
     public static void main(String[] args) {
