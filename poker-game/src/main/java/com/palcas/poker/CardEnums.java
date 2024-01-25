@@ -1,21 +1,24 @@
 package com.palcas.poker;
 
 public class CardEnums {
+
+    // Enum for Suit of the card like Hearts or Diamonds
     public enum Suit {
-        HEARTS("Hearts", "H"),
-        DIAMONDS("Diamonds", "D"),
-        CLUBS("Clubs", "C"),
-        SPADES("Spades", "S");
+        HEARTS("Hearts", "H", Color.RED),
+        DIAMONDS("Diamonds", "D", Color.RED),
+        CLUBS("Clubs", "C", Color.BLACK),
+        SPADES("Spades", "S", Color.BLACK);
 
         private final String name;
         private final String abbreviation;
+        private final Color color;
         //Haben die verschiedenen Symbole auch einen Wert? Sowas wie Herz schlägt Kreuz?
-        //Farbe an sich fehlt noch, vielleicht Farbe mit code doch außerhalb machen?
-        //private final String colorANSICode;
+        //irgendwo noch den colorANSICode;
         
-        Suit(String name, String abbreviation) {
+        Suit(String name, String abbreviation, Color color) {
             this.name = name;
             this.abbreviation = abbreviation;
+            this.color = color;
         }
 
         public String getName() {
@@ -25,9 +28,13 @@ public class CardEnums {
         public String getAbbreviation() {
             return abbreviation;
         }
+
+        public Color getColor() {
+            return color;
+        }
     }
 
-
+    // Enum for the Rank of the card like 7 or King
     public enum Rank {
         TWO("2", 2),
         THREE("3", 3),
@@ -58,5 +65,11 @@ public class CardEnums {
         public int getValue() {
             return value;
         }
+    }
+
+    // Enum for the Color of the card like red or black
+    public enum Color {
+        RED,
+        BLACK;
     }
 }
