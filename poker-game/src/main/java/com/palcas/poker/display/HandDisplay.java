@@ -8,7 +8,7 @@ public class HandDisplay {
     }
 
     public static void main(String[] args) {
-        displayColoredPokerHand("♠", "5", "♥", "K");
+        displayColoredPokerHand("\u2660", "5", "♥", "K");
     }
 
     // erstes Konzept, wie die Darstellung einer Hand möglich wäre, genaue Details müssen besprochen werden 
@@ -23,5 +23,14 @@ public class HandDisplay {
         System.out.println("  └─────────┘   └─────────┘");
     }
 
+    public static void displayColoredPokerHand2(String suit1, String rank1, String suit2, String rank2) {
+        System.out.println("  ┌─────────┐   ┌─────────┐");
+        System.out.println("  │         │   │         │");
+        System.out.println("  │         │   │         │");
+        System.out.println("  │         │   │         │");
+        System.out.println("  │  heart  │   │         │");
+        System.out.println("  │         │   │         │");
+        System.out.println("  └─────────┘   └─────────┘");
+    }
 
 }

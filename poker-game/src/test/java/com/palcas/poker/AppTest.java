@@ -1,4 +1,4 @@
-package test.java.com.palcas.poker;
+package com.palcas.poker;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
