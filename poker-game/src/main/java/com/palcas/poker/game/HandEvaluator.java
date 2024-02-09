@@ -1,4 +1,4 @@
-package com.palcas.poker;
+package com.palcas.poker.game;
 
 public class HandEvaluator {
     

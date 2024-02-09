@@ -1,17 +1,10 @@
-package com.palcas.poker;
+package com.palcas.poker.display;
 
-public class CardEnums {
-
+public class CardDisplay {
     static final String space = " ";
 
     // Enum for Suit of the card like Hearts or Diamonds
     public enum Suit {
- /*        HEARTS("Hearts", " Hearts", Color.RED),
-        DIAMONDS("Diamonds", " Dmnds ", Color.RED),
-        CLUBS("Clubs", " Clubs ", Color.BLACK),
-        SPADES("Spades", " Spades", Color.BLACK);   
-         */
-
 
         DIAMONDS("Diamonds", space.repeat(3) + "\u2666" + space.repeat(3), Color.RED),
         SPADES("Spades", space.repeat(3) + "\u2660" + space.repeat(3), Color.BLACK),
