@@ -1,8 +1,10 @@
 package com.palcas.poker.display;
 
-import com.palcas.poker.Card;
-import com.palcas.poker.CardEnums.Rank;
-import com.palcas.poker.CardEnums.Suit;
+
+
+import com.palcas.poker.display.CardDisplay.Rank;
+import com.palcas.poker.display.CardDisplay.Suit;
+import com.palcas.poker.game.Card;
 
 public class BoardDisplay {
 
