@@ -20,4 +20,12 @@ public class Card{
     public Rank getRank() {
         return rank;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Card card = (Card) obj;
+
+        return this.getSuit().equals(card.getSuit()) && this.getRank().equals(card.getRank());
+    }
 }
