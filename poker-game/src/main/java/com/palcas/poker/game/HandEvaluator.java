@@ -9,9 +9,8 @@ import java.util.HashMap;
 
 public class HandEvaluator {
     
-    public static boolean containsRoyalFlush(Card[] board, Card handCard1, Card handCard2) {
-        Card[] setOfHandAndBoard = mergeHandAndBoard(board, handCard1, handCard2);
-        HashMap<Suit, Integer> countedSuits = countSuits(setOfHandAndBoard);
+    public static boolean containsRoyalFlush(Card[] cards) {
+        HashMap<Suit, Integer> countedSuits = countSuits(cards);
         Suit suitOfPotentialStraightFlush = null;
         int numberOfCardsWithThisSuit = 0;
 
@@ -30,7 +29,7 @@ public class HandEvaluator {
         // create new Array with only the cards of the same suit
         Card[] setOfCardsWithFlushSuite = new Card[numberOfCardsWithThisSuit];
         int i = 0;
-        for (Card card: setOfHandAndBoard) {
+        for (Card card: cards) {
             if(card.getSuit() == suitOfPotentialStraightFlush) {
                 setOfCardsWithFlushSuite[i] = card;
                 i++;
@@ -50,9 +49,9 @@ public class HandEvaluator {
         return false;
     }
 
-    public static boolean containsStraightFlush(Card[] board, Card handCard1, Card handCard2) {
-        Card[] setOfHandAndBoard = mergeHandAndBoard(board, handCard1, handCard2);
-        HashMap<Suit, Integer> countedSuits = countSuits(setOfHandAndBoard);
+    public static boolean containsStraightFlush(Card[] cards) {
+
+        HashMap<Suit, Integer> countedSuits = countSuits(cards);
         Suit suitOfPotentialStraightFlush = null;
         int numberOfCardsWithThisSuit = 0;
 
@@ -71,7 +70,7 @@ public class HandEvaluator {
         // create new Array with only the cards of the same suit
         Card[] setOfCardsWithFlushSuite = new Card[numberOfCardsWithThisSuit];
         int i = 0;
-        for (Card card: setOfHandAndBoard) {
+        for (Card card: cards) {
             if(card.getSuit() == suitOfPotentialStraightFlush) {
                 setOfCardsWithFlushSuite[i] = card;
                 i++;
@@ -100,9 +99,8 @@ public class HandEvaluator {
         return false;
     }
 
-    public static boolean containsFourOfAKind(Card[] board, Card handCard1, Card handCard2) {
-        Card[] setOfHandAndBoard = mergeHandAndBoard(board, handCard1, handCard2);
-        HashMap<Rank, Integer> countedRanks = countRanks(setOfHandAndBoard);
+    public static boolean containsFourOfAKind(Card[] cards) {
+        HashMap<Rank, Integer> countedRanks = countRanks(cards);
         for (int rankCount : countedRanks.values()) {
             if (rankCount == 4) {
                 return true;
@@ -111,9 +109,8 @@ public class HandEvaluator {
         return false;
     }
     
-    public static boolean containsFullHouse(Card[] board, Card handCard1, Card handCard2) {
-        Card[] setOfHandAndBoard = mergeHandAndBoard(board, handCard1, handCard2);
-        HashMap<Rank, Integer> countedRanks = countRanks(setOfHandAndBoard);
+    public static boolean containsFullHouse(Card[] cards) {
+        HashMap<Rank, Integer> countedRanks = countRanks(cards);
         boolean containsThreeOfAKind = false;
         boolean containsTwoOfAKind = false;
         for (int rankCount : countedRanks.values()) {
@@ -135,9 +132,8 @@ public class HandEvaluator {
         return false;
     }
     
-    public static boolean containsFlush(Card[] board, Card handCard1, Card handCard2) {
-        Card[] setOfHandAndBoard = mergeHandAndBoard(board, handCard1, handCard2);
-        HashMap<Suit, Integer> countedSuits = countSuits(setOfHandAndBoard);
+    public static boolean containsFlush(Card[] cards) {
+        HashMap<Suit, Integer> countedSuits = countSuits(cards);
         for (int rankCount : countedSuits.values()) {
             if (rankCount >= 5) {
                 return true;
@@ -146,9 +142,8 @@ public class HandEvaluator {
         return false;
     }
     
-    public static boolean containsStraight(Card[] board, Card handCard1, Card handCard2) {
-        Card[] setOfHandAndBoard = mergeHandAndBoard(board, handCard1, handCard2);
-        HashMap<Rank, Integer> countedRanks = countRanks(setOfHandAndBoard);
+    public static boolean containsStraight(Card[] cards) {
+        HashMap<Rank, Integer> countedRanks = countRanks(cards);
         Rank[] sortedRanks = Rank.values();
         Arrays.sort(Rank.values(), Comparator.comparingInt(Rank::getValue));
 
@@ -170,9 +165,8 @@ public class HandEvaluator {
         return false;
     }
     
-    public static boolean containsThreeOfAKind(Card[] board, Card handCard1, Card handCard2) {
-        Card[] setOfHandAndBoard = mergeHandAndBoard(board, handCard1, handCard2);
-        HashMap<Rank, Integer> countedRanks = countRanks(setOfHandAndBoard);
+    public static boolean containsThreeOfAKind(Card[] cards) {
+        HashMap<Rank, Integer> countedRanks = countRanks(cards);
         for (int rankCount : countedRanks.values()) {
             if (rankCount >= 3) {
                 return true;
@@ -181,9 +175,8 @@ public class HandEvaluator {
         return false;
     }
     
-    public static boolean containsTwoPairs(Card[] board, Card handCard1, Card handCard2) {
-        Card[] setOfHandAndBoard = mergeHandAndBoard(board, handCard1, handCard2);
-        HashMap<Rank, Integer> countedRanks = countRanks(setOfHandAndBoard);
+    public static boolean containsTwoPairs(Card[] cards) {
+        HashMap<Rank, Integer> countedRanks = countRanks(cards);
         boolean containsTwoOfAKind = false;
         for (int rankCount : countedRanks.values()) {
             if (rankCount == 2) {
@@ -197,9 +190,8 @@ public class HandEvaluator {
         return false;
     }
     
-    public static boolean containsPair(Card[] board, Card handCard1, Card handCard2) {
-        Card[] setOfHandAndBoard = mergeHandAndBoard(board, handCard1, handCard2);
-        HashMap<Rank, Integer> countedRanks = countRanks(setOfHandAndBoard);
+    public static boolean containsPair(Card[] cards) {
+        HashMap<Rank, Integer> countedRanks = countRanks(cards);
         for (int rankCount : countedRanks.values()) {
             if (rankCount == 2) {
                 return true;
@@ -218,7 +210,7 @@ public class HandEvaluator {
      * @return an array of 7 cards, which includes the 5 cards from the board and the 2 cards from the player hand
      */
     public static Card[] mergeHandAndBoard(Card[] board, Card handCard1, Card handCard2) {
-        // 
+        //
         Card[] mergedHandAndBoard = new Card[7];
         for (int i = 0; i < board.length; i++) {
             mergedHandAndBoard[i] = board[i];
@@ -273,11 +265,10 @@ public class HandEvaluator {
         Card card3 = new Card(Suit.HEARTS, Rank.FIVE);
         Card card4 = new Card(Suit.HEARTS, Rank.TEN);
         Card card5 = new Card(Suit.HEARTS, Rank.JACK);
-        Card[] board = {card1, card2, card3, card4, card5};
+        Card card6 = new Card(Suit.HEARTS, Rank.QUEEN);
+        Card card7 = new Card(Suit.HEARTS, Rank.KING);
+        Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        Card handCard1 = new Card(Suit.HEARTS, Rank.QUEEN);
-        Card handCard2 = new Card(Suit.HEARTS, Rank.KING);
-
-        System.out.println(containsRoyalFlush(board, handCard1, handCard2));
+        System.out.println(containsRoyalFlush(cards));
     }
 }
