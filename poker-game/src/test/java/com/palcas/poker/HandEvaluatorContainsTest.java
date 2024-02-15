@@ -57,8 +57,6 @@ public class HandEvaluatorContainsTest {
     }
 
 
-
-
     @Test
     public void testContainsStraightFlush1() {
         Card card1 = new Card(Suit.SPADES, Rank.TWO);
@@ -122,7 +120,6 @@ public class HandEvaluatorContainsTest {
     }
 
 
-
     @Test
     public void testContainsFourOfAKind1() {
         Card card1 = new Card(Suit.SPADES, Rank.TWO);
@@ -168,8 +165,6 @@ public class HandEvaluatorContainsTest {
         boolean result = HandEvaluator.containsFourOfAKind(board, handCard1, handCard2);
         assertTrue(result);
     }
-
-
 
 
     @Test
@@ -269,7 +264,7 @@ public class HandEvaluatorContainsTest {
 
     @Test
     public void testContainsFlush2() {
-        // No flush on the board
+        // No flush
         Card card1 = new Card(Suit.SPADES, Rank.TWO);
         Card card2 = new Card(Suit.CLUBS, Rank.FOUR);
         Card card3 = new Card(Suit.HEARTS, Rank.SIX);
@@ -298,7 +293,6 @@ public class HandEvaluatorContainsTest {
         boolean result = HandEvaluator.containsFlush(board, handCard1, handCard2);
         assertTrue(result);
     }
-
 
 
     @Test
@@ -348,6 +342,7 @@ public class HandEvaluatorContainsTest {
         boolean result = HandEvaluator.containsStraight(board, handCard1, handCard2);
         assertFalse(result);
     }
+
 
     @Test
     public void testContainsThreeOfAKind1() {
@@ -525,7 +520,4 @@ public class HandEvaluatorContainsTest {
         boolean result = HandEvaluator.containsPair(board, handCard1, handCard2);
         assertFalse(result);
     }
-
-
-
 }
