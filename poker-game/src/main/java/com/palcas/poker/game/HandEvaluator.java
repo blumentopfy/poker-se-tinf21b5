@@ -174,7 +174,7 @@ public class HandEvaluator {
         Card[] setOfHandAndBoard = mergeHandAndBoard(board, handCard1, handCard2);
         HashMap<Rank, Integer> countedRanks = countRanks(setOfHandAndBoard);
         for (int rankCount : countedRanks.values()) {
-            if (rankCount == 3) {
+            if (rankCount >= 3) {
                 return true;
             }
         }
