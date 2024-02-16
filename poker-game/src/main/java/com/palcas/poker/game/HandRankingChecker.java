@@ -40,15 +40,11 @@ public class HandRankingChecker {
 
         //check manually, if 10,J,Q,K,A are there
         HashMap<Rank, Integer> countedRanks = countRanks(setOfCardsWithFlushSuite);
-        if (countedRanks.get(Rank.TEN) >= 1
+        return countedRanks.get(Rank.TEN) >= 1
                 && countedRanks.get(Rank.JACK) >= 1
                 && countedRanks.get(Rank.QUEEN) >= 1
                 && countedRanks.get(Rank.KING) >= 1
-                && countedRanks.get(Rank.ACE) >= 1
-        ) {
-            return true;
-        }
-        return false;
+                && countedRanks.get(Rank.ACE) >= 1;
     }
 
     public static boolean containsStraightFlush(Card[] cards) {
@@ -211,12 +207,11 @@ public class HandRankingChecker {
      * @param handCard2 the other card of the players hand
      * @return an array of 7 cards, which includes the 5 cards from the board and the 2 cards from the player hand
      */
+    //TODO maybe move this method elsewhere, if we don't use it here...
     public static Card[] mergeHandAndBoard(Card[] board, Card handCard1, Card handCard2) {
         //
         Card[] mergedHandAndBoard = new Card[7];
-        for (int i = 0; i < board.length; i++) {
-            mergedHandAndBoard[i] = board[i];
-        }
+        System.arraycopy(board, 0, mergedHandAndBoard, 0, board.length);
         mergedHandAndBoard[5] = handCard1;
         mergedHandAndBoard[6] = handCard2;
         return mergedHandAndBoard;
@@ -231,8 +226,8 @@ public class HandRankingChecker {
         HashMap<Rank, Integer> rankCounter = new HashMap<>();
         for (Rank rank: Rank.values()) {
             rankCounter.put(rank, 0);
-            for (int i = 0; i < mergedHandAndBoard.length; i++) {
-                if (mergedHandAndBoard[i].getRank() == rank) {
+            for (Card card : mergedHandAndBoard) {
+                if (card.getRank() == rank) {
                     int currentValue = rankCounter.get(rank);
                     rankCounter.put(rank, currentValue + 1);
                 }
@@ -250,8 +245,8 @@ public class HandRankingChecker {
         HashMap<Suit, Integer> suitCounter = new HashMap<>();
         for (Suit suit: Suit.values()) {
             suitCounter.put(suit, 0);
-            for (int i = 0; i < mergedHandAndBoard.length; i++) {
-                if (mergedHandAndBoard[i].getSuit() == suit) {
+            for (Card card : mergedHandAndBoard) {
+                if (card.getSuit() == suit) {
                     int currentValue = suitCounter.get(suit);
                     suitCounter.put(suit, currentValue + 1);
                 }
