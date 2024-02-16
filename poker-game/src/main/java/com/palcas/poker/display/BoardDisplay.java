@@ -20,7 +20,6 @@ public class BoardDisplay {
         displayColoredPokerBoard(board);
     }
 
-    //TODO das ding muss noch variabel einsetzbar gemacht werden
     public static void displayColoredPokerBoard(Card[] board) {
         String neutralColorCode = "\u001B[0m";
         System.out.println("   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐");
