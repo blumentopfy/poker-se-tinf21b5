@@ -7,7 +7,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 
-public class HandEvaluator {
+public class HandRankingChecker {
+
+    //TODO if we need more classes to fit the conditions, we could split up this class and HandRankingCardsSelector into many seperate classes
     
     public static boolean containsRoyalFlush(Card[] cards) {
         HashMap<Suit, Integer> countedSuits = countSuits(cards);

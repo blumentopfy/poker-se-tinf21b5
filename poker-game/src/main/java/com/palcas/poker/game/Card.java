@@ -33,4 +33,9 @@ public class Card implements Comparable<Card>{
     public int compareTo(Card otherCard) {
         return Integer.compare(this.getRank().getValue(), otherCard.getRank().getValue());
     }
+
+    @Override
+    public String toString() {
+        return this.getRank().getName() + " of " + this.getSuit().getName();
+    }
 }

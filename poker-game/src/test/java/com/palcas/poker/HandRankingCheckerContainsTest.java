@@ -3,11 +3,11 @@ package com.palcas.poker;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.display.CardDisplay.Suit;
 import com.palcas.poker.display.CardDisplay.Rank;
-import com.palcas.poker.game.HandEvaluator;
+import com.palcas.poker.game.HandRankingChecker;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-public class HandEvaluatorContainsTest {
+public class HandRankingCheckerContainsTest {
 
     @Test
     public void testContainsRoyalFlush1() {
@@ -20,7 +20,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.KING);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsRoyalFlush(cards);
+        boolean result = HandRankingChecker.containsRoyalFlush(cards);
         assertTrue(result);
     }
 
@@ -36,7 +36,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.KING);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsRoyalFlush(cards);
+        boolean result = HandRankingChecker.containsRoyalFlush(cards);
         assertFalse(result);
     }
 
@@ -52,7 +52,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.KING);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsRoyalFlush(cards);
+        boolean result = HandRankingChecker.containsRoyalFlush(cards);
         assertFalse(result);
     }
 
@@ -68,7 +68,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.EIGHT);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsStraightFlush(cards);
+        boolean result = HandRankingChecker.containsStraightFlush(cards);
         assertTrue(result);
     }
 
@@ -84,7 +84,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.CLUBS, Rank.EIGHT);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsStraightFlush(cards);
+        boolean result = HandRankingChecker.containsStraightFlush(cards);
         assertTrue(result);
     }
 
@@ -100,7 +100,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.THREE);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsStraightFlush(cards);
+        boolean result = HandRankingChecker.containsStraightFlush(cards);
         assertFalse(result);
     }
 
@@ -116,7 +116,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.CLUBS, Rank.TEN);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsStraightFlush(cards);
+        boolean result = HandRankingChecker.containsStraightFlush(cards);
         assertFalse(result);
     }
 
@@ -133,7 +133,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.QUEEN);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsFourOfAKind(cards);
+        boolean result = HandRankingChecker.containsFourOfAKind(cards);
         assertTrue(result);
     }
 
@@ -148,7 +148,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.KING);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsFourOfAKind(cards);
+        boolean result = HandRankingChecker.containsFourOfAKind(cards);
         assertFalse(result);
     }
 
@@ -163,7 +163,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.DIAMONDS, Rank.TWO);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsFourOfAKind(cards);
+        boolean result = HandRankingChecker.containsFourOfAKind(cards);
         assertTrue(result);
     }
 
@@ -179,7 +179,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.FIVE);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsFullHouse(cards);
+        boolean result = HandRankingChecker.containsFullHouse(cards);
         assertTrue(result);
     }
 
@@ -194,7 +194,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.SIX);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsFullHouse(cards);
+        boolean result = HandRankingChecker.containsFullHouse(cards);
         assertFalse(result);
     }
 
@@ -209,7 +209,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.FOUR);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsFullHouse(cards);
+        boolean result = HandRankingChecker.containsFullHouse(cards);
         assertTrue(result);
     }
 
@@ -224,7 +224,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.SEVEN);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsFullHouse(cards);
+        boolean result = HandRankingChecker.containsFullHouse(cards);
         assertFalse(result);
     }
 
@@ -240,7 +240,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.THREE);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsFullHouse(cards);
+        boolean result = HandRankingChecker.containsFullHouse(cards);
         assertTrue(result);
     }
 
@@ -256,7 +256,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.DIAMONDS, Rank.KING);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsFlush(cards);
+        boolean result = HandRankingChecker.containsFlush(cards);
         assertTrue(result);
     }
 
@@ -271,7 +271,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.DIAMONDS, Rank.KING);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsFlush(cards);
+        boolean result = HandRankingChecker.containsFlush(cards);
         assertFalse(result);
     }
 
@@ -286,7 +286,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.FOUR);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsFlush(cards);
+        boolean result = HandRankingChecker.containsFlush(cards);
         assertTrue(result);
     }
 
@@ -303,7 +303,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.ACE);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsStraight(cards);
+        boolean result = HandRankingChecker.containsStraight(cards);
         assertTrue(result);
     }
 
@@ -318,7 +318,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.SEVEN);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsStraight(cards);
+        boolean result = HandRankingChecker.containsStraight(cards);
         assertTrue(result);
     }
 
@@ -333,7 +333,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.KING);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsStraight(cards);
+        boolean result = HandRankingChecker.containsStraight(cards);
         assertFalse(result);
     }
 
@@ -349,7 +349,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.KING);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsThreeOfAKind(cards);
+        boolean result = HandRankingChecker.containsThreeOfAKind(cards);
         assertTrue(result);
     }
 
@@ -364,7 +364,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.KING);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsThreeOfAKind(cards);
+        boolean result = HandRankingChecker.containsThreeOfAKind(cards);
         assertTrue(result);
     }
 
@@ -379,7 +379,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.EIGHT);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsThreeOfAKind(cards);
+        boolean result = HandRankingChecker.containsThreeOfAKind(cards);
         assertFalse(result);
     }
 
@@ -395,7 +395,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.TWO);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsThreeOfAKind(cards);
+        boolean result = HandRankingChecker.containsThreeOfAKind(cards);
         assertTrue(result);
     }
 
@@ -411,7 +411,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.KING);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsTwoPairs(cards);
+        boolean result = HandRankingChecker.containsTwoPairs(cards);
         assertTrue(result);
     }
 
@@ -427,7 +427,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.KING);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsTwoPairs(cards);
+        boolean result = HandRankingChecker.containsTwoPairs(cards);
         assertTrue(result);
     }
 
@@ -442,7 +442,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.KING);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsTwoPairs(cards);
+        boolean result = HandRankingChecker.containsTwoPairs(cards);
         assertTrue(result);
     }
 
@@ -457,7 +457,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.EIGHT);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsTwoPairs(cards);
+        boolean result = HandRankingChecker.containsTwoPairs(cards);
         assertFalse(result);
     }
 
@@ -473,7 +473,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.EIGHT);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsPair(cards);
+        boolean result = HandRankingChecker.containsPair(cards);
         assertTrue(result);
     }
 
@@ -489,7 +489,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.FIVE);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsPair(cards);
+        boolean result = HandRankingChecker.containsPair(cards);
         assertTrue(result);
     }
 
@@ -504,7 +504,7 @@ public class HandEvaluatorContainsTest {
         Card card7 = new Card(Suit.HEARTS, Rank.EIGHT);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandEvaluator.containsPair(cards);
+        boolean result = HandRankingChecker.containsPair(cards);
         assertFalse(result);
     }
 }
