@@ -1,6 +1,5 @@
 package com.palcas.poker.game;
 
-import com.palcas.poker.game.Card;
 import com.palcas.poker.display.CardDisplay.Suit;
 import com.palcas.poker.display.CardDisplay.Rank;
 import org.junit.jupiter.api.Test;
