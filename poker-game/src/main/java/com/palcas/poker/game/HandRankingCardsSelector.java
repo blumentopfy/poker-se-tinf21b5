@@ -1,6 +1,7 @@
 package com.palcas.poker.game;
 
-import com.palcas.poker.display.CardDisplay;
+import com.palcas.poker.Rank;
+import com.palcas.poker.Suit;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -12,10 +13,10 @@ import static com.palcas.poker.game.HandRankingChecker.countRanks;
 public class HandRankingCardsSelector {
     public static Card[] selectHandForRoyalFlush(Card[] all7Cards) {
         // calculate the suit of the potential straight flush
-        HashMap<CardDisplay.Suit, Integer> countedSuits = countSuits(all7Cards);
-        CardDisplay.Suit suitOfPotentialStraightFlush = null;
+        HashMap<Suit, Integer> countedSuits = countSuits(all7Cards);
+        Suit suitOfPotentialStraightFlush = null;
         int numberOfCardsWithThisSuit = 0;
-        for (CardDisplay.Suit suit : countedSuits.keySet()) {
+        for (Suit suit : countedSuits.keySet()) {
             if (countedSuits.get(suit) >= 5) {
                 suitOfPotentialStraightFlush = suit;
                 numberOfCardsWithThisSuit = countedSuits.get(suit);
@@ -27,15 +28,15 @@ public class HandRankingCardsSelector {
         int i = 0;
         for (Card card: all7Cards) {
             if(card.getSuit() == suitOfPotentialStraightFlush) {
-                if (card.getRank() == CardDisplay.Rank.TEN) {
+                if (card.getRank() == Rank.TEN) {
                     selected5cards[0] = card;
-                } else if (card.getRank() == CardDisplay.Rank.JACK) {
+                } else if (card.getRank() == Rank.JACK) {
                     selected5cards[1] = card;
-                } else if (card.getRank() == CardDisplay.Rank.QUEEN) {
+                } else if (card.getRank() == Rank.QUEEN) {
                     selected5cards[0] = card;
-                } else if (card.getRank() == CardDisplay.Rank.KING) {
+                } else if (card.getRank() == Rank.KING) {
                     selected5cards[0] = card;
-                } else if (card.getRank() == CardDisplay.Rank.ACE) {
+                } else if (card.getRank() == Rank.ACE) {
                     selected5cards[0] = card;
                 }
             }
@@ -50,10 +51,10 @@ public class HandRankingCardsSelector {
      */
     public static Card[] selectHandForStraightFlush(Card[] all7cards) {
         // calculate the suit of the potential straight flush
-        HashMap<CardDisplay.Suit, Integer> countedSuits = countSuits(all7cards);
-        CardDisplay.Suit suitOfPotentialStraightFlush = null;
+        HashMap<Suit, Integer> countedSuits = countSuits(all7cards);
+        Suit suitOfPotentialStraightFlush = null;
         int numberOfCardsWithThisSuit = 0;
-        for (CardDisplay.Suit suit : countedSuits.keySet()) {
+        for (Suit suit : countedSuits.keySet()) {
             if (countedSuits.get(suit) >= 5) {
                 suitOfPotentialStraightFlush = suit;
                 numberOfCardsWithThisSuit = countedSuits.get(suit);
@@ -71,13 +72,13 @@ public class HandRankingCardsSelector {
         }
 
         // check for straight in only this new Array of Cards
-        HashMap<CardDisplay.Rank, Integer> countedRanks = countRanks(setOfCardsWithFlushSuite);
-        CardDisplay.Rank[] sortedRanks = CardDisplay.Rank.values();
-        Arrays.sort(sortedRanks, Comparator.comparingInt(CardDisplay.Rank::getValue).reversed());
+        HashMap<Rank, Integer> countedRanks = countRanks(setOfCardsWithFlushSuite);
+        Rank[] sortedRanks = Rank.values();
+        Arrays.sort(sortedRanks, Comparator.comparingInt(Rank::getValue).reversed());
         int streak = 0;
         Card[] selected5cards = new Card[5];
 
-        for (CardDisplay.Rank rank : sortedRanks) {
+        for (Rank rank : sortedRanks) {
             System.out.println(rank.getName());
             if (countedRanks.get(rank) >= 1) {
                 for (Card card : setOfCardsWithFlushSuite) {
@@ -92,9 +93,9 @@ public class HandRankingCardsSelector {
             }
         }
         // check for Ace at both ends of the streak, since it can be the very lowest or very highest card
-        if (countedRanks.get(CardDisplay.Rank.ACE) >= 1) {
+        if (countedRanks.get(Rank.ACE) >= 1) {
             for (Card card : setOfCardsWithFlushSuite) {
-                if(card.getRank() == CardDisplay.Rank.ACE) {
+                if(card.getRank() == Rank.ACE) {
                     selected5cards[streak] = card;
                     break;
                 }
@@ -110,9 +111,9 @@ public class HandRankingCardsSelector {
      */
     public static Card[] selectHandForFourOfAKind(Card[] all7cards) {
         // calculate the rank, of which there are 4 of
-        HashMap<CardDisplay.Rank, Integer> countedRanks = countRanks(all7cards);
-        CardDisplay.Rank rankOfFourOfAKind = null;
-        for (CardDisplay.Rank rank : countedRanks.keySet()) {
+        HashMap<Rank, Integer> countedRanks = countRanks(all7cards);
+        Rank rankOfFourOfAKind = null;
+        for (Rank rank : countedRanks.keySet()) {
             if (countedRanks.get(rank) == 4) {
                 rankOfFourOfAKind = rank;
             }
@@ -139,14 +140,14 @@ public class HandRankingCardsSelector {
     @returns Card[5] with the first 3 being the (highest possible) set of 3, and the other 2 the (highest possible) pair
      */
     public static Card[] selectHandForFullHouse(Card[] all7cards) {
-        HashMap<CardDisplay.Rank, Integer> countedRanks = countRanks(all7cards);
-        CardDisplay.Rank[] sortedRanks = CardDisplay.Rank.values();
-        Arrays.sort(sortedRanks, Comparator.comparingInt(CardDisplay.Rank::getValue).reversed());
+        HashMap<Rank, Integer> countedRanks = countRanks(all7cards);
+        Rank[] sortedRanks = Rank.values();
+        Arrays.sort(sortedRanks, Comparator.comparingInt(Rank::getValue).reversed());
 
         //determine, which rank do the pairs or triplets have
-        CardDisplay.Rank pairOfThreeRank = null;
-        CardDisplay.Rank pairOfTwoRank = null;
-        for (CardDisplay.Rank rank : sortedRanks) {
+        Rank pairOfThreeRank = null;
+        Rank pairOfTwoRank = null;
+        for (Rank rank : sortedRanks) {
             if (countedRanks.get(rank) == 3) {
                 if(pairOfThreeRank == null) {
                     pairOfThreeRank = rank;
@@ -177,9 +178,9 @@ public class HandRankingCardsSelector {
 
     public static Card[] selectHandForFlush(Card[] all7cards) {
         // calculate the suit of the potential straight flush
-        HashMap<CardDisplay.Suit, Integer> countedSuits = countSuits(all7cards);
-        CardDisplay.Suit suitOfPotentialStraightFlush = null;
-        for (CardDisplay.Suit suit : countedSuits.keySet()) {
+        HashMap<Suit, Integer> countedSuits = countSuits(all7cards);
+        Suit suitOfPotentialStraightFlush = null;
+        for (Suit suit : countedSuits.keySet()) {
             if (countedSuits.get(suit) >= 5) {
                 suitOfPotentialStraightFlush = suit;
             }
@@ -197,13 +198,13 @@ public class HandRankingCardsSelector {
 
 
     public static Card[] selectHandForStraight(Card[] all7cards) {
-        HashMap<CardDisplay.Rank, Integer> countedRanks = countRanks(all7cards);
-        CardDisplay.Rank[] sortedRanks = CardDisplay.Rank.values();
-        Arrays.sort(sortedRanks, Comparator.comparingInt(CardDisplay.Rank::getValue).reversed());
+        HashMap<Rank, Integer> countedRanks = countRanks(all7cards);
+        Rank[] sortedRanks = Rank.values();
+        Arrays.sort(sortedRanks, Comparator.comparingInt(Rank::getValue).reversed());
         int streak = 0;
         Card[] selected5cards = new Card[5];
 
-        for (CardDisplay.Rank rank : sortedRanks) {
+        for (Rank rank : sortedRanks) {
             if (streak == 5) {
                 break;
             }
@@ -219,9 +220,9 @@ public class HandRankingCardsSelector {
             }
         }
         // check for Ace at both ends of the streak, since it can be the very lowest or very highest card
-        if (countedRanks.get(CardDisplay.Rank.ACE) >= 1) {
+        if (countedRanks.get(Rank.ACE) >= 1) {
             for (Card card : all7cards) {
-                if(card.getRank() == CardDisplay.Rank.ACE) {
+                if(card.getRank() == Rank.ACE) {
                     selected5cards[streak] = card;
                     break;
                 }
@@ -237,13 +238,13 @@ public class HandRankingCardsSelector {
     @returns Card[5] with the first 3 being the 3 of a Kind and the 4th and 5th being the highest possible cards left
      */
     public static Card[] selectHandForThreeOfAKind(Card[] all7cards) {
-        CardDisplay.Rank[] sortedRanks = CardDisplay.Rank.values();
-        Arrays.sort(sortedRanks, Comparator.comparingInt(CardDisplay.Rank::getValue).reversed());
+        Rank[] sortedRanks = Rank.values();
+        Arrays.sort(sortedRanks, Comparator.comparingInt(Rank::getValue).reversed());
 
         // calculate the rank, of which there are 3 of
-        HashMap<CardDisplay.Rank, Integer> countedRanks = countRanks(all7cards);
-        CardDisplay.Rank rankOfThreeOfAKind = null;
-        for (CardDisplay.Rank rank : sortedRanks) {
+        HashMap<Rank, Integer> countedRanks = countRanks(all7cards);
+        Rank rankOfThreeOfAKind = null;
+        for (Rank rank : sortedRanks) {
             if (countedRanks.get(rank) == 3) {
                 rankOfThreeOfAKind = rank;
                 break;
@@ -269,9 +270,9 @@ public class HandRankingCardsSelector {
 
 
     public static Card[] selectHandForTwoPairs(Card[] all7cards) {
-        CardDisplay.Rank[] sortedRanks = CardDisplay.Rank.values();
-        Arrays.sort(sortedRanks, Comparator.comparingInt(CardDisplay.Rank::getValue).reversed());
-        HashMap<CardDisplay.Rank, Integer> countedRanks = countRanks(all7cards);
+        Rank[] sortedRanks = Rank.values();
+        Arrays.sort(sortedRanks, Comparator.comparingInt(Rank::getValue).reversed());
+        HashMap<Rank, Integer> countedRanks = countRanks(all7cards);
 
         // sort cards ascending, so we can easily also find the high card
         Arrays.sort(all7cards, Comparator.comparingInt(card -> ((Card) card).getRank().getValue()).reversed());
@@ -293,9 +294,9 @@ public class HandRankingCardsSelector {
 
 
     public static Card[] selectHandForPair(Card[] all7cards) {
-        CardDisplay.Rank[] sortedRanks = CardDisplay.Rank.values();
-        Arrays.sort(sortedRanks, Comparator.comparingInt(CardDisplay.Rank::getValue).reversed());
-        HashMap<CardDisplay.Rank, Integer> countedRanks = countRanks(all7cards);
+        Rank[] sortedRanks = Rank.values();
+        Arrays.sort(sortedRanks, Comparator.comparingInt(Rank::getValue).reversed());
+        HashMap<Rank, Integer> countedRanks = countRanks(all7cards);
 
         // sort cards ascending, so we can easily also find the high card
         Arrays.sort(all7cards, Comparator.comparingInt(card -> ((Card) card).getRank().getValue()).reversed());
@@ -317,13 +318,13 @@ public class HandRankingCardsSelector {
 
     public static void main(String[] args) {
         //just for testing purposes, main method can be deleted
-        Card card1 = new Card(CardDisplay.Suit.SPADES, CardDisplay.Rank.THREE);
-        Card card2 = new Card(CardDisplay.Suit.CLUBS, CardDisplay.Rank.FIVE);
-        Card card3 = new Card(CardDisplay.Suit.HEARTS, CardDisplay.Rank.EIGHT);
-        Card card4 = new Card(CardDisplay.Suit.SPADES, CardDisplay.Rank.SIX);
-        Card card5 = new Card(CardDisplay.Suit.DIAMONDS, CardDisplay.Rank.SEVEN);
-        Card card6 = new Card(CardDisplay.Suit.HEARTS, CardDisplay.Rank.JACK);
-        Card card7 = new Card(CardDisplay.Suit.HEARTS, CardDisplay.Rank.SEVEN);
+        Card card1 = new Card(Suit.SPADES, Rank.THREE);
+        Card card2 = new Card(Suit.CLUBS, Rank.FIVE);
+        Card card3 = new Card(Suit.HEARTS, Rank.EIGHT);
+        Card card4 = new Card(Suit.SPADES, Rank.SIX);
+        Card card5 = new Card(Suit.DIAMONDS, Rank.SEVEN);
+        Card card6 = new Card(Suit.HEARTS, Rank.JACK);
+        Card card7 = new Card(Suit.HEARTS, Rank.SEVEN);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
         Card[] selected5cards = selectHandForPair(cards);
