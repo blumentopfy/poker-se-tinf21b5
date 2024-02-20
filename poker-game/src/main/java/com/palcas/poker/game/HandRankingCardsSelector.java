@@ -230,23 +230,107 @@ public class HandRankingCardsSelector {
         return selected5cards;
     }
 
+
+    /*
+    selects the 3 cards of the same rank together with 2 high cards in the given set of 7 cards
+    @param all7cards Array of 7 cards, from which 5 shall be chosen as the Hand
+    @returns Card[5] with the first 3 being the 3 of a Kind and the 4th and 5th being the highest possible cards left
+     */
+    public static Card[] selectHandForThreeOfAKind(Card[] all7cards) {
+        CardDisplay.Rank[] sortedRanks = CardDisplay.Rank.values();
+        Arrays.sort(sortedRanks, Comparator.comparingInt(CardDisplay.Rank::getValue).reversed());
+
+        // calculate the rank, of which there are 3 of
+        HashMap<CardDisplay.Rank, Integer> countedRanks = countRanks(all7cards);
+        CardDisplay.Rank rankOfThreeOfAKind = null;
+        for (CardDisplay.Rank rank : sortedRanks) {
+            if (countedRanks.get(rank) == 3) {
+                rankOfThreeOfAKind = rank;
+                break;
+            }
+        }
+
+        // sort cards ascending, so we can easily also find the high card
+        Arrays.sort(all7cards, Comparator.comparingInt(card -> ((Card) card).getRank().getValue()).reversed());
+        int i = 0;
+        Card[] selected5cards = new Card[5];
+        for (Card card : all7cards) {
+            if(card.getRank() == rankOfThreeOfAKind) {
+                selected5cards[i] = card;
+                i++;
+            } else if (card.getRank() != rankOfThreeOfAKind && selected5cards[3] == null){
+                selected5cards[3] = card;
+            } else {
+                selected5cards[4] = card;
+            }
+        }
+        return selected5cards;
+    }
+
+
+    public static Card[] selectHandForTwoPairs(Card[] all7cards) {
+        CardDisplay.Rank[] sortedRanks = CardDisplay.Rank.values();
+        Arrays.sort(sortedRanks, Comparator.comparingInt(CardDisplay.Rank::getValue).reversed());
+        HashMap<CardDisplay.Rank, Integer> countedRanks = countRanks(all7cards);
+
+        // sort cards ascending, so we can easily also find the high card
+        Arrays.sort(all7cards, Comparator.comparingInt(card -> ((Card) card).getRank().getValue()).reversed());
+        int i = 0;
+        Card[] selected5cards = new Card[5];
+        for (Card card : all7cards) {
+            if(countedRanks.get(card.getRank()) == 2 && i <= 3) {
+                selected5cards[i] = card;
+                i++;
+            } else {
+                selected5cards[4] = card;
+            }
+            if (selected5cards[4]!=null && selected5cards[3]!=null) {
+                break;
+            }
+        }
+        return selected5cards;
+    }
+
+
+    public static Card[] selectHandForPair(Card[] all7cards) {
+        CardDisplay.Rank[] sortedRanks = CardDisplay.Rank.values();
+        Arrays.sort(sortedRanks, Comparator.comparingInt(CardDisplay.Rank::getValue).reversed());
+        HashMap<CardDisplay.Rank, Integer> countedRanks = countRanks(all7cards);
+
+        // sort cards ascending, so we can easily also find the high card
+        Arrays.sort(all7cards, Comparator.comparingInt(card -> ((Card) card).getRank().getValue()).reversed());
+        int pairIndex = 0;
+        int highCardIndex = 2;
+        Card[] selected5cards = new Card[5];
+        for (Card card : all7cards) {
+            if(countedRanks.get(card.getRank()) == 2) {
+                selected5cards[pairIndex] = card;
+                pairIndex++;
+            } else if (countedRanks.get(card.getRank()) != 2 && highCardIndex <= 4) {
+                selected5cards[highCardIndex] = card;
+                highCardIndex++;
+            }
+        }
+        return selected5cards;
+    }
+
+
     public static void main(String[] args) {
         //just for testing purposes, main method can be deleted
         Card card1 = new Card(CardDisplay.Suit.SPADES, CardDisplay.Rank.THREE);
         Card card2 = new Card(CardDisplay.Suit.CLUBS, CardDisplay.Rank.FIVE);
-        Card card3 = new Card(CardDisplay.Suit.HEARTS, CardDisplay.Rank.SIX);
-        Card card4 = new Card(CardDisplay.Suit.SPADES, CardDisplay.Rank.TWO);
+        Card card3 = new Card(CardDisplay.Suit.HEARTS, CardDisplay.Rank.EIGHT);
+        Card card4 = new Card(CardDisplay.Suit.SPADES, CardDisplay.Rank.SIX);
         Card card5 = new Card(CardDisplay.Suit.DIAMONDS, CardDisplay.Rank.SEVEN);
         Card card6 = new Card(CardDisplay.Suit.HEARTS, CardDisplay.Rank.JACK);
-        Card card7 = new Card(CardDisplay.Suit.HEARTS, CardDisplay.Rank.FOUR);
+        Card card7 = new Card(CardDisplay.Suit.HEARTS, CardDisplay.Rank.SEVEN);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        Card[] selected5cards = selectHandForStraight(cards);
+        Card[] selected5cards = selectHandForPair(cards);
         for (Card card : selected5cards) {
             System.out.println(card.toString());
         }
     }
-
 
 
 }
