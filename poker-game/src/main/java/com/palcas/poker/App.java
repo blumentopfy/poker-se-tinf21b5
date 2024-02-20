@@ -2,6 +2,7 @@ package com.palcas.poker;
 
 import java.util.Scanner;
 
+// Entry point for the game, should really only include game loop
 public class App {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);

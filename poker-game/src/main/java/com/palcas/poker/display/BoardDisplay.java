@@ -20,7 +20,7 @@ public class BoardDisplay {
         displayColoredPokerBoard(board);
     }
 
-    public static void displayColoredPokerBoard(Card[] board) {
+        public static void displayColoredPokerBoard(Card[] board) {
         String neutralColorCode = "\u001B[0m";
         System.out.println("   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐");
         System.out.println("   │         │   │         │   │         │   │         │   │         │");

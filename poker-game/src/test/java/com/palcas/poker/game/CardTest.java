@@ -1,4 +1,4 @@
-package com.palcas.poker;
+package com.palcas.poker.game;
 
 import com.palcas.poker.game.Card;
 import com.palcas.poker.display.CardDisplay.Suit;
