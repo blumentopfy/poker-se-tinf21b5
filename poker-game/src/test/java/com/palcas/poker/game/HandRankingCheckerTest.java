@@ -12,50 +12,7 @@ public class HandRankingCheckerTest {
 
 
 
-    @Test
-    public void testContainsFourOfAKind1() {
-        Card card1 = new Card(Suit.SPADES, Rank.TWO);
-        Card card2 = new Card(Suit.CLUBS, Rank.TWO);
-        Card card3 = new Card(Suit.HEARTS, Rank.TWO);
-        Card card4 = new Card(Suit.DIAMONDS, Rank.TWO);
-        Card card5 = new Card(Suit.SPADES, Rank.THREE);
-        Card card6 = new Card(Suit.HEARTS, Rank.KING);
-        Card card7 = new Card(Suit.HEARTS, Rank.QUEEN);
-        Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandRankingChecker.containsFourOfAKind(cards);
-        assertTrue(result);
-    }
-
-    @Test
-    public void testContainsFourOfAKind2() {
-        Card card1 = new Card(Suit.SPADES, Rank.TWO);
-        Card card2 = new Card(Suit.CLUBS, Rank.FOUR);
-        Card card3 = new Card(Suit.HEARTS, Rank.FIVE);
-        Card card4 = new Card(Suit.DIAMONDS, Rank.SEVEN);
-        Card card5 = new Card(Suit.SPADES, Rank.THREE);
-        Card card6 = new Card(Suit.HEARTS, Rank.ACE);
-        Card card7 = new Card(Suit.HEARTS, Rank.KING);
-        Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
-
-        boolean result = HandRankingChecker.containsFourOfAKind(cards);
-        assertFalse(result);
-    }
-
-    @Test
-    public void testContainsFourOfAKind3() {
-        Card card1 = new Card(Suit.SPADES, Rank.TWO);
-        Card card2 = new Card(Suit.CLUBS, Rank.TWO);
-        Card card3 = new Card(Suit.HEARTS, Rank.FOUR);
-        Card card4 = new Card(Suit.DIAMONDS, Rank.FOUR);
-        Card card5 = new Card(Suit.SPADES, Rank.THREE);
-        Card card6 = new Card(Suit.HEARTS, Rank.TWO);
-        Card card7 = new Card(Suit.DIAMONDS, Rank.TWO);
-        Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
-
-        boolean result = HandRankingChecker.containsFourOfAKind(cards);
-        assertTrue(result);
-    }
 
 
     @Test

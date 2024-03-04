@@ -13,16 +13,6 @@ public class HandRankingChecker {
 
     //TODO if we need more classes to fit the conditions, we could split up this class and HandRankingCardsSelector into many seperate classes
 
-
-    public static boolean containsFourOfAKind(Card[] cards) {
-        HashMap<Rank, Integer> countedRanks = countRanks(cards);
-        for (int rankCount : countedRanks.values()) {
-            if (rankCount == 4) {
-                return true;
-            }
-        }
-        return false;
-    }
     
     public static boolean containsFullHouse(Card[] cards) {
         HashMap<Rank, Integer> countedRanks = countRanks(cards);

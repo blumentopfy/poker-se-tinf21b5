@@ -26,27 +26,28 @@ public class Hand {
      */
     //TODO switch und in CheckerService auslagern
     private HandRanking evaluateHandRanking(Card[] cards) {
-        if (HandRankingChecker.containsRoyalFlush(cards)) {
-            return HandRanking.ROYAL_FLUSH;
-        } else if (HandRankingChecker.containsStraightFlush(cards)) {
-            return HandRanking.STRAIGHT_FLUSH;
-        } else if (HandRankingChecker.containsFourOfAKind(cards)) {
-            return HandRanking.FOUR_OF_A_KIND;
-        } else if (HandRankingChecker.containsFullHouse(cards)) {
-            return HandRanking.FULL_HOUSE;
-        } else if (HandRankingChecker.containsFlush(cards)) {
-            return HandRanking.FLUSH;
-        } else if (HandRankingChecker.containsStraight(cards)) {
-            return HandRanking.STRAIGHT;
-        } else if (HandRankingChecker.containsThreeOfAKind(cards)) {
-            return HandRanking.THREE_OF_A_KIND;
-        } else if (HandRankingChecker.containsTwoPairs(cards)) {
-            return HandRanking.TWO_PAIRS;
-        } else if (HandRankingChecker.containsPair(cards)) {
-            return HandRanking.PAIR;
-        } else {
-            return HandRanking.HIGH_CARD;
-        }
+//        if (HandRankingChecker.containsRoyalFlush(cards)) {
+//            return HandRanking.ROYAL_FLUSH;
+//        } else if (HandRankingChecker.containsStraightFlush(cards)) {
+//            return HandRanking.STRAIGHT_FLUSH;
+//        } else if (HandRankingChecker.containsFourOfAKind(cards)) {
+//            return HandRanking.FOUR_OF_A_KIND;
+//        } else if (HandRankingChecker.containsFullHouse(cards)) {
+//            return HandRanking.FULL_HOUSE;
+//        } else if (HandRankingChecker.containsFlush(cards)) {
+//            return HandRanking.FLUSH;
+//        } else if (HandRankingChecker.containsStraight(cards)) {
+//            return HandRanking.STRAIGHT;
+//        } else if (HandRankingChecker.containsThreeOfAKind(cards)) {
+//            return HandRanking.THREE_OF_A_KIND;
+//        } else if (HandRankingChecker.containsTwoPairs(cards)) {
+//            return HandRanking.TWO_PAIRS;
+//        } else if (HandRankingChecker.containsPair(cards)) {
+//            return HandRanking.PAIR;
+//        } else {
+//            return HandRanking.HIGH_CARD;
+//        }
+        return null;
     }
 
 }
