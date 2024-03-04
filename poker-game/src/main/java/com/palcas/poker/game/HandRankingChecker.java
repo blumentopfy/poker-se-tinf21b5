@@ -13,29 +13,7 @@ public class HandRankingChecker {
 
     //TODO if we need more classes to fit the conditions, we could split up this class and HandRankingCardsSelector into many seperate classes
 
-    
-    public static boolean containsFullHouse(Card[] cards) {
-        HashMap<Rank, Integer> countedRanks = countRanks(cards);
-        boolean containsThreeOfAKind = false;
-        boolean containsTwoOfAKind = false;
-        for (int rankCount : countedRanks.values()) {
-            if (rankCount == 3) {
-                if(containsThreeOfAKind || containsTwoOfAKind) {
-                    return true;
-                } else {
-                    containsThreeOfAKind = true;
-                }
-            }
-            if (rankCount == 2) {
-                if (containsThreeOfAKind) {
-                    return true;
-                } else {
-                    containsTwoOfAKind = true;
-                }
-            }
-        }
-        return false;
-    }
+
     
     public static boolean containsFlush(Card[] cards) {
         HashMap<Suit, Integer> countedSuits = countSuits(cards);
