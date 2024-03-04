@@ -4,9 +4,7 @@ import com.palcas.poker.Rank;
 import com.palcas.poker.Suit;
 import com.palcas.poker.game.Card;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class CardsStatisticsService {
 
@@ -69,6 +67,28 @@ public class CardsStatisticsService {
         Card[] filteredCardsArray = new Card[filteredCardsList.size()];
         filteredCardsArray = filteredCardsList.toArray(filteredCardsArray);
         return filteredCardsArray;
+    }
+
+    public boolean containsStraight(Card[] cards) {
+        HashMap<Rank, Integer> countedRanks = countRanks(cards);
+        Rank[] sortedRanks = Rank.values();
+        Arrays.sort(Rank.values(), Comparator.comparingInt(Rank::getValue));
+        int streak = 0;
+        // check for Ace at the beginning of the streak, since it can be the very lowest or very highest card
+        if (countedRanks.get(Rank.ACE) >= 1) {
+            streak++;
+        }
+        for (Rank rank : sortedRanks) {
+            if (countedRanks.get(rank) >= 1) {
+                streak++;
+                if(streak >= 5) {
+                    return true;
+                }
+            } else {
+                streak = 0;
+            }
+        }
+        return false;
     }
 
 

@@ -16,9 +16,9 @@ public class RoyalFlush {
     }
 
     public boolean containsRoyalFlush(Card[] cards) {
-        Suit suitOfPotentialStraightFlush = cardsStatistics.calculateSuitOfPotentialFlush(cards);
-        if (suitOfPotentialStraightFlush == null) {return false;}
-        Card[] setOfCardsWithFlushSuite = cardsStatistics.filterForSuit(suitOfPotentialStraightFlush, cards);
+        Suit suitOfPotentialRoyalFlush = cardsStatistics.calculateSuitOfPotentialFlush(cards);
+        if (suitOfPotentialRoyalFlush == null) {return false;}
+        Card[] setOfCardsWithFlushSuite = cardsStatistics.filterForSuit(suitOfPotentialRoyalFlush, cards);
 
         //check manually for 10, Jack, Queen, King, Ace
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(setOfCardsWithFlushSuite);
