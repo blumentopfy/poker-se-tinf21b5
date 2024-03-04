@@ -2,6 +2,8 @@ package com.palcas.poker.game;
 
 import com.palcas.poker.Rank;
 import com.palcas.poker.Suit;
+import com.palcas.poker.game.checker.CardsStatisticsService;
+import com.palcas.poker.game.checker.pokerHands.RoyalFlush;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -259,13 +261,16 @@ public class HandRankingChecker {
         //just for testing purposes, main method can be deleted
         Card card1 = new Card(Suit.SPADES, Rank.TWO);
         Card card2 = new Card(Suit.CLUBS, Rank.FOUR);
-        Card card3 = new Card(Suit.HEARTS, Rank.FIVE);
+        Card card3 = new Card(Suit.HEARTS, Rank.ACE);
         Card card4 = new Card(Suit.HEARTS, Rank.TEN);
         Card card5 = new Card(Suit.HEARTS, Rank.JACK);
         Card card6 = new Card(Suit.HEARTS, Rank.QUEEN);
         Card card7 = new Card(Suit.HEARTS, Rank.KING);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        System.out.println(containsRoyalFlush(cards));
+        CardsStatisticsService cardsStatisticsService = new CardsStatisticsService();
+        RoyalFlush royalFlush = new RoyalFlush(cardsStatisticsService);
+
+        System.out.println(royalFlush.containsRoyalFlush(cards));
     }
 }

@@ -24,6 +24,7 @@ public class Hand {
      @param cards Array of 7 Cards which get examined to determine the hand rank
      @returns most valuable HandRanking possible from that 7 inputted cards
      */
+    //TODO switch und in CheckerService auslagern
     private HandRanking evaluateHandRanking(Card[] cards) {
         if (HandRankingChecker.containsRoyalFlush(cards)) {
             return HandRanking.ROYAL_FLUSH;

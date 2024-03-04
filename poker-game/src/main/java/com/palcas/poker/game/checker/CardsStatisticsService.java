@@ -1,0 +1,75 @@
+package com.palcas.poker.game.checker;
+
+import com.palcas.poker.Rank;
+import com.palcas.poker.Suit;
+import com.palcas.poker.game.Card;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class CardsStatisticsService {
+
+    /*
+     * Counts how many cards of each rank there are
+     * @param mergedHandAndBoard Card-Array of 7 cards, whose ranks will be counted
+     * @return a HashMap<Rank, Integer> with the number of cards for each rank. This should add up to 7 again
+     */
+    public HashMap<Rank, Integer> countRanks(Card[] mergedHandAndBoard) {
+        HashMap<Rank, Integer> rankCounter = new HashMap<>();
+        for (Rank rank: Rank.values()) {
+            rankCounter.put(rank, 0);
+            for (Card card : mergedHandAndBoard) {
+                if (card.getRank() == rank) {
+                    int currentValue = rankCounter.get(rank);
+                    rankCounter.put(rank, currentValue + 1);
+                }
+            }
+        }
+        return rankCounter;
+    }
+
+    /*
+     * Counts how many cards of each suit there are
+     * @param mergedHandAndBoard Card-Array of 7 cards, whose suits will be counted
+     * @return a HashMap<Suit, Integer> with the number of cards for each suit. This should add up to 7 again
+     */
+    public HashMap<Suit, Integer> countSuits(Card[] mergedHandAndBoard) {
+        HashMap<Suit, Integer> suitCounter = new HashMap<>();
+        for (Suit suit: Suit.values()) {
+            suitCounter.put(suit, 0);
+            for (Card card : mergedHandAndBoard) {
+                if (card.getSuit() == suit) {
+                    int currentValue = suitCounter.get(suit);
+                    suitCounter.put(suit, currentValue + 1);
+                }
+            }
+        }
+        return suitCounter;
+    }
+
+    public Suit calculateSuitOfPotentialFlush(Card[] cards) {
+        HashMap<Suit, Integer> countedSuits = countSuits(cards);
+        Suit suitOfPotentialFlush = null;
+        for (Suit suit : countedSuits.keySet()) {
+            if (countedSuits.get(suit) >= 5) {
+                suitOfPotentialFlush = suit;
+            }
+        }
+        return suitOfPotentialFlush;
+    }
+
+    public Card[] filterForSuit(Suit suit, Card[] cards) {
+        List<Card> filteredCardsList = new ArrayList<Card>();
+        for (Card card: cards) {
+            if(card.getSuit() == suit) {
+                filteredCardsList.add(card);
+            }
+        }
+        Card[] filteredCardsArray = new Card[filteredCardsList.size()];
+        filteredCardsArray = filteredCardsList.toArray(filteredCardsArray);
+        return filteredCardsArray;
+    }
+
+
+}
