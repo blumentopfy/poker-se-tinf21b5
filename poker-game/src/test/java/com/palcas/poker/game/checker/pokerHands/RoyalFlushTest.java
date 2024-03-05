@@ -3,7 +3,6 @@ package com.palcas.poker.game.checker.pokerHands;
 import com.palcas.poker.Rank;
 import com.palcas.poker.Suit;
 import com.palcas.poker.game.Card;
-import com.palcas.poker.game.HandRankingChecker;
 import com.palcas.poker.game.checker.CardsStatisticsService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

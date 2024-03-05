@@ -1,16 +1,22 @@
-package com.palcas.poker.game;
+package com.palcas.poker.game.checker.pokerHands;
 
 import com.palcas.poker.Rank;
 import com.palcas.poker.Suit;
+import com.palcas.poker.game.Card;
+import com.palcas.poker.game.checker.CardsStatisticsService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
-public class HandRankingCheckerTest {
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+public class PairTest {
+    private static Pair pair;
 
-
-
-
+    @BeforeAll
+    public static void setUp() {
+        pair = new Pair(new CardsStatisticsService());
+    }
 
     @Test
     public void testContainsPair1() {
@@ -23,7 +29,7 @@ public class HandRankingCheckerTest {
         Card card7 = new Card(Suit.HEARTS, Rank.EIGHT);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandRankingChecker.containsPair(cards);
+        boolean result = pair.containsPair(cards);
         assertTrue(result);
     }
 
@@ -39,7 +45,7 @@ public class HandRankingCheckerTest {
         Card card7 = new Card(Suit.HEARTS, Rank.FIVE);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandRankingChecker.containsPair(cards);
+        boolean result = pair.containsPair(cards);
         assertTrue(result);
     }
 
@@ -54,7 +60,7 @@ public class HandRankingCheckerTest {
         Card card7 = new Card(Suit.HEARTS, Rank.EIGHT);
         Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
 
-        boolean result = HandRankingChecker.containsPair(cards);
+        boolean result = pair.containsPair(cards);
         assertFalse(result);
     }
 }
