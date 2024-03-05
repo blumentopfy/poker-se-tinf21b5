@@ -13,17 +13,6 @@ public class HandRankingChecker {
 
     //TODO if we need more classes to fit the conditions, we could split up this class and HandRankingCardsSelector into many seperate classes
 
-
-    
-    public static boolean containsFlush(Card[] cards) {
-        HashMap<Suit, Integer> countedSuits = countSuits(cards);
-        for (int rankCount : countedSuits.values()) {
-            if (rankCount >= 5) {
-                return true;
-            }
-        }
-        return false;
-    }
     
     public static boolean containsStraight(Card[] cards) {
         HashMap<Rank, Integer> countedRanks = countRanks(cards);
