@@ -97,5 +97,20 @@ public class CardsStatisticsService {
         return ascendingSortedRanks;
     }
 
+    public Rank[] getDescendingOrderedRanks() {
+        Rank[] descendingSortedRanks = Rank.values();
+        Arrays.sort(descendingSortedRanks, Comparator.comparingInt(Rank::getValue).reversed());
+        return descendingSortedRanks;
+    }
+
+    public Card getCardByRank(Card[] cards, Rank rank) {
+        for (Card card : cards) {
+            if(card.getRank() == rank) {
+                return card;
+            }
+        }
+        return null;
+    }
+
 
 }

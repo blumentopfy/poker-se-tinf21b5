@@ -29,5 +29,26 @@ public class RoyalFlush {
                 && countedRanks.get(Rank.ACE) >= 1;
     }
 
+    public Card[] selectHandForRoyalFlush(Card[] all7Cards) {
+        HashMap<Suit, Integer> countedSuits = cardsStatistics.countSuits(all7Cards);
+        Suit suitOfRoyalFlush = cardsStatistics.calculateSuitOfPotentialFlush(all7Cards);
 
+        Card[] selected5cards = new Card[5];
+        for (Card card: all7Cards) {
+            if(card.getSuit() == suitOfRoyalFlush) {
+                if (card.getRank() == Rank.TEN) {
+                    selected5cards[0] = card;
+                } else if (card.getRank() == Rank.JACK) {
+                    selected5cards[1] = card;
+                } else if (card.getRank() == Rank.QUEEN) {
+                    selected5cards[2] = card;
+                } else if (card.getRank() == Rank.KING) {
+                    selected5cards[3] = card;
+                } else if (card.getRank() == Rank.ACE) {
+                    selected5cards[4] = card;
+                }
+            }
+        }
+        return selected5cards;
+    }
 }

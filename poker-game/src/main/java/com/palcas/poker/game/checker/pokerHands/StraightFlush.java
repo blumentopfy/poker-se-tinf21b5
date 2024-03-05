@@ -1,8 +1,13 @@
 package com.palcas.poker.game.checker.pokerHands;
 
+import com.palcas.poker.Rank;
 import com.palcas.poker.Suit;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.checker.CardsStatisticsService;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
 
 public class StraightFlush {
 
@@ -17,5 +22,27 @@ public class StraightFlush {
         if (suitOfPotentialStraightFlush == null) {return false;}
         Card[] setOfCardsWithFlushSuite = cardsStatistics.filterForSuit(suitOfPotentialStraightFlush, cards);
         return cardsStatistics.containsStraight(setOfCardsWithFlushSuite);
+    }
+
+    public Card[] selectHandForStraightFlush(Card[] all7cards) {
+        Suit suitOfPotentialStraightFlush = cardsStatistics.calculateSuitOfPotentialFlush(all7cards);
+        Card[] setOfCardsWithFlushSuite = cardsStatistics.filterForSuit(suitOfPotentialStraightFlush, all7cards);
+        HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(setOfCardsWithFlushSuite);
+        Rank[] sortedRanks = Rank.values();
+        Arrays.sort(sortedRanks, Comparator.comparingInt(Rank::getValue).reversed());
+        int streak = 0;
+        Card[] selected5cards = new Card[5];
+        for (Rank rank : sortedRanks) {
+            if (countedRanks.get(rank) >= 1) {
+                selected5cards[streak++] = cardsStatistics.getCardByRank(setOfCardsWithFlushSuite, rank);
+            } else {
+                streak = 0;
+            }
+        }
+        // check for Ace at both ends of the streak, since it can be the very lowest or very highest card
+        if (countedRanks.get(Rank.ACE) >= 1) {
+            selected5cards[streak] = cardsStatistics.getCardByRank(setOfCardsWithFlushSuite, Rank.ACE);
+        }
+        return selected5cards;
     }
 }

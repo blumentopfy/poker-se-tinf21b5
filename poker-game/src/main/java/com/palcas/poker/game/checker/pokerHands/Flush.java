@@ -5,6 +5,8 @@ import com.palcas.poker.Suit;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.checker.CardsStatisticsService;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class Flush {
@@ -19,5 +21,18 @@ public class Flush {
         if (suitOfPotentialRoyalFlush == null) {return false;} else {
             return true;
         }
+    }
+
+    public Card[] selectHandForFlush(Card[] all7cards) {
+        Suit suitOfFlush = cardsStatistics.calculateSuitOfPotentialFlush(all7cards);
+        Arrays.sort(all7cards, Comparator.comparingInt(card -> ((Card) card).getRank().getValue()).reversed());
+        Card[] selected5cards = new Card[5];
+        int arrayCounter = 0;
+        for (Card card : all7cards) {
+            if (card.getSuit() == suitOfFlush && arrayCounter <= 4) {
+                selected5cards[arrayCounter++] = card;
+            }
+        }
+        return selected5cards;
     }
 }

@@ -4,8 +4,6 @@ import com.palcas.poker.Rank;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.checker.CardsStatisticsService;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class Straight {
@@ -35,5 +33,27 @@ public class Straight {
             }
         }
         return false;
+    }
+
+    public Card[] selectHandForStraight(Card[] all7cards) {
+        HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
+        Rank[] descendingSortedRanks = cardsStatistics.getDescendingOrderedRanks();
+        int streak = 0;
+        Card[] selected5cards = new Card[5];
+        for (Rank rank : descendingSortedRanks) {
+            if (streak == 5) {
+                break;
+            }
+            if (countedRanks.get(rank) >= 1) {
+                selected5cards[streak++] = cardsStatistics.getCardByRank(all7cards, rank);
+            } else {
+                streak = 0;
+            }
+        }
+        // check for Ace at both ends of the streak, since it can be the very lowest or very highest card
+        if (countedRanks.get(Rank.ACE) >= 1) {
+            selected5cards[streak] = cardsStatistics.getCardByRank(all7cards, Rank.ACE);
+        }
+        return selected5cards;
     }
 }
