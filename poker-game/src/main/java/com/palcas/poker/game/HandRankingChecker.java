@@ -13,21 +13,6 @@ public class HandRankingChecker {
 
     //TODO if we need more classes to fit the conditions, we could split up this class and HandRankingCardsSelector into many seperate classes
     
-    public static boolean containsTwoPairs(Card[] cards) {
-        HashMap<Rank, Integer> countedRanks = countRanks(cards);
-        boolean containsTwoOfAKind = false;
-        for (int rankCount : countedRanks.values()) {
-            if (rankCount == 2) {
-                if(containsTwoOfAKind) {
-                    return true;
-                } else {
-                    containsTwoOfAKind = true;
-                }
-            }
-        }
-        return false;
-    }
-    
     public static boolean containsPair(Card[] cards) {
         HashMap<Rank, Integer> countedRanks = countRanks(cards);
         for (int rankCount : countedRanks.values()) {
