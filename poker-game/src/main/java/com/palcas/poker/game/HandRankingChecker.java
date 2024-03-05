@@ -14,29 +14,6 @@ public class HandRankingChecker {
     //TODO if we need more classes to fit the conditions, we could split up this class and HandRankingCardsSelector into many seperate classes
 
     
-    public static boolean containsStraight(Card[] cards) {
-        HashMap<Rank, Integer> countedRanks = countRanks(cards);
-        Rank[] sortedRanks = Rank.values();
-        Arrays.sort(Rank.values(), Comparator.comparingInt(Rank::getValue));
-
-        int streak = 0;
-        // check for Ace at the beginning of the streak, since it can be the very lowest or very highest card
-        if (countedRanks.get(Rank.ACE) >= 1) {
-            streak++;
-        }
-        for (Rank rank : sortedRanks) {
-            if (countedRanks.get(rank) >= 1) {
-                streak++;
-                if(streak >= 5) {
-                    return true;
-                }
-            } else {
-                streak = 0;
-            }
-        }
-        return false;
-    }
-    
     public static boolean containsThreeOfAKind(Card[] cards) {
         HashMap<Rank, Integer> countedRanks = countRanks(cards);
         for (int rankCount : countedRanks.values()) {

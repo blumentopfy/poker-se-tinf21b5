@@ -91,5 +91,11 @@ public class CardsStatisticsService {
         return false;
     }
 
+    public Rank[] getAscendingOrderedRanks() {
+        Rank[] ascendingSortedRanks = Rank.values();
+        Arrays.sort(Rank.values(), Comparator.comparingInt(Rank::getValue));
+        return ascendingSortedRanks;
+    }
+
 
 }

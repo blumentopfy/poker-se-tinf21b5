@@ -8,54 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class HandRankingCheckerTest {
 
 
-
-    @Test
-    public void testContainsStraight1() {
-        // contains straight with ace as lowest
-        Card card1 = new Card(Suit.SPADES, Rank.TWO);
-        Card card2 = new Card(Suit.DIAMONDS, Rank.THREE);
-        Card card3 = new Card(Suit.CLUBS, Rank.FOUR);
-        Card card4 = new Card(Suit.HEARTS, Rank.FIVE);
-        Card card5 = new Card(Suit.SPADES, Rank.EIGHT);
-        Card card6 = new Card(Suit.HEARTS, Rank.KING);
-        Card card7 = new Card(Suit.HEARTS, Rank.ACE);
-        Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
-
-        boolean result = HandRankingChecker.containsStraight(cards);
-        assertTrue(result);
-    }
-
-    @Test
-    public void testContainsStraight2() {
-        Card card1 = new Card(Suit.SPADES, Rank.TWO);
-        Card card2 = new Card(Suit.DIAMONDS, Rank.THREE);
-        Card card3 = new Card(Suit.CLUBS, Rank.FOUR);
-        Card card4 = new Card(Suit.HEARTS, Rank.FIVE);
-        Card card5 = new Card(Suit.SPADES, Rank.ACE);
-        Card card6 = new Card(Suit.HEARTS, Rank.SIX);
-        Card card7 = new Card(Suit.HEARTS, Rank.SEVEN);
-        Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
-
-        boolean result = HandRankingChecker.containsStraight(cards);
-        assertTrue(result);
-    }
-
-    @Test
-    public void testContainsStraight3() {
-        Card card1 = new Card(Suit.SPADES, Rank.TWO);
-        Card card2 = new Card(Suit.DIAMONDS, Rank.THREE);
-        Card card3 = new Card(Suit.CLUBS, Rank.FOUR);
-        Card card4 = new Card(Suit.HEARTS, Rank.SEVEN);
-        Card card5 = new Card(Suit.SPADES, Rank.TEN);
-        Card card6 = new Card(Suit.HEARTS, Rank.QUEEN);
-        Card card7 = new Card(Suit.HEARTS, Rank.KING);
-        Card[] cards = {card1, card2, card3, card4, card5, card6, card7};
-
-        boolean result = HandRankingChecker.containsStraight(cards);
-        assertFalse(result);
-    }
-
-
     @Test
     public void testContainsThreeOfAKind1() {
         Card card1 = new Card(Suit.SPADES, Rank.TWO);
