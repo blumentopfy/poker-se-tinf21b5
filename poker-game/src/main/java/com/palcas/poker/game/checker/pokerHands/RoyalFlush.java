@@ -2,8 +2,8 @@ package com.palcas.poker.game.checker.pokerHands;
 
 import java.util.HashMap;
 
-import com.palcas.poker.Rank;
-import com.palcas.poker.Suit;
+import com.palcas.poker.model.Rank;
+import com.palcas.poker.model.Suit;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.checker.CardsStatisticsService;
 

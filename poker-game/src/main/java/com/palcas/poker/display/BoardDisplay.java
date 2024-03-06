@@ -2,8 +2,8 @@ package com.palcas.poker.display;
 
 
 
-import com.palcas.poker.Rank;
-import com.palcas.poker.Suit;
+import com.palcas.poker.model.Rank;
+import com.palcas.poker.model.Suit;
 import com.palcas.poker.game.Card;
 
 public class BoardDisplay {
@@ -35,7 +35,7 @@ public class BoardDisplay {
         String neutralColorCode = "\u001B[0m";
         String rankLineString = "";
         for (int i = 0; i < 5; i++) {
-            rankLineString += "   │  " + board[i].getSuit().getColorCode() + board[i].getRank().getFormattedName() + neutralColorCode + "  │";
+            rankLineString += "   │  " + CardDisplay.getColorCode(board[i]) + CardDisplay.getFormattedRank(board[i]) + neutralColorCode + "  │";
         }
         return rankLineString;
     }
@@ -44,7 +44,7 @@ public class BoardDisplay {
         String neutralColorCode = "\u001B[0m";
         String suiteLineString = "";
         for (int i = 0; i < 5; i++) {
-            suiteLineString += "   │ " + board[i].getSuit().getColorCode() + board[i].getSuit().getFormattedName() + neutralColorCode + " │";
+            suiteLineString += "   │ " + CardDisplay.getColorCode(board[i]) + CardDisplay.getFormattedSuit(board[i]) + neutralColorCode + " │";
         }
         return suiteLineString;
     }

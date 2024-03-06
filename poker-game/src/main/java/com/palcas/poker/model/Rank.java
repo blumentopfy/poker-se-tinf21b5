@@ -1,6 +1,7 @@
-package com.palcas.poker;
+package com.palcas.poker.model;
 
 public enum Rank {
+    // Enum for the Rank of the card like 7 or King
     TWO("2", "  2  ", 2),
     THREE("3", "  3  ", 3),
     FOUR("4", "  4  ", 4),
@@ -37,4 +38,3 @@ public enum Rank {
         return value;
     }
 }
-

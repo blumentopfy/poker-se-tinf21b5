@@ -1,7 +1,7 @@
 package com.palcas.poker.game;
 
-import com.palcas.poker.Rank;
-import com.palcas.poker.Suit;
+import com.palcas.poker.model.Rank;
+import com.palcas.poker.model.Suit;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
