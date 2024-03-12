@@ -7,41 +7,41 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class SystemChoice implements Choice {
+public class PokerVariantChoice implements Choice {
     private Scanner scanner;
     private Map<String, Runnable> choicesToRunnables;
     String option;
     int choice;
 
-    public SystemChoice(Scanner scanner) {
+    public PokerVariantChoice(Scanner scanner) {
         this.scanner = scanner;
         this.choicesToRunnables = new HashMap<String, Runnable>();
     }
 
     @Override
-    public SystemChoice addChoice(String option) {
+    public PokerVariantChoice addChoice(String option) {
         this.option = option;
         return this;
     }
 
     @Override
-    public SystemChoice withAction(Runnable action) {
+    public PokerVariantChoice withAction(Runnable action) {
         this.choicesToRunnables.put(this.option, action);
         return this;
     }
 
     @Override
     public void executeChoice() {
-        System.out.println("----------MAIN MENU----------");
-        System.out.println("Please choose an option:");
-        
+        System.out.println("---------SESSION MENU--------");
+        System.out.println("Welcome to the game session!");
+        System.out.println("Which type of Poker would you like to play?");
+
         List<String> choices = new ArrayList<>(this.choicesToRunnables.keySet());
-        choices = choices.reversed();
 
         for (int i = 0; i < choices.size(); i++) {
             System.out.println((i + 1) + ". " + choices.get(i));
         }
-        
+
         System.out.println("-----------------------------");
 
         while (true) {
