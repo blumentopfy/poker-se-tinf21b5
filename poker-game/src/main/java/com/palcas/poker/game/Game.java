@@ -7,8 +7,9 @@ public class Game {
     private Player mainPlayer;
     private Deck deck;
 
-    public Game(String playerName) {
-        this.mainPlayer = new Player(playerName, 1000);
+    public Game(String mainPlayerName) {
+        this.mainPlayer = new Player(mainPlayerName, 1000);
+        this.players = new ArrayList<Player>();
         this.players.add(this.mainPlayer);
         this.deck = new Deck();
     }
