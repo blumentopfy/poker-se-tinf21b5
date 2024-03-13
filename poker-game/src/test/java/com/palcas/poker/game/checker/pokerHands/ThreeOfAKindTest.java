@@ -7,8 +7,8 @@ import com.palcas.poker.game.checker.CardsStatisticsService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ThreeOfAKindTest {
 
@@ -80,4 +80,26 @@ public class ThreeOfAKindTest {
         assertTrue(result);
     }
 
+    @Test
+    public void testSelectHandForThreeOfAKind1() {
+        Card twoOfSpades = new Card(Suit.SPADES, Rank.TWO);
+        Card twoOfDiamonds = new Card(Suit.DIAMONDS, Rank.TWO);
+        Card twoOfClubs = new Card(Suit.CLUBS, Rank.TWO);
+        Card threeOfHearts = new Card(Suit.HEARTS, Rank.THREE);
+        Card sixOfSpades = new Card(Suit.SPADES, Rank.SIX);
+        Card fiveOfHearts = new Card(Suit.HEARTS, Rank.FIVE);
+        Card kingOfHearts = new Card(Suit.HEARTS, Rank.KING);
+        Card[] cards = {twoOfClubs, threeOfHearts, sixOfSpades, kingOfHearts, fiveOfHearts, twoOfSpades, twoOfDiamonds};
+
+        Card[] selectedCards = threeOfAKind.selectHandForThreeOfAKind(cards);
+        assertEquals(5, selectedCards.length);
+        for (Card card: selectedCards) {
+            System.out.println(card);
+        }
+//        assertEquals(selectedCards[0].getRank(), Rank.TWO);
+//        assertEquals(selectedCards[1].getRank(), Rank.TWO);
+//        assertEquals(selectedCards[2].getRank(), Rank.TWO);
+//        assertEquals(selectedCards[3], kingOfHearts);
+//        assertEquals(selectedCards[4], sixOfSpades);
+    }
 }

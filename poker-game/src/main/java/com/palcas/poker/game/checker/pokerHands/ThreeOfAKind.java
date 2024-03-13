@@ -26,6 +26,7 @@ public class ThreeOfAKind {
     }
 
     public Card[] selectHandForThreeOfAKind(Card[] all7cards) {
+        if (!containsThreeOfAKind(all7cards)) {return null;}
         Rank[] descendingSortedRanks = cardsStatistics.getDescendingOrderedRanks();
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
         Rank rankOfThreeOfAKind = null;
@@ -45,9 +46,8 @@ public class ThreeOfAKind {
                 i++;
             } else if (card.getRank() != rankOfThreeOfAKind && selected5cards[3] == null){
                 selected5cards[3] = card;
-            } else {
+            } else if (card.getRank() != rankOfThreeOfAKind && selected5cards[4] == null){
                 selected5cards[4] = card;
-                break;
             }
         }
         return selected5cards;
