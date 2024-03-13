@@ -31,22 +31,45 @@ public class TwoPairs {
     }
 
     public Card[] selectHandForTwoPairs(Card[] all7cards) {
-        Rank[] sortedRanks = cardsStatistics.getDescendingOrderedRanks();
+        if (!containsTwoPairs(all7cards)) {return null;}
+        Rank[] descendingSortedRanks = cardsStatistics.getDescendingOrderedRanks();
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
+
+        Rank betterPair = null;
+        Rank worsePair = null;
+        Rank highCardRank = null;
+        for (Rank rank : descendingSortedRanks) {
+            if (countedRanks.get(rank) == 2) {
+                if(betterPair == null) {
+                    betterPair = rank;
+                } else if (worsePair == null) {
+                    worsePair = rank;
+                }
+            }
+        }
+        return createTwoPairsHand(all7cards, betterPair, worsePair);
+    }
+
+    private Card[] createTwoPairsHand(Card[] all7cards, Rank betterPair, Rank worsePair) {
         // sort cards ascending, so we can easily also find the high card
         Arrays.sort(all7cards, Comparator.comparingInt(card -> ((Card) card).getRank().getValue()).reversed());
-        int i = 0;
+
         Card[] selected5cards = new Card[5];
-        //TODO this might need some more logic checking
         for (Card card : all7cards) {
-            if(countedRanks.get(card.getRank()) == 2 && i <= 3) {
-                selected5cards[i] = card;
-                i++;
-            } else {
+            if(card.getRank() == betterPair) {
+                if(selected5cards[0] == null) {
+                    selected5cards[0] = card;
+                } else {
+                    selected5cards[1] = card;
+                }
+            } else if(card.getRank() == worsePair) {
+                if(selected5cards[2] == null) {
+                    selected5cards[2] = card;
+                } else {
+                    selected5cards[3] = card;
+                }
+            } else if (selected5cards[4] == null) {
                 selected5cards[4] = card;
-            }
-            if (selected5cards[4]!=null && selected5cards[3]!=null) {
-                break;
             }
         }
         return selected5cards;

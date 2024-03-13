@@ -7,8 +7,8 @@ import com.palcas.poker.game.checker.CardsStatisticsService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TwoPairsTest {
     private static TwoPairs twoPairs;
@@ -77,5 +77,60 @@ public class TwoPairsTest {
 
         boolean result = twoPairs.containsTwoPairs(cards);
         assertFalse(result);
+    }
+
+    @Test
+    public void testSelectHandForTwoPairs1() {
+        Card twoOfSpades = new Card(Suit.SPADES, Rank.TWO);
+        Card twoOfDiamonds = new Card(Suit.DIAMONDS, Rank.TWO);
+        Card threeOfHearts = new Card(Suit.HEARTS, Rank.THREE);
+        Card threeOfClubs = new Card(Suit.CLUBS, Rank.THREE);
+        Card fourOfSpades = new Card(Suit.SPADES, Rank.FOUR);
+        Card fiveOfHearts = new Card(Suit.HEARTS, Rank.FIVE);
+        Card kingOfHearts = new Card(Suit.HEARTS, Rank.KING);
+        Card[] cards = {threeOfClubs, twoOfSpades, kingOfHearts, fourOfSpades, fiveOfHearts, threeOfHearts, twoOfDiamonds};
+
+        Card[] selectedCards = twoPairs.selectHandForTwoPairs(cards);
+        assertEquals(5, selectedCards.length);
+        assertEquals(selectedCards[0].getRank(), Rank.THREE);
+        assertEquals(selectedCards[1].getRank(), Rank.THREE);
+        assertEquals(selectedCards[2].getRank(), Rank.TWO);
+        assertEquals(selectedCards[3].getRank(), Rank.TWO);
+        assertEquals(selectedCards[4], kingOfHearts);
+    }
+
+    @Test
+    public void testSelectHandForTwoPairs2() {
+        Card twoOfSpades = new Card(Suit.SPADES, Rank.TWO);
+        Card twoOfDiamonds = new Card(Suit.DIAMONDS, Rank.TWO);
+        Card threeOfHearts = new Card(Suit.HEARTS, Rank.THREE);
+        Card threeOfClubs = new Card(Suit.CLUBS, Rank.THREE);
+        Card fiveOfSpades = new Card(Suit.SPADES, Rank.FIVE);
+        Card fiveOfHearts = new Card(Suit.HEARTS, Rank.FIVE);
+        Card kingOfHearts = new Card(Suit.HEARTS, Rank.KING);
+        Card[] cards = {threeOfClubs, twoOfSpades, kingOfHearts, fiveOfSpades, fiveOfHearts, threeOfHearts, twoOfDiamonds};
+
+        Card[] selectedCards = twoPairs.selectHandForTwoPairs(cards);
+        assertEquals(5, selectedCards.length);
+        assertEquals(selectedCards[0].getRank(), Rank.FIVE);
+        assertEquals(selectedCards[1].getRank(), Rank.FIVE);
+        assertEquals(selectedCards[2].getRank(), Rank.THREE);
+        assertEquals(selectedCards[3].getRank(), Rank.THREE);
+        assertEquals(selectedCards[4], kingOfHearts);
+    }
+
+    @Test
+    public void testSelectHandForTwoPairs3() {
+        Card twoOfSpades = new Card(Suit.SPADES, Rank.TWO);
+        Card aceOfDiamonds = new Card(Suit.DIAMONDS, Rank.ACE);
+        Card threeOfHearts = new Card(Suit.HEARTS, Rank.THREE);
+        Card threeOfClubs = new Card(Suit.CLUBS, Rank.THREE);
+        Card fourOfSpades = new Card(Suit.SPADES, Rank.FOUR);
+        Card fiveOfHearts = new Card(Suit.HEARTS, Rank.FIVE);
+        Card kingOfHearts = new Card(Suit.HEARTS, Rank.KING);
+        Card[] cards = {threeOfClubs, twoOfSpades, kingOfHearts, fourOfSpades, fiveOfHearts, threeOfHearts, aceOfDiamonds};
+
+        Card[] selectedCards = twoPairs.selectHandForTwoPairs(cards);
+        assertEquals(null, selectedCards);
     }
 }
