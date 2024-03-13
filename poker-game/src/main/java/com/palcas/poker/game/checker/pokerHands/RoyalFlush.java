@@ -30,7 +30,7 @@ public class RoyalFlush {
     }
 
     public Card[] selectHandForRoyalFlush(Card[] all7Cards) {
-        HashMap<Suit, Integer> countedSuits = cardsStatistics.countSuits(all7Cards);
+        if (!containsRoyalFlush(all7Cards)) {return null;}
         Suit suitOfRoyalFlush = cardsStatistics.calculateSuitOfPotentialFlush(all7Cards);
 
         Card[] selected5cards = new Card[5];

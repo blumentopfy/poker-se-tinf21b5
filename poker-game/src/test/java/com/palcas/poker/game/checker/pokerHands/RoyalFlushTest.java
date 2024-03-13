@@ -7,8 +7,7 @@ import com.palcas.poker.game.checker.CardsStatisticsService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RoyalFlushTest {
 
@@ -65,5 +64,42 @@ public class RoyalFlushTest {
 
         boolean result = royalFlush.containsRoyalFlush(cards);
         assertFalse(result);
+    }
+
+    @Test
+    public void testSelectHandForRoyalFlush1() {
+        //should return Royal Flush in this order: 10, J, Q, K, A
+        Card aceOfSpades = new Card(Suit.SPADES, Rank.ACE);
+        Card tenOfSpades = new Card(Suit.SPADES, Rank.TEN);
+        Card otherCard2 = new Card(Suit.HEARTS, Rank.KING);
+        Card jackOfSpades = new Card(Suit.SPADES, Rank.JACK);
+        Card kingOfSpades = new Card(Suit.SPADES, Rank.KING);
+        Card queenOfSpades = new Card(Suit.SPADES, Rank.QUEEN);
+        Card otherCard1 = new Card(Suit.HEARTS, Rank.QUEEN);
+        Card[] cards = {tenOfSpades, jackOfSpades, queenOfSpades, kingOfSpades, aceOfSpades, otherCard1, otherCard2};
+
+        Card[] selectedCards = royalFlush.selectHandForRoyalFlush(cards);
+        assertEquals(5, selectedCards.length);
+        assertEquals(selectedCards[0], tenOfSpades);
+        assertEquals(selectedCards[1], jackOfSpades);
+        assertEquals(selectedCards[2], queenOfSpades);
+        assertEquals(selectedCards[3], kingOfSpades);
+        assertEquals(selectedCards[4], aceOfSpades);
+    }
+
+    @Test
+    public void testSelectHandForRoyalFlush2() {
+        //doesn't contain Royal Flush, so should return null
+        Card tenOfSpades = new Card(Suit.SPADES, Rank.TEN);
+        Card jackOfSpades = new Card(Suit.SPADES, Rank.JACK);
+        Card queenOfSpades = new Card(Suit.DIAMONDS, Rank.QUEEN);
+        Card kingOfSpades = new Card(Suit.SPADES, Rank.KING);
+        Card aceOfSpades = new Card(Suit.SPADES, Rank.ACE);
+        Card otherCard1 = new Card(Suit.HEARTS, Rank.QUEEN);
+        Card otherCard2 = new Card(Suit.CLUBS, Rank.KING);
+        Card[] cards = {tenOfSpades, jackOfSpades, queenOfSpades, kingOfSpades, aceOfSpades, otherCard1, otherCard2};
+
+        Card[] selectedCards = royalFlush.selectHandForRoyalFlush(cards);
+        assertNull(selectedCards);
     }
 }
