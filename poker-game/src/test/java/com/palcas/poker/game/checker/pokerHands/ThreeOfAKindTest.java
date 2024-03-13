@@ -93,13 +93,10 @@ public class ThreeOfAKindTest {
 
         Card[] selectedCards = threeOfAKind.selectHandForThreeOfAKind(cards);
         assertEquals(5, selectedCards.length);
-        for (Card card: selectedCards) {
-            System.out.println(card);
-        }
-//        assertEquals(selectedCards[0].getRank(), Rank.TWO);
-//        assertEquals(selectedCards[1].getRank(), Rank.TWO);
-//        assertEquals(selectedCards[2].getRank(), Rank.TWO);
-//        assertEquals(selectedCards[3], kingOfHearts);
-//        assertEquals(selectedCards[4], sixOfSpades);
+        assertEquals(selectedCards[0].getRank(), Rank.TWO);
+        assertEquals(selectedCards[1].getRank(), Rank.TWO);
+        assertEquals(selectedCards[2].getRank(), Rank.TWO);
+        assertEquals(selectedCards[3], kingOfHearts);
+        assertEquals(selectedCards[4], sixOfSpades);
     }
 }
