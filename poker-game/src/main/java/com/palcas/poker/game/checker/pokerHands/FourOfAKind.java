@@ -26,14 +26,8 @@ public class FourOfAKind {
     }
 
     public Card[] selectHandForFourOfAKind(Card[] all7cards) {
-        // calculate the rank, of which there are 4 of
-        HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
-        Rank rankOfFourOfAKind = null;
-        for (Rank rank : countedRanks.keySet()) {
-            if (countedRanks.get(rank) == 4) {
-                rankOfFourOfAKind = rank;
-            }
-        }
+        if(!containsFourOfAKind(all7cards)) { return null; }
+        Rank rankOfFourOfAKind = calculateRankOfFourOfAKind(all7cards);
         // sort cards ascending so, we can easily also find the high card
         Arrays.sort(all7cards, Comparator.comparingInt(card -> card.getRank().getValue()));
         int i = 0;
@@ -47,5 +41,16 @@ public class FourOfAKind {
             }
         }
         return selected5cards;
+    }
+
+    private Rank calculateRankOfFourOfAKind(Card[] cards) {
+        HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(cards);
+        Rank rankOfFourOfAKind = null;
+        for (Rank rank : countedRanks.keySet()) {
+            if (countedRanks.get(rank) == 4) {
+                rankOfFourOfAKind = rank;
+            }
+        }
+        return rankOfFourOfAKind;
     }
 }

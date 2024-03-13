@@ -7,8 +7,7 @@ import com.palcas.poker.game.checker.CardsStatisticsService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FourOfAKindTest {
 
@@ -62,5 +61,40 @@ public class FourOfAKindTest {
 
         boolean result = fourOfAKind.containsFourOfAKind(cards);
         assertTrue(result);
+    }
+
+    @Test
+    public void testSelectHandForFourOfAKind1() {
+        Card card1 = new Card(Suit.SPADES, Rank.TWO);
+        Card card2 = new Card(Suit.CLUBS, Rank.TWO);
+        Card card3 = new Card(Suit.HEARTS, Rank.TWO);
+        Card card4 = new Card(Suit.DIAMONDS, Rank.TWO);
+        Card card5 = new Card(Suit.SPADES, Rank.THREE);
+        Card kingOfHearts = new Card(Suit.HEARTS, Rank.KING);
+        Card card7 = new Card(Suit.HEARTS, Rank.QUEEN);
+        Card[] cards = {card1, card2, card7, card4, card5, kingOfHearts, card3};
+
+        Card[] selectedCards = fourOfAKind.selectHandForFourOfAKind(cards);
+        assertEquals(selectedCards[0].getRank(), Rank.TWO);
+        assertEquals(selectedCards[1].getRank(), Rank.TWO);
+        assertEquals(selectedCards[2].getRank(), Rank.TWO);
+        assertEquals(selectedCards[3].getRank(), Rank.TWO);
+        assertEquals(selectedCards[4], kingOfHearts);
+    }
+
+    @Test
+    public void testSelectHandForFourOfAKind2() {
+        //should return null since it doesn't have 4 of a kind
+        Card card1 = new Card(Suit.SPADES, Rank.TWO);
+        Card card2 = new Card(Suit.CLUBS, Rank.TWO);
+        Card card3 = new Card(Suit.HEARTS, Rank.EIGHT);
+        Card card4 = new Card(Suit.DIAMONDS, Rank.TWO);
+        Card card5 = new Card(Suit.SPADES, Rank.THREE);
+        Card kingOfHearts = new Card(Suit.HEARTS, Rank.KING);
+        Card card7 = new Card(Suit.HEARTS, Rank.QUEEN);
+        Card[] cards = {card1, card2, card3, card4, card5, kingOfHearts, card7};
+
+        Card[] selectedCards = fourOfAKind.selectHandForFourOfAKind(cards);
+        assertEquals(selectedCards, null);
     }
 }
