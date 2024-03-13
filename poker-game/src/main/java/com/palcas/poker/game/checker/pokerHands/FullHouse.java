@@ -37,6 +37,7 @@ public class FullHouse {
     }
 
     public Card[] selectHandForFullHouse(Card[] all7cards) {
+        if(!containsFullHouse(all7cards)) {return null;}
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
         Rank[] descendingSortedRanks = cardsStatistics.getDescendingOrderedRanks();
 
