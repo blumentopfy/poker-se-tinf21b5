@@ -69,14 +69,14 @@ public class RoyalFlushTest {
     @Test
     public void testSelectHandForRoyalFlush1() {
         //should return Royal Flush in this order: 10, J, Q, K, A
-        Card aceOfSpades = new Card(Suit.SPADES, Rank.ACE);
         Card tenOfSpades = new Card(Suit.SPADES, Rank.TEN);
-        Card otherCard2 = new Card(Suit.HEARTS, Rank.KING);
         Card jackOfSpades = new Card(Suit.SPADES, Rank.JACK);
-        Card kingOfSpades = new Card(Suit.SPADES, Rank.KING);
         Card queenOfSpades = new Card(Suit.SPADES, Rank.QUEEN);
+        Card kingOfSpades = new Card(Suit.SPADES, Rank.KING);
+        Card aceOfSpades = new Card(Suit.SPADES, Rank.ACE);
         Card otherCard1 = new Card(Suit.HEARTS, Rank.QUEEN);
-        Card[] cards = {tenOfSpades, jackOfSpades, queenOfSpades, kingOfSpades, aceOfSpades, otherCard1, otherCard2};
+        Card otherCard2 = new Card(Suit.HEARTS, Rank.KING);
+        Card[] cards = {jackOfSpades, tenOfSpades, queenOfSpades, otherCard1, aceOfSpades, kingOfSpades, otherCard2};
 
         Card[] selectedCards = royalFlush.selectHandForRoyalFlush(cards);
         assertEquals(5, selectedCards.length);

@@ -7,8 +7,8 @@ import com.palcas.poker.game.checker.CardsStatisticsService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StraightFlushTest {
 
@@ -81,4 +81,43 @@ public class StraightFlushTest {
         boolean result = straightFlush.containsStraightFlush(cards);
         assertFalse(result);
     }
+
+    @Test
+    public void testSelectHandForStraightFlush1() {
+        //should return straight from 7 to 3, since 8 is not of Spades
+        Card twoOfSpades = new Card(Suit.SPADES, Rank.TWO);
+        Card threeOfSpades = new Card(Suit.SPADES, Rank.THREE);
+        Card fourOfSpades = new Card(Suit.SPADES, Rank.FOUR);
+        Card fiveOfSpades = new Card(Suit.SPADES, Rank.FIVE);
+        Card sixOfSpades = new Card(Suit.SPADES, Rank.SIX);
+        Card sevenOfSpades = new Card(Suit.SPADES, Rank.SEVEN);
+        Card eightOfSpades = new Card(Suit.HEARTS, Rank.EIGHT);
+        Card[] cards = {fourOfSpades, threeOfSpades, sixOfSpades, fiveOfSpades, twoOfSpades, sevenOfSpades, eightOfSpades};
+
+        Card[] selectedCards = straightFlush.selectHandForStraightFlush(cards);
+        assertEquals(5, selectedCards.length);
+        assertEquals(selectedCards[0], sevenOfSpades);
+        assertEquals(selectedCards[1], sixOfSpades);
+        assertEquals(selectedCards[2], fiveOfSpades);
+        assertEquals(selectedCards[3], fourOfSpades);
+        assertEquals(selectedCards[4], threeOfSpades);
+    }
+
+    @Test
+    public void testSelectHandForStraightFlush2() {
+        //should return null since it doesn't contain a Striaght Flush
+        Card twoOfSpades = new Card(Suit.SPADES, Rank.TWO);
+        Card threeOfSpades = new Card(Suit.SPADES, Rank.THREE);
+        Card fourOfSpades = new Card(Suit.DIAMONDS, Rank.FOUR);
+        Card fiveOfSpades = new Card(Suit.SPADES, Rank.FIVE);
+        Card sixOfSpades = new Card(Suit.SPADES, Rank.SIX);
+        Card sevenOfSpades = new Card(Suit.SPADES, Rank.SEVEN);
+        Card eightOfSpades = new Card(Suit.HEARTS, Rank.EIGHT);
+        Card[] cards = {fourOfSpades, threeOfSpades, sixOfSpades, fiveOfSpades, twoOfSpades, sevenOfSpades, eightOfSpades};
+
+        Card[] selectedCards = straightFlush.selectHandForStraightFlush(cards);
+        assertEquals(null, selectedCards);
+    }
+
+
 }
