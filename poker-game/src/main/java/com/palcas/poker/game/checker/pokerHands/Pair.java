@@ -26,7 +26,7 @@ public class Pair {
     }
 
     public Card[] selectHandForPair(Card[] all7cards) {
-        Rank[] sortedRanks = cardsStatistics.getDescendingOrderedRanks();
+        if (!containsPair(all7cards)) {return null;}
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
         // sort cards ascending, so we can easily also find the high card
         Arrays.sort(all7cards, Comparator.comparingInt(card -> ((Card) card).getRank().getValue()).reversed());

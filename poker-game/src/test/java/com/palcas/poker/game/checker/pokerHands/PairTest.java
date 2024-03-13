@@ -7,8 +7,8 @@ import com.palcas.poker.game.checker.CardsStatisticsService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PairTest {
     private static Pair pair;
@@ -62,5 +62,40 @@ public class PairTest {
 
         boolean result = pair.containsPair(cards);
         assertFalse(result);
+    }
+
+    @Test
+    public void testSelectHandForPair1() {
+        Card twoOfSpades = new Card(Suit.SPADES, Rank.TWO);
+        Card threeOfDiamonds = new Card(Suit.DIAMONDS, Rank.THREE);
+        Card fourOfHearts1 = new Card(Suit.HEARTS, Rank.FOUR);
+        Card fourOfClubs = new Card(Suit.CLUBS, Rank.FOUR);
+        Card sixOfSpades = new Card(Suit.SPADES, Rank.SIX);
+        Card sevenOfHearts = new Card(Suit.HEARTS, Rank.SEVEN);
+        Card eightOfHearts = new Card(Suit.HEARTS, Rank.EIGHT);
+        Card[] cards = {fourOfHearts1, twoOfSpades, sevenOfHearts, threeOfDiamonds, eightOfHearts, sixOfSpades, fourOfClubs};
+
+        Card[] selectedCards = pair.selectHandForPair(cards);
+        assertEquals(5, selectedCards.length);
+        assertEquals(selectedCards[0].getRank(), Rank.FOUR);
+        assertEquals(selectedCards[1].getRank(), Rank.FOUR);
+        assertEquals(selectedCards[2], eightOfHearts);
+        assertEquals(selectedCards[3], sevenOfHearts);
+        assertEquals(selectedCards[4], sixOfSpades);
+    }
+
+    @Test
+    public void testSelectHandForPair2() {
+        Card twoOfSpades = new Card(Suit.SPADES, Rank.TWO);
+        Card threeOfDiamonds = new Card(Suit.DIAMONDS, Rank.THREE);
+        Card fourOfHearts1 = new Card(Suit.HEARTS, Rank.FOUR);
+        Card fiveOfClubs = new Card(Suit.CLUBS, Rank.FIVE);
+        Card sixOfSpades = new Card(Suit.SPADES, Rank.SIX);
+        Card sevenOfHearts = new Card(Suit.HEARTS, Rank.SEVEN);
+        Card eightOfHearts = new Card(Suit.HEARTS, Rank.EIGHT);
+        Card[] cards = {fourOfHearts1, twoOfSpades, sevenOfHearts, threeOfDiamonds, eightOfHearts, sixOfSpades, fiveOfClubs};
+
+        Card[] selectedCards = pair.selectHandForPair(cards);
+        assertNull(selectedCards);
     }
 }
