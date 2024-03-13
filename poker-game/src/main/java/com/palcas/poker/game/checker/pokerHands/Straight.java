@@ -36,6 +36,7 @@ public class Straight {
     }
 
     public Card[] selectHandForStraight(Card[] all7cards) {
+        if (!containsStraight(all7cards)) {return null;}
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
         Rank[] descendingSortedRanks = cardsStatistics.getDescendingOrderedRanks();
         int streak = 0;

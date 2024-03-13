@@ -7,8 +7,8 @@ import com.palcas.poker.game.checker.CardsStatisticsService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StraightTest {
     private static Straight straight;
@@ -62,5 +62,42 @@ public class StraightTest {
 
         boolean result = straight.containsStraight(cards);
         assertFalse(result);
+    }
+
+    @Test
+    public void testSelectHandForStraight1() {
+        //should return straight from 7 to 3
+        Card twoOfSpades = new Card(Suit.SPADES, Rank.TWO);
+        Card threeOfSpades = new Card(Suit.SPADES, Rank.THREE);
+        Card fourOfClubs = new Card(Suit.CLUBS, Rank.FOUR);
+        Card fiveOfSpades = new Card(Suit.SPADES, Rank.FIVE);
+        Card sixOfSpades = new Card(Suit.SPADES, Rank.SIX);
+        Card sevenOfSpades = new Card(Suit.SPADES, Rank.SEVEN);
+        Card nineOfSpades = new Card(Suit.HEARTS, Rank.NINE);
+        Card[] cards = {fourOfClubs, threeOfSpades, sixOfSpades, fiveOfSpades, twoOfSpades, sevenOfSpades, nineOfSpades};
+
+        Card[] selectedCards = straight.selectHandForStraight(cards);
+        assertEquals(5, selectedCards.length);
+        assertEquals(selectedCards[0], sevenOfSpades);
+        assertEquals(selectedCards[1], sixOfSpades);
+        assertEquals(selectedCards[2], fiveOfSpades);
+        assertEquals(selectedCards[3], fourOfClubs);
+        assertEquals(selectedCards[4], threeOfSpades);
+    }
+
+    @Test
+    public void testSelectHandForStraight2() {
+        //should return null, since there is no Straight
+        Card twoOfSpades = new Card(Suit.SPADES, Rank.TWO);
+        Card threeOfSpades = new Card(Suit.SPADES, Rank.THREE);
+        Card fourOfClubs = new Card(Suit.CLUBS, Rank.ACE);
+        Card fiveOfSpades = new Card(Suit.SPADES, Rank.FIVE);
+        Card sixOfSpades = new Card(Suit.SPADES, Rank.SIX);
+        Card sevenOfSpades = new Card(Suit.SPADES, Rank.SEVEN);
+        Card nineOfSpades = new Card(Suit.HEARTS, Rank.NINE);
+        Card[] cards = {fourOfClubs, threeOfSpades, sixOfSpades, fiveOfSpades, twoOfSpades, sevenOfSpades, nineOfSpades};
+
+        Card[] selectedCards = straight.selectHandForStraight(cards);
+        assertNull(selectedCards);
     }
 }
