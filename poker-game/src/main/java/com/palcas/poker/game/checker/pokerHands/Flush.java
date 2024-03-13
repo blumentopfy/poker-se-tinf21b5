@@ -24,6 +24,7 @@ public class Flush {
     }
 
     public Card[] selectHandForFlush(Card[] all7cards) {
+        if(!containsFlush(all7cards)) {return null;}
         Suit suitOfFlush = cardsStatistics.calculateSuitOfPotentialFlush(all7cards);
         Arrays.sort(all7cards, Comparator.comparingInt(card -> ((Card) card).getRank().getValue()).reversed());
         Card[] selected5cards = new Card[5];

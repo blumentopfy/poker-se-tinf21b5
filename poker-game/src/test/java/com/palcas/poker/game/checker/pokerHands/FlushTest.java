@@ -7,8 +7,7 @@ import com.palcas.poker.game.checker.CardsStatisticsService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FlushTest {
     private static Flush flush;
@@ -62,5 +61,41 @@ public class FlushTest {
 
         boolean result = flush.containsFlush(cards);
         assertTrue(result);
+    }
+
+    @Test
+    public void testSelectHandForFlush1() {
+        Card twoOfSpades = new Card(Suit.SPADES, Rank.TWO);
+        Card fourOfSpades = new Card(Suit.SPADES, Rank.FOUR);
+        Card sixOfSpades = new Card(Suit.SPADES, Rank.SIX);
+        Card eightOfSpades = new Card(Suit.SPADES, Rank.EIGHT);
+        Card tenOfSpades = new Card(Suit.SPADES, Rank.TEN);
+        Card aceOfHearts = new Card(Suit.HEARTS, Rank.ACE);
+        Card kingOfDiamonds = new Card(Suit.DIAMONDS, Rank.KING);
+        Card[] cards = {fourOfSpades, sixOfSpades, tenOfSpades, aceOfHearts, kingOfDiamonds, twoOfSpades, eightOfSpades};
+
+        Card[] selectedCards = flush.selectHandForFlush(cards);
+        assertEquals(selectedCards.length, 5);
+        assertEquals(selectedCards[0], tenOfSpades);
+        assertEquals(selectedCards[1], eightOfSpades);
+        assertEquals(selectedCards[2], sixOfSpades);
+        assertEquals(selectedCards[3], fourOfSpades);
+        assertEquals(selectedCards[4], twoOfSpades);
+    }
+
+    @Test
+    public void testSelectHandForFlush2() {
+        //should return null since it doesn't have a Flush
+        Card twoOfSpades = new Card(Suit.SPADES, Rank.TWO);
+        Card fourOfSpades = new Card(Suit.SPADES, Rank.FOUR);
+        Card sixOfSpades = new Card(Suit.SPADES, Rank.SIX);
+        Card eightOfSpades = new Card(Suit.CLUBS, Rank.EIGHT);
+        Card tenOfSpades = new Card(Suit.SPADES, Rank.TEN);
+        Card aceOfHearts = new Card(Suit.HEARTS, Rank.ACE);
+        Card kingOfDiamonds = new Card(Suit.DIAMONDS, Rank.KING);
+        Card[] cards = {fourOfSpades, sixOfSpades, tenOfSpades, aceOfHearts, kingOfDiamonds, twoOfSpades, eightOfSpades};
+
+        Card[] selectedCards = flush.selectHandForFlush(cards);
+        assertEquals(selectedCards, null);
     }
 }
