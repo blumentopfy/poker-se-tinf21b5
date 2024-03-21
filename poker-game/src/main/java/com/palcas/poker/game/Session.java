@@ -12,7 +12,7 @@ public class Session {
 
     public Session(String mainPlayerName) {
         //TODO if Player has already played, retrieve their chips from database/file storage
-        this.mainPlayer = new Player(mainPlayerName, 1000);
+        this.mainPlayer = new Player(mainPlayerName, 10000);
         this.players = new ArrayList<Player>();
         this.players.add(this.mainPlayer);
     }
@@ -24,15 +24,10 @@ public class Session {
             .addChoice("OmahaHoldEm").withAction(() -> startOmahaHoldEmGame())
             .addChoice("Texas Hold'em").withAction(() -> startHoldEmGame())
             .executeChoice();
-
-
-        System.out.println("Dealing cards to " + this.mainPlayer.getName());
-        System.out.println("Player " + this.mainPlayer.getName() + " has " + this.mainPlayer.getChips() + " chips left.");
-        // Display hand, query next option
     }
 
     private void startHoldEmGame() {
-        new HoldEmGame(mainPlayer).start();
+        new HoldEmGame(mainPlayer, players).start();
     }
 
     private void startOmahaHoldEmGame() {
