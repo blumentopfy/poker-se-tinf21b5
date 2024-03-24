@@ -25,6 +25,7 @@ public class ThreeOfAKind {
         return false;
     }
 
+    //Structure of hand returned: cards 0,1,2 are ThreeOfAKind, card 3,4 are high cards
     public Card[] selectHandForThreeOfAKind(Card[] all7cards) {
         if (!containsThreeOfAKind(all7cards)) {return null;}
         Rank[] descendingSortedRanks = cardsStatistics.getDescendingOrderedRanks();
@@ -51,5 +52,14 @@ public class ThreeOfAKind {
             }
         }
         return selected5cards;
+    }
+
+    public int compareThreeOfAKindHands(Card[] hand1, Card[] hand2) {
+        for (int i = 0; i < 5; i++) {
+            if (hand1[i].compareTo(hand2[i]) != 0) {
+                return hand1[0].compareTo(hand2[0]);
+            }
+        }
+        return 0;
     }
 }
