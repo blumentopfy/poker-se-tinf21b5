@@ -51,4 +51,8 @@ public class RoyalFlush {
         }
         return selected5cards;
     }
+
+    public int compareRoyalFlushHands(Card[] hand1, Card[] hand2) {
+        return 0;
+    }
 }

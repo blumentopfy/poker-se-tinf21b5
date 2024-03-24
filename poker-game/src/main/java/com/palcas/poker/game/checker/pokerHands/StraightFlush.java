@@ -24,6 +24,7 @@ public class StraightFlush {
         return cardsStatistics.containsStraight(setOfCardsWithFlushSuite);
     }
 
+    //Structure of hand returned: cards ordered by descending value
     public Card[] selectHandForStraightFlush(Card[] all7cards) {
         if (!containsStraightFlush(all7cards)) { return null; }
         Suit suitOfPotentialStraightFlush = cardsStatistics.calculateSuitOfPotentialFlush(all7cards);
@@ -45,5 +46,9 @@ public class StraightFlush {
             selected5cards[streak] = cardsStatistics.getCardByRank(setOfCardsWithFlushSuite, Rank.ACE);
         }
         return selected5cards;
+    }
+
+    public int compareStraightFlushHands(Card[] hand1, Card[] hand2) {
+        return hand1[0].compareTo(hand2[0]);
     }
 }

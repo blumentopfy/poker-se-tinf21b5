@@ -36,7 +36,7 @@ public class SystemChoice implements Choice {
         System.out.println("Please choose an option:");
         
         List<String> choices = new ArrayList<>(this.choicesToRunnables.keySet());
-        choices = choices.reversed();
+        //choices = choices.reversed();
 
         for (int i = 0; i < choices.size(); i++) {
             System.out.println((i + 1) + ". " + choices.get(i));

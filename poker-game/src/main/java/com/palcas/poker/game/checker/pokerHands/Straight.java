@@ -35,6 +35,7 @@ public class Straight {
         return false;
     }
 
+    //Structure of hand returned: cards ordered by descending value
     public Card[] selectHandForStraight(Card[] all7cards) {
         if (!containsStraight(all7cards)) {return null;}
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
@@ -56,5 +57,9 @@ public class Straight {
             selected5cards[streak] = cardsStatistics.getCardByRank(all7cards, Rank.ACE);
         }
         return selected5cards;
+    }
+
+    public int compareStraightHands(Card[] hand1, Card[] hand2) {
+        return hand1[0].compareTo(hand2[0]);
     }
 }

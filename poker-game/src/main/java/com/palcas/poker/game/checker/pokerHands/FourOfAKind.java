@@ -25,6 +25,7 @@ public class FourOfAKind {
         return false;
     }
 
+    // Stucture of hand returned: card 0-3 are 4 of a kind, card 4 is high card
     public Card[] selectHandForFourOfAKind(Card[] all7cards) {
         if(!containsFourOfAKind(all7cards)) { return null; }
         Rank rankOfFourOfAKind = calculateRankOfFourOfAKind(all7cards);
@@ -52,5 +53,13 @@ public class FourOfAKind {
             }
         }
         return rankOfFourOfAKind;
+    }
+
+    public int compareFourOfAKindHands(Card[] hand1, Card[] hand2) {
+        if (hand1[0].compareTo(hand2[0]) != 0) {
+            return hand1[0].compareTo(hand2[0]);
+        } else {
+            return hand1[4].compareTo(hand2[4]);
+        }
     }
 }

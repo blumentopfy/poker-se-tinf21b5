@@ -3,11 +3,21 @@ package com.palcas.poker.game.checker.pokerHands;
 import com.palcas.poker.game.Card;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class HighCard {
+    //Structure of hand returned: sorted by descending value
     public Card[] selectHandForHighCard(Card[] all7cards) {
-        //TODO test this, not sure if this works
-        Arrays.sort(all7cards, (a, b) -> b.compareTo(a));
+        Arrays.sort(all7cards, Comparator.reverseOrder());
         return Arrays.copyOfRange(all7cards, 0, 5);
+    }
+
+    public int compareHighCardHands(Card[] hand1, Card[] hand2) {
+        for (int i = 0; i < 5; i++) {
+            if (hand1[i].compareTo(hand2[i]) != 0) {
+                return hand1[0].compareTo(hand2[0]);
+            }
+        }
+        return 0;
     }
 }

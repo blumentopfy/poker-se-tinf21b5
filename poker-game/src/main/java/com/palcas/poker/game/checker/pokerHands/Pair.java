@@ -25,6 +25,7 @@ public class Pair {
         return false;
     }
 
+    //Structure of hand returned: cards 0,1 are pair; cards 2-4 are high card
     public Card[] selectHandForPair(Card[] all7cards) {
         if (!containsPair(all7cards)) {return null;}
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
@@ -43,5 +44,15 @@ public class Pair {
             }
         }
         return selected5cards;
+    }
+
+    public int comparePairHands(Card[] hand1, Card[] hand2) {
+        for (int i = 0; i < 5; i++) {
+            int comparisonResult = hand1[i].compareTo(hand2[i]);
+            if (comparisonResult != 0) {
+                return comparisonResult;
+            }
+        }
+        return 0;
     }
 }
