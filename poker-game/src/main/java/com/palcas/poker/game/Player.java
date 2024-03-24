@@ -9,6 +9,11 @@ public class Player {
         this.chips = chips;
     }
 
+    public Player (String name) {
+        this.name = name;
+        this.chips = 10000;
+    }
+
     public String getName() {
         return name;
     }
