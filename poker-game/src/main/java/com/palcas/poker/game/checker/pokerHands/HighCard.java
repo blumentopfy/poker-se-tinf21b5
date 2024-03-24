@@ -15,7 +15,7 @@ public class HighCard {
     public int compareHighCardHands(Card[] hand1, Card[] hand2) {
         for (int i = 0; i < 5; i++) {
             if (hand1[i].compareTo(hand2[i]) != 0) {
-                return hand1[0].compareTo(hand2[0]);
+                return hand1[i].compareTo(hand2[i]);
             }
         }
         return 0;
