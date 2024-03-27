@@ -36,6 +36,7 @@ public class FullHouse {
         return false;
     }
 
+    // Structure of hand returned: cards 0-2 are 3 of a kind, cards 3-4 are pair
     public Card[] selectHandForFullHouse(Card[] all7cards) {
         if(!containsFullHouse(all7cards)) {return null;}
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
@@ -72,5 +73,13 @@ public class FullHouse {
             }
         }
         return selected5cards;
+    }
+
+    public int compareFullHouseHands(Card[] hand1, Card[] hand2) {
+        if (hand1[0].compareTo(hand2[0]) != 0) {
+            return hand1[0].compareTo(hand2[0]);
+        } else {
+            return hand1[3].compareTo(hand2[3]);
+        }
     }
 }

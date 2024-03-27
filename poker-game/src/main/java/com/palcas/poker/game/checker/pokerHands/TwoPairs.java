@@ -30,6 +30,7 @@ public class TwoPairs {
         return false;
     }
 
+    //Structure of hand returned: card 0,1 are higher pair, cards 2,3 are lower pair, card 4 is high card
     public Card[] selectHandForTwoPairs(Card[] all7cards) {
         if (!containsTwoPairs(all7cards)) {return null;}
         Rank[] descendingSortedRanks = cardsStatistics.getDescendingOrderedRanks();
@@ -73,5 +74,14 @@ public class TwoPairs {
             }
         }
         return selected5cards;
+    }
+
+    public int compareTwoPairsHands(Card[] hand1, Card[] hand2) {
+        for (int i = 0; i < 5; i++) {
+            if (hand1[i].compareTo(hand2[i]) != 0) {
+                return hand1[1].compareTo(hand2[1]);
+            }
+        }
+        return 0;
     }
 }
