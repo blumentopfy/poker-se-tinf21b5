@@ -1,6 +1,7 @@
 package com.palcas.poker.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.palcas.poker.model.Rank;
 import com.palcas.poker.model.Suit;
@@ -19,5 +20,15 @@ public class Deck {
 
     public ArrayList<Card> getCards() {
         return cards;
+    }
+
+    public void shuffle() {
+        cards.clear();
+        for (Suit suit : Suit.values()) {
+            for (Rank rank : Rank.values()) {
+                cards.add(new Card(suit, rank));
+            }
+        }
+        Collections.shuffle(cards);
     }
 }

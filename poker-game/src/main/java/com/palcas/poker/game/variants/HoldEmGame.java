@@ -45,8 +45,14 @@ public class HoldEmGame {
         System.out.println("Ready to play some Poker, " + mainPlayer.getName() + "? Let's meet the other players:");
 
         for (Player player : players) {
-            if (player != mainPlayer)
-                System.out.println(player.getName() + " has " + player.getChips() + " chips.");
+            if (player != mainPlayer) {
+
+            }
         }
+        
+        // Create a new deck and shuffle it
+        this.deck = new Deck();
+        this.deck.shuffle();
+        
     }
 }
