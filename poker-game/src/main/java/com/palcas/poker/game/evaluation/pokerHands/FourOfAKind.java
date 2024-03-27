@@ -1,8 +1,8 @@
-package com.palcas.poker.game.checker.pokerHands;
+package com.palcas.poker.game.evaluation.pokerHands;
 
 import com.palcas.poker.model.Rank;
 import com.palcas.poker.game.Card;
-import com.palcas.poker.game.checker.CardsStatisticsService;
+import com.palcas.poker.game.evaluation.CardsStatisticsService;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -15,6 +15,7 @@ public class FourOfAKind {
     public FourOfAKind(CardsStatisticsService cardsStatistics) {
         this.cardsStatistics = cardsStatistics;
     }
+    
     public boolean containsFourOfAKind(Card[] cards) {
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(cards);
         for (int rankCount : countedRanks.values()) {

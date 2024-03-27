@@ -1,4 +1,4 @@
-package com.palcas.poker.game.checker;
+package com.palcas.poker.game.evaluation;
 
 import com.palcas.poker.model.Rank;
 import com.palcas.poker.model.Suit;
@@ -111,6 +111,4 @@ public class CardsStatisticsService {
         }
         return null;
     }
-
-
 }

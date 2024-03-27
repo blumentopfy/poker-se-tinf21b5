@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import com.palcas.poker.display.DisplayElements;
+
 public class PokerVariantChoice implements Choice {
     private Scanner scanner;
     private Map<String, Runnable> choicesToRunnables;
@@ -42,7 +44,7 @@ public class PokerVariantChoice implements Choice {
             System.out.println((i + 1) + ". " + choices.get(i));
         }
 
-        System.out.println("-----------------------------");
+        System.out.println(DisplayElements.SEPERATOR);
 
         while (true) {
             try {

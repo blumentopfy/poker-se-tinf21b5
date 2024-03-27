@@ -1,6 +1,7 @@
 package com.palcas.poker.game.checker.pokerHands;
 
 import com.palcas.poker.game.Card;
+import com.palcas.poker.game.evaluation.pokerHands.HighCard;
 import com.palcas.poker.model.Rank;
 import com.palcas.poker.model.Suit;
 import org.junit.jupiter.api.BeforeAll;

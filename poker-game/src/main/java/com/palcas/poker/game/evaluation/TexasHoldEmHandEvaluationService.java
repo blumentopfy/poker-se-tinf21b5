@@ -1,11 +1,11 @@
-package com.palcas.poker.game.checker;
+package com.palcas.poker.game.evaluation;
 
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.HandRanking;
-import com.palcas.poker.game.checker.HandCheckerService;
-import com.palcas.poker.game.checker.pokerHands.*;
+import com.palcas.poker.game.evaluation.HandEvaluationService;
+import com.palcas.poker.game.evaluation.pokerHands.*;
 
-public class TexasHoldThemHandCheckerService implements HandCheckerService {
+public class TexasHoldEmHandEvaluationService implements HandEvaluationService {
     private CardsStatisticsService cardsStatisticsService;
     private RoyalFlush royalFlush;
     private StraightFlush straightFlush;
@@ -18,7 +18,7 @@ public class TexasHoldThemHandCheckerService implements HandCheckerService {
     private Pair pair;
     private HighCard highCard;
 
-    public TexasHoldThemHandCheckerService() {
+    public TexasHoldEmHandEvaluationService() {
         cardsStatisticsService = new CardsStatisticsService();
         this.royalFlush = new RoyalFlush(cardsStatisticsService);
         this.straightFlush = new StraightFlush(cardsStatisticsService);

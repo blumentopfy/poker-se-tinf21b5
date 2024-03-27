@@ -18,7 +18,6 @@ public class Session {
     }
 
     public void start() {
-
         new PokerVariantChoice(new Scanner(System.in))
             .addChoice("Exit to main menu").withAction(() -> System.out.println("Exiting to main menu..."))
             .addChoice("OmahaHoldEm").withAction(() -> startOmahaHoldEmGame())

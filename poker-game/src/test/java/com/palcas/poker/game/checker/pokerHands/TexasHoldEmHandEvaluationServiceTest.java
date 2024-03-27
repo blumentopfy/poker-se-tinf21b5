@@ -2,9 +2,9 @@ package com.palcas.poker.game.checker.pokerHands;
 
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.HandRanking;
-import com.palcas.poker.game.checker.CardsStatisticsService;
-import com.palcas.poker.game.checker.HandCheckerService;
-import com.palcas.poker.game.checker.TexasHoldThemHandCheckerService;
+import com.palcas.poker.game.evaluation.CardsStatisticsService;
+import com.palcas.poker.game.evaluation.HandEvaluationService;
+import com.palcas.poker.game.evaluation.TexasHoldEmHandEvaluationService;
 import com.palcas.poker.model.Rank;
 import com.palcas.poker.model.Suit;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,13 +13,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TexasHoldThemHandCheckerServiceTest {
+public class TexasHoldEmHandEvaluationServiceTest {
 
-    private static HandCheckerService handCheckerService;
+    private static HandEvaluationService handCheckerService;
 
     @BeforeAll
     public static void setUp() {
-        handCheckerService = new TexasHoldThemHandCheckerService();
+        handCheckerService = new TexasHoldEmHandEvaluationService();
     }
 
     @Test

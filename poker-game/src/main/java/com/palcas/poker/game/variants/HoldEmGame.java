@@ -46,7 +46,7 @@ public class HoldEmGame {
 
         for (Player player : players) {
             if (player != mainPlayer) {
-
+                System.out.println(player.getName() + " - Chips: " + player.getChips());
             }
         }
         

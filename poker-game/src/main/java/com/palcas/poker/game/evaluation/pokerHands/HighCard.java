@@ -1,4 +1,4 @@
-package com.palcas.poker.game.checker.pokerHands;
+package com.palcas.poker.game.evaluation.pokerHands;
 
 import com.palcas.poker.game.Card;
 

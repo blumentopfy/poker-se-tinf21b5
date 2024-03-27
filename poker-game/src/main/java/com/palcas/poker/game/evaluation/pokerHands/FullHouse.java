@@ -1,8 +1,8 @@
-package com.palcas.poker.game.checker.pokerHands;
+package com.palcas.poker.game.evaluation.pokerHands;
 
 import com.palcas.poker.model.Rank;
 import com.palcas.poker.game.Card;
-import com.palcas.poker.game.checker.CardsStatisticsService;
+import com.palcas.poker.game.evaluation.CardsStatisticsService;
 
 import java.util.HashMap;
 
@@ -13,6 +13,7 @@ public class FullHouse {
     public FullHouse(CardsStatisticsService cardsStatistics) {
         this.cardsStatistics = cardsStatistics;
     }
+    
     public boolean containsFullHouse(Card[] cards) {
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(cards);
         boolean containsThreeOfAKind = false;
