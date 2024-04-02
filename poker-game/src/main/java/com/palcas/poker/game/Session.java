@@ -3,7 +3,7 @@ package com.palcas.poker.game;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.palcas.poker.game.variants.HoldEmGame;
+import com.palcas.poker.game.variants.HoldEm.HoldEmGame;
 import com.palcas.poker.input.PokerVariantChoice;
 
 public class Session {
@@ -20,8 +20,8 @@ public class Session {
     public void start() {
         new PokerVariantChoice(new Scanner(System.in))
             .addChoice("Exit to main menu").withAction(() -> System.out.println("Exiting to main menu..."))
-            .addChoice("OmahaHoldEm").withAction(() -> startOmahaHoldEmGame())
-            .addChoice("Texas Hold'em").withAction(() -> startHoldEmGame())
+            .addChoice("OmahaHoldEm").withAction(this::startOmahaHoldEmGame)
+            .addChoice("Texas Hold'em").withAction(this::startHoldEmGame)
             .executeChoice();
     }
 

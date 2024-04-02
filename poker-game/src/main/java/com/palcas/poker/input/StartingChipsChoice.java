@@ -3,26 +3,26 @@ package com.palcas.poker.input;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class PlayerCountChoice {
+public class StartingChipsChoice {
     private final Scanner scanner;
 
-    public PlayerCountChoice(Scanner scanner) {
+    public StartingChipsChoice(Scanner scanner) {
         this.scanner = scanner;
     }
 
     public int executeChoice() {
-        System.out.println("Please enter the number of players (1-8):");
+        System.out.println("Please enter the amount of chips every player shall have at the beginning (100-1.000.000):");
 
-        int playerCount;
+        int startingChips;
         while (true) {
             try {
-                playerCount = scanner.nextInt();
+                startingChips = scanner.nextInt();
                 scanner.nextLine(); // Consume the newline character
 
-                if (playerCount >= 1 && playerCount <= 8) {
+                if (startingChips >= 100 && startingChips <= 1000000) {
                     break; // Exit the loop if a valid number is entered
                 } else {
-                    System.out.println("Invalid number! Please enter a number between 1 and 8.");
+                    System.out.println("Invalid number! Please enter a number between 100 and 1000000.");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input! Please enter a number.");
@@ -30,6 +30,6 @@ public class PlayerCountChoice {
             }
         }
 
-        return playerCount;
+        return startingChips;
     }
 }

@@ -18,7 +18,7 @@ public class App {
             while (true) {
                 // Main menu, could set some options here like "Highscore", "Settings", etc.
                 new SystemChoice(scanner)
-                    .addChoice("Play a round of poker").withAction(() -> session.start())
+                    .addChoice("Play a round of poker").withAction(session::start)
                     .addChoice("Highscore").withAction(() -> System.out.println("Highscore not yet implemented!"))
                     .addChoice("Settings").withAction(() -> System.out.println("Settings not yet implemented!"))
                     .addChoice("Exit the game").withAction(() -> System.exit(0))

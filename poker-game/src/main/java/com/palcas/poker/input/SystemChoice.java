@@ -10,8 +10,8 @@ import java.util.Scanner;
 import com.palcas.poker.display.DisplayElements;
 
 public class SystemChoice implements Choice {
-    private Scanner scanner;
-    private Map<String, Runnable> choicesToRunnables;
+    private final Scanner scanner;
+    private final Map<String, Runnable> choicesToRunnables;
     String option;
     int choice;
 

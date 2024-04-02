@@ -22,7 +22,7 @@ public class Deck {
         return cards;
     }
 
-    public void shuffle() {
+    public Deck shuffle() {
         cards.clear();
         for (Suit suit : Suit.values()) {
             for (Rank rank : Rank.values()) {
@@ -30,5 +30,6 @@ public class Deck {
             }
         }
         Collections.shuffle(cards);
+        return this;
     }
 }

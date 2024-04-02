@@ -1,10 +1,6 @@
 package com.palcas.poker.game;
 
-//TODO This class currently doesn't represent a hand (which is the 2 players given to the player at start of round)
 public class Hand {
-
-
-
     private Card[] cards; //here, only 5 cards get saved
     private HandRanking handRanking;
 

@@ -60,30 +60,19 @@ public class TexasHoldEmHandEvaluationService implements HandEvaluationService {
     @Override
     public Card[] select(Card[] all7cards) {
         HandRanking handRanking = check(all7cards);
-        switch (handRanking) {
-            case ROYAL_FLUSH:
-                return royalFlush.selectHandForRoyalFlush(all7cards);
-            case STRAIGHT_FLUSH:
-                return straightFlush.selectHandForStraightFlush(all7cards);
-            case FOUR_OF_A_KIND:
-                return fourOfAKind.selectHandForFourOfAKind(all7cards);
-            case FULL_HOUSE:
-                return fullHouse.selectHandForFullHouse(all7cards);
-            case FLUSH:
-                return flush.selectHandForFlush(all7cards);
-            case STRAIGHT:
-                return straight.selectHandForStraight(all7cards);
-            case THREE_OF_A_KIND:
-                return threeOfAKind.selectHandForThreeOfAKind(all7cards);
-            case TWO_PAIRS:
-                return twoPairs.selectHandForTwoPairs(all7cards);
-            case PAIR:
-                return pair.selectHandForPair(all7cards);
-            case HIGH_CARD:
-                return highCard.selectHandForHighCard(all7cards);
-            default:
-                throw new IllegalStateException("Unexpected value: " + handRanking);
-        }
+        return switch (handRanking) {
+            case ROYAL_FLUSH -> royalFlush.selectHandForRoyalFlush(all7cards);
+            case STRAIGHT_FLUSH -> straightFlush.selectHandForStraightFlush(all7cards);
+            case FOUR_OF_A_KIND -> fourOfAKind.selectHandForFourOfAKind(all7cards);
+            case FULL_HOUSE -> fullHouse.selectHandForFullHouse(all7cards);
+            case FLUSH -> flush.selectHandForFlush(all7cards);
+            case STRAIGHT -> straight.selectHandForStraight(all7cards);
+            case THREE_OF_A_KIND -> threeOfAKind.selectHandForThreeOfAKind(all7cards);
+            case TWO_PAIRS -> twoPairs.selectHandForTwoPairs(all7cards);
+            case PAIR -> pair.selectHandForPair(all7cards);
+            case HIGH_CARD -> highCard.selectHandForHighCard(all7cards);
+            default -> throw new IllegalStateException("Unexpected value: " + handRanking);
+        };
     }
 
     @Override
@@ -95,30 +84,19 @@ public class TexasHoldEmHandEvaluationService implements HandEvaluationService {
         } else if (handARanking.getValue() < handBRanking.getValue()) {
             return -1;
         } else {
-            switch (handARanking) {
-                case ROYAL_FLUSH:
-                    return royalFlush.compareRoyalFlushHands(handA, handB);
-                case STRAIGHT_FLUSH:
-                    return straightFlush.compareStraightFlushHands(handA, handB);
-                case FOUR_OF_A_KIND:
-                    return fourOfAKind.compareFourOfAKindHands(handA, handB);
-                case FULL_HOUSE:
-                    return fullHouse.compareFullHouseHands(handA, handB);
-                case FLUSH:
-                    return flush.compareFlushHands(handA, handB);
-                case STRAIGHT:
-                    return straight.compareStraightHands(handA, handB);
-                case THREE_OF_A_KIND:
-                    return threeOfAKind.compareThreeOfAKindHands(handA, handB);
-                case TWO_PAIRS:
-                    return twoPairs.compareTwoPairsHands(handA, handB);
-                case PAIR:
-                    return pair.comparePairHands(handA, handB);
-                case HIGH_CARD:
-                    return highCard.compareHighCardHands(handA, handB);
-                default:
-                    throw new IllegalStateException("Unexpected value: " + handARanking);
-            }
+            return switch (handARanking) {
+                case ROYAL_FLUSH -> royalFlush.compareRoyalFlushHands(handA, handB);
+                case STRAIGHT_FLUSH -> straightFlush.compareStraightFlushHands(handA, handB);
+                case FOUR_OF_A_KIND -> fourOfAKind.compareFourOfAKindHands(handA, handB);
+                case FULL_HOUSE -> fullHouse.compareFullHouseHands(handA, handB);
+                case FLUSH -> flush.compareFlushHands(handA, handB);
+                case STRAIGHT -> straight.compareStraightHands(handA, handB);
+                case THREE_OF_A_KIND -> threeOfAKind.compareThreeOfAKindHands(handA, handB);
+                case TWO_PAIRS -> twoPairs.compareTwoPairsHands(handA, handB);
+                case PAIR -> pair.comparePairHands(handA, handB);
+                case HIGH_CARD -> highCard.compareHighCardHands(handA, handB);
+                default -> throw new IllegalStateException("Unexpected value: " + handARanking);
+            };
         }
     }
 }
