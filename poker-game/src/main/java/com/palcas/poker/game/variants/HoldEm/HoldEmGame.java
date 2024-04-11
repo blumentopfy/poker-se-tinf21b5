@@ -7,6 +7,7 @@ import com.palcas.poker.constants.PlayerNames;
 import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.game.Deck;
 import com.palcas.poker.game.Player;
+import com.palcas.poker.input.BetChoice;
 import com.palcas.poker.input.PlayerCountChoice;
 import com.palcas.poker.input.StartingChipsChoice;
 import com.palcas.poker.model.PlayerState;
@@ -15,10 +16,12 @@ public class HoldEmGame {
     private final Scanner scanner;
     private final Player mainPlayer;
     private List<Player> players;
+
     private int bigBlind;
     private int smallBlind;
+    private static int highestBet;
+    private static int pot;
 
-    private int highest_bet;
     private Deck deck;
 
     public HoldEmGame(Player mainPlayer, ArrayList<Player> players) {
@@ -31,8 +34,8 @@ public class HoldEmGame {
         System.out.println("Starting a game of Texas Hold'em...");
 
         // Query player for number of players he wants to play with and how many chips everyone should have
-        int playerCount = new PlayerCountChoice(scanner).executeChoice();
-        int startingChips = new StartingChipsChoice(scanner).executeChoice();
+        int playerCount = new PlayerCountChoice(scanner).executeChoice().get();
+        int startingChips = new StartingChipsChoice(scanner).executeChoice().get();
 
         // Populate player list with the main player and the number of players he wants to play with
         Collections.shuffle(PlayerNames.NAMES);
@@ -75,10 +78,22 @@ public class HoldEmGame {
     private void startPokerGameLoop() {
 
         while (true) {
-
-            for (Player player : players) {
-
+            // clear player states
+            for (Player player : this.players) {
+                player.setState(PlayerState.CHECK);
             }
+
+            // round loop
+            roundLoop();
+
+            // check for losers
+            //checkLosers();
+
+            // adjust blinds
+            //adjustBlinds();
+
+            // switch player list
+            //switchPlayerList();
         }
     }
 
@@ -104,40 +119,77 @@ public class HoldEmGame {
      */
     private void roundLoop() {
         int player_count = this.players.size();
-        // small and big blind are the first players in the player list
-        // todo if only 2 players remain there is an edge case
-        if (player_count > 2) {
-            this.players.get(0).setBet(smallBlind);
-            this.players.get(0).setState(PlayerState.CHECK);
-            this.players.get(1).setBet(bigBlind);
-            this.players.get(1).setState(PlayerState.RAISE);
-            this.highest_bet = bigBlind;
 
-            int i = 1;
-            boolean check = true;
-            while (check) {
-                // the next player is the last player (i) + 1
-                // if this overflows the list, we need to start at the first index (% player_count)
-                i = (i + 1) % player_count;
-                // next player bets
-                bet(this.players.get(i));
+        // set bets to 0 again as new round is starting
+        this.players.stream().forEach(player -> player.setBet(0));
 
 
+        // set blinds
+        this.players.get(0).setBet(smallBlind);
+        this.players.get(0).setState(PlayerState.CHECK);
+        this.players.get(1).setBet(bigBlind);
+        this.players.get(1).setState(PlayerState.RAISE);
+        highestBet = bigBlind;
 
-                // end: check if a player is in state RAISE
-                check = false;
-                for(Player p : this.players) {
-                    if (p.getState() == PlayerState.RAISE) {
-                        check = true;
-                        break;
-                    }
+        int i = 1;
+        boolean check = true;
+        while (check) {
+            // the next player is the last player (i) + 1
+            // if this overflows the list, we need to start at the first index (% player_count)
+            i = (i + 1) % player_count;
+            // next player bets
+            bet(this.players.get(i));
+
+            // end: check if a player is in state RAISE
+            check = false;
+            for (Player p : this.players) {
+                if (p.getState() == PlayerState.RAISE) {
+                    check = true;
+                    break;
                 }
             }
         }
-        // set blind
-
     }
-    private void bet(Player player) {
 
+    private void bet(Player player) {
+        if (player == this.mainPlayer) {
+            new BetChoice(scanner)
+            .addOption("Check").withAction(() -> check(player))
+            .addOption("Call").withAction(() -> call(player))
+            .addOption("Raise").withAction(() -> raise(player))
+            .addOption("Fold").withAction(() -> fold(player))
+            .executeChoice();
+        } else {
+            //TODO implement AI
+        }
+    }
+
+    private void check(Player player) {
+        if (player.getBet() < highestBet) {
+            System.out.println("You have to call at least " + highestBet + " to check.");
+            bet(player);
+        } else {
+            player.setState(PlayerState.CHECK);
+            System.out.println(player.getName() + " checks.");
+        }
+    }
+
+    private void call(Player player) {
+        int callAmount = highestBet - player.getBet();
+        player.setBet(player.getBet() + callAmount);
+        player.setChips(player.getChips() - callAmount);
+        System.out.println(player.getName() + " calls " + callAmount + ".");
+
+        pot += callAmount;
+        System.out.println("The pot is now at " + pot + ".");
+    }
+
+    private void raise(Player player) {
+        
+    }
+
+    private void fold(Player player) {
+        player.setState(PlayerState.FOLD);
+        System.out.println(player.getName() + " folds.");
     }
 }

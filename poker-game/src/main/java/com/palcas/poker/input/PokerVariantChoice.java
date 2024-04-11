@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 import com.palcas.poker.display.DisplayElements;
 
-public class PokerVariantChoice implements Choice {
+public class PokerVariantChoice implements LimitedChoice {
     private Scanner scanner;
     private Map<String, Runnable> choicesToRunnables;
     String option;
@@ -21,7 +21,7 @@ public class PokerVariantChoice implements Choice {
     }
 
     @Override
-    public PokerVariantChoice addChoice(String option) {
+    public PokerVariantChoice addOption(String option) {
         this.option = option;
         return this;
     }

@@ -1,16 +1,17 @@
 package com.palcas.poker.input;
 
 import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.Scanner;
 
-public class StartingChipsChoice {
+public class StartingChipsChoice implements ChoiceWithOpenOption {
     private final Scanner scanner;
 
     public StartingChipsChoice(Scanner scanner) {
         this.scanner = scanner;
     }
 
-    public int executeChoice() {
+    public Optional<Integer> executeChoice() {
         System.out.println("Please enter the amount of chips every player shall have at the beginning (100-1.000.000):");
 
         int startingChips;
@@ -30,6 +31,6 @@ public class StartingChipsChoice {
             }
         }
 
-        return startingChips;
+        return Optional.of(startingChips);
     }
 }

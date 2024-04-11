@@ -1,16 +1,17 @@
 package com.palcas.poker.input;
 
 import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.Scanner;
 
-public class PlayerCountChoice {
+public class PlayerCountChoice implements ChoiceWithOpenOption {
     private final Scanner scanner;
 
     public PlayerCountChoice(Scanner scanner) {
         this.scanner = scanner;
     }
 
-    public int executeChoice() {
+    public Optional<Integer> executeChoice() {
         System.out.println("Please enter the number of players (1-8):");
 
         int playerCount;
@@ -30,6 +31,6 @@ public class PlayerCountChoice {
             }
         }
 
-        return playerCount;
+        return Optional.of(playerCount);
     }
 }
