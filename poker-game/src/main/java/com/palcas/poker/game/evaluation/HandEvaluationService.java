@@ -10,7 +10,7 @@ public interface HandEvaluationService {
 
     Card[] select (Card[] all7cards);
 
-    int compareHandsOfSameHandRanking(Card[] handA, Card[] handB);
+    int compare(Card[] all7cardsA, Card[] all7cardsB);
 
     Player[] determineWinner(HashMap<Player, Card[]> playerToHandList);
 

@@ -80,9 +80,11 @@ public class TexasHoldEmHandEvaluationService implements HandEvaluationService {
     }
 
     @Override
-    public int compareHandsOfSameHandRanking(Card[] handA, Card[] handB) {
-        HandRanking handARanking = check(handA);
-        HandRanking handBRanking = check(handB);
+    public int compare(Card[] all7cardsA, Card[] all7cardsB) {
+        Card[] handA = select(all7cardsA);
+        Card[] handB = select(all7cardsB);
+        HandRanking handARanking = check(all7cardsA);
+        HandRanking handBRanking = check(all7cardsB);
         if (handARanking.getValue() > handBRanking.getValue()) {
             return 1;
         } else if (handARanking.getValue() < handBRanking.getValue()) {
@@ -105,15 +107,16 @@ public class TexasHoldEmHandEvaluationService implements HandEvaluationService {
     }
 
     @Override
-    public Player[] determineWinner(HashMap<Player, Card[]> playerHand) {
+    public Player[] determineWinner(HashMap<Player, Card[]> player7cards) {
         Player[] winner;
         HashMap<Player, HandRanking> playerHandRanking = new HashMap<>();
-        for (Player player : playerHand.keySet()) {
-            HandRanking handRanking = check(playerHand.get(player));
+        for (Player player : player7cards.keySet()) {
+            HandRanking handRanking = check(player7cards.get(player));
+            player7cards.put(player, select(player7cards.get(player)));
             playerHandRanking.put(player, handRanking);
         }
 
-        List<Player> playersSortedByHandRanking = new ArrayList<>(playerHand.keySet());
+        List<Player> playersSortedByHandRanking = new ArrayList<>(player7cards.keySet());
         playersSortedByHandRanking.sort((p1, p2) -> {
             Integer valuep1 = playerHandRanking.get(p1).getValue();
             Integer valuep2 = playerHandRanking.get(p2).getValue();
@@ -132,12 +135,15 @@ public class TexasHoldEmHandEvaluationService implements HandEvaluationService {
             winner[0] = playersWithHighestHandRanking.get(0);
             return winner;
         } else {
-            playersWithHighestHandRanking.sort((p1, p2) -> compareHandsOfSameHandRanking(playerHand.get(p1), playerHand.get(p2)));
-            Player playerWithHighestHand = playersWithHighestHandRanking.get(playersWithHighestHandRanking.size() - 1);
-            Card[] highestHand = playerHand.get(playerWithHighestHand);
+            Card[] highestHand = player7cards.get(playersWithHighestHandRanking.get(0));
+            for (Card[] hand : player7cards.values()) {
+                if (compare(highestHand, hand) < 0) {
+                    highestHand = hand;
+                }
+            }
             List<Player> winnerlist = new ArrayList<>();
             for (Player player : playersWithHighestHandRanking) {
-                if (compareHandsOfSameHandRanking(highestHand, playerHand.get(player)) <= 0) {
+                if (compare(highestHand, player7cards.get(player)) <= 0) {
                     winnerlist.add(player);
                 }
             }
