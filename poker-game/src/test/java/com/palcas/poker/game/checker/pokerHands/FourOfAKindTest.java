@@ -99,4 +99,26 @@ public class FourOfAKindTest {
         Card[] selectedCards = fourOfAKind.selectHandForFourOfAKind(cards);
         assertEquals(selectedCards, null);
     }
+
+    @Test
+    public void testCompareFourOfAKindHands(){
+        Card commoncard1 = new Card(Suit.DIAMONDS, Rank.KING);
+        Card commoncard2 = new Card(Suit.HEARTS, Rank.KING);
+        Card commoncard3 = new Card(Suit.CLUBS, Rank.KING);
+        Card commoncard4 = new Card(Suit.SPADES, Rank.KING);
+        Card commoncard5 = new Card(Suit.DIAMONDS, Rank.TWO);
+
+
+        Card card1g = new Card(Suit.SPADES, Rank.ACE);
+        Card card2g = new Card(Suit.CLUBS, Rank.SEVEN);
+        Card[] cardsA = {commoncard1, commoncard2, commoncard3, commoncard4, commoncard5, card1g, card2g};
+        Card[] handA = fourOfAKind.selectHandForFourOfAKind(cardsA);
+
+        Card card1h = new Card(Suit.DIAMONDS, Rank.QUEEN);
+        Card card2h = new Card(Suit.CLUBS, Rank.THREE);
+        Card[] cardsB = {commoncard1, commoncard2, commoncard3, commoncard4, commoncard5, card1h, card2h};
+        Card[] handB = fourOfAKind.selectHandForFourOfAKind(cardsB);
+
+        assertEquals(1, fourOfAKind.compareFourOfAKindHands(handA, handB));
+    }
 }
