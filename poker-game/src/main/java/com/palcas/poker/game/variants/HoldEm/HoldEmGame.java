@@ -1,14 +1,18 @@
 package com.palcas.poker.game.variants.HoldEm;
 
 import java.util.*;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import com.palcas.poker.constants.PlayerNames;
 import com.palcas.poker.display.DisplayElements;
+import com.palcas.poker.game.Card;
 import com.palcas.poker.game.Deck;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.input.BetChoice;
 import com.palcas.poker.input.PlayerCountChoice;
+import com.palcas.poker.input.RaiseChoice;
 import com.palcas.poker.input.StartingChipsChoice;
 import com.palcas.poker.model.PlayerState;
 
@@ -17,10 +21,11 @@ public class HoldEmGame {
     private final Player mainPlayer;
     private List<Player> players;
 
-    private int bigBlind;
-    private int smallBlind;
-    private static int highestBet;
+    private static int bigBlind;
+    private static int smallBlind;
     private static int pot;
+    private Entry<Player, Integer> playerToHighestBet;
+
 
     private Deck deck;
 
@@ -65,41 +70,54 @@ public class HoldEmGame {
 
     }
 
-    /**
-     * Game Loop, consisting of multiple rounds, check for eliminating players between rounds, adjusts blinds etc.:
-     *
-     * clear player states
-     * roundloop
-     * checkLosers
-     * AdjustBlinds
-     * SwitchPlayerList
-     *
-     */
     private void startPokerGameLoop() {
 
+        int smallBlindIndex = 0;
+        int bigBlindIndex = 1;
+        int round = 0;
+
         while (true) {
-            // clear player states
-            for (Player player : this.players) {
-                player.setState(PlayerState.CHECK);
-            }
+            // reset player states to WAITING_TO_BET and bets to 0
+            resetStatesAndBets();
+
+            players.get(smallBlindIndex).setBet(smallBlind);
+            players.get(bigBlindIndex).setBet(bigBlind);
+            this.playerToHighestBet = new SimpleEntry<>(players.get(bigBlindIndex), bigBlind);
 
             // round loop
-            roundLoop();
+            roundLoop(bigBlindIndex);
 
             // check for losers
-            //checkLosers();
+            checkLosers();
 
             // adjust blinds
-            //adjustBlinds();
+            adjustBlinds(round++);
 
-            // switch player list
-            //switchPlayerList();
+            // rotate blinds
+            smallBlindIndex = (smallBlindIndex + 1) % players.size();
+            bigBlindIndex = (bigBlindIndex + 1) % players.size();
         }
+    }
+
+    private void resetStatesAndBets() {
+        for (Player player : this.players) {
+            player.setState(PlayerState.WAITING_TO_BET);
+        }
+
+        this.players.stream().forEach(player -> player.setBet(0));
+    }
+
+    private HashMap<Player, HoldEmPocket> distributePocketCards() {
+        HashMap<Player, HoldEmPocket> playersWithPockets = new HashMap<>();
+        for (Player player : this.players) {
+            new HoldEmPocket().populatePocket(deck);
+            playersWithPockets.put(player, new HoldEmPocket());
+        }
+        return playersWithPockets;
     }
 
     /**
      * One round in the game:
-     * set Blinds
      * first round of bets
      *      flop
      *      second round of bets
@@ -117,37 +135,21 @@ public class HoldEmGame {
      *      Betting ends if a round is complete without a re-raise
      *
      */
-    private void roundLoop() {
+    private void roundLoop(int bigBlindIndex) {
         int player_count = this.players.size();
 
-        // set bets to 0 again as new round is starting
-        this.players.stream().forEach(player -> player.setBet(0));
+        // Distribute pocket cards
+        HashMap<Player, HoldEmPocket> playersWithPockets = distributePocketCards();
 
+        boolean bettingOver = false;
+        int i = bigBlindIndex + 1 % player_count;
 
-        // set blinds
-        this.players.get(0).setBet(smallBlind);
-        this.players.get(0).setState(PlayerState.CHECK);
-        this.players.get(1).setBet(bigBlind);
-        this.players.get(1).setState(PlayerState.RAISE);
-        highestBet = bigBlind;
-
-        int i = 1;
-        boolean check = true;
-        while (check) {
-            // the next player is the last player (i) + 1
-            // if this overflows the list, we need to start at the first index (% player_count)
-            i = (i + 1) % player_count;
-            // next player bets
+        while (!bettingOver) {
+            // Start betting at index of big blind + 1
+            // Since this will overflow, we will take the modulo of the player count
             bet(this.players.get(i));
-
-            // end: check if a player is in state RAISE
-            check = false;
-            for (Player p : this.players) {
-                if (p.getState() == PlayerState.RAISE) {
-                    check = true;
-                    break;
-                }
-            }
+            bettingOver = checkIfBettingOver();
+            i++;
         }
     }
 
@@ -161,13 +163,15 @@ public class HoldEmGame {
             .executeChoice();
         } else {
             //TODO implement AI
+            player.setState(PlayerState.CHECK);
         }
     }
 
     private void check(Player player) {
-        if (player.getBet() < highestBet) {
-            System.out.println("You have to call at least " + highestBet + " to check.");
+        if (player.getBet() < playerToHighestBet.getValue()) {
+            System.out.println("You have to call at least " + playerToHighestBet.getValue() + " to check.");
             bet(player);
+            return;
         } else {
             player.setState(PlayerState.CHECK);
             System.out.println(player.getName() + " checks.");
@@ -175,21 +179,76 @@ public class HoldEmGame {
     }
 
     private void call(Player player) {
-        int callAmount = highestBet - player.getBet();
-        player.setBet(player.getBet() + callAmount);
-        player.setChips(player.getChips() - callAmount);
-        System.out.println(player.getName() + " calls " + callAmount + ".");
+        int chipsToCall = playerToHighestBet.getValue() - player.getBet();
+        player.setBet(player.getBet() + chipsToCall);
+        player.setChips(player.getChips() - chipsToCall);
+        System.out.println(player.getName() + " calls " + chipsToCall + ".");
 
-        pot += callAmount;
+        pot += chipsToCall;
         System.out.println("The pot is now at " + pot + ".");
     }
 
     private void raise(Player player) {
-        
+        Optional<Object> raiseAmountOptional = new RaiseChoice(scanner).executeChoice();
+        int chipsToRaise = (int) raiseAmountOptional.get();
+        // check if raise is higher than current highest bet
+        if (chipsToRaise < playerToHighestBet.getValue()) {
+            System.out.println("You have to raise at least " + playerToHighestBet.getValue() + " to raise.");
+            bet(player);
+            return;
+        // check if player has enough chips
+        } else if (chipsToRaise > player.getChips()) {
+            System.out.println("You don't have enough chips to raise by " + chipsToRaise + ".");
+            bet(player);
+            return;
+        } else {
+            player.setBet(player.getBet() + chipsToRaise);
+            player.setChips(player.getChips() - chipsToRaise);
+            System.out.println(player.getName() + " raises by " + chipsToRaise + ".");
+
+            playerToHighestBet.setValue(playerToHighestBet.getValue() + chipsToRaise);
+            pot += chipsToRaise;
+            System.out.println("The pot is now at " + pot + ".");
+        }
     }
 
     private void fold(Player player) {
         player.setState(PlayerState.FOLD);
         System.out.println(player.getName() + " folds.");
+    }
+
+    private static void adjustBlinds(int round) {
+        if (round % 2 == 0) {
+            bigBlind = (int) Math.ceil(bigBlind * 1.25);
+            smallBlind = (int) Math.ceil(smallBlind * 1.25);
+        }
+    }
+
+    private void checkLosers() {
+        for (Player player : players) {
+            if (player.getChips() == 0) {
+                System.out.println(player.getName() + " is out of chips and has lost the game.");
+                players.remove(player);
+            }
+        }
+    }
+
+    private boolean checkIfBettingOver() {
+        // Betting is not over if either...
+        for (Player player : players) {
+            // ... a player is still waiting to bet
+            if (player.getState() == PlayerState.WAITING_TO_BET) {
+                return false;
+            // ... or a player has checked and has not called the highest bet/raise
+            } else if (player.getState() == PlayerState.CHECK && player.getBet() != playerToHighestBet.getValue()) {
+                return false;
+            // ... or a player has raised but not to the currently highest bet
+            } else if (player.getState() == PlayerState.RAISE && player.getBet() == playerToHighestBet.getValue()) {
+                return false;
+            }
+        }
+
+    // If none of the conditions above are met, betting is over
+    return true;
     }
 }

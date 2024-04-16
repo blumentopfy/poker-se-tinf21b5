@@ -1,5 +1,5 @@
 package com.palcas.poker.model;
 
 public enum PlayerState {
-    FOLD,RAISE,CHECK
+    FOLD,CHECK,RAISE,ALL_IN,CALL,WAITING_TO_BET;
 }
