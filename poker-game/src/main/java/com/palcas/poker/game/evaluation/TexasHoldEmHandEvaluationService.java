@@ -2,8 +2,12 @@ package com.palcas.poker.game.evaluation;
 
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.HandRanking;
-import com.palcas.poker.game.evaluation.HandEvaluationService;
+import com.palcas.poker.game.Player;
 import com.palcas.poker.game.evaluation.pokerHands.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class TexasHoldEmHandEvaluationService implements HandEvaluationService {
     private CardsStatisticsService cardsStatisticsService;
@@ -76,7 +80,7 @@ public class TexasHoldEmHandEvaluationService implements HandEvaluationService {
     }
 
     @Override
-    public int compare(Card[] handA, Card[] handB) {
+    public int compareHandsOfSameHandRanking(Card[] handA, Card[] handB) {
         HandRanking handARanking = check(handA);
         HandRanking handBRanking = check(handB);
         if (handARanking.getValue() > handBRanking.getValue()) {
@@ -97,6 +101,47 @@ public class TexasHoldEmHandEvaluationService implements HandEvaluationService {
                 case HIGH_CARD -> highCard.compareHighCardHands(handA, handB);
                 default -> throw new IllegalStateException("Unexpected value: " + handARanking);
             };
+        }
+    }
+
+    @Override
+    public Player[] determineWinner(HashMap<Player, Card[]> playerHand) {
+        Player[] winner;
+        HashMap<Player, HandRanking> playerHandRanking = new HashMap<>();
+        for (Player player : playerHand.keySet()) {
+            HandRanking handRanking = check(playerHand.get(player));
+            playerHandRanking.put(player, handRanking);
+        }
+
+        List<Player> playersSortedByHandRanking = new ArrayList<>(playerHand.keySet());
+        playersSortedByHandRanking.sort((p1, p2) -> {
+            Integer valuep1 = playerHandRanking.get(p1).getValue();
+            Integer valuep2 = playerHandRanking.get(p2).getValue();
+            return valuep1.compareTo(valuep2);
+        });
+        HandRanking highestHandRanking = playerHandRanking.get(playersSortedByHandRanking.get(playersSortedByHandRanking.size() - 1));
+        List<Player> playersWithHighestHandRanking = new ArrayList<>();
+        for (Player player : playersSortedByHandRanking) {
+            if (playerHandRanking.get(player) == highestHandRanking) {
+                playersWithHighestHandRanking.add(player);
+            }
+        }
+
+        if (playersWithHighestHandRanking.size() == 1) {
+            winner = new Player[1];
+            winner[0] = playersWithHighestHandRanking.get(0);
+            return winner;
+        } else {
+            playersWithHighestHandRanking.sort((p1, p2) -> compareHandsOfSameHandRanking(playerHand.get(p1), playerHand.get(p2)));
+            Player playerWithHighestHand = playersWithHighestHandRanking.get(playersWithHighestHandRanking.size() - 1);
+            Card[] highestHand = playerHand.get(playerWithHighestHand);
+            List<Player> winnerlist = new ArrayList<>();
+            for (Player player : playersWithHighestHandRanking) {
+                if (compareHandsOfSameHandRanking(highestHand, playerHand.get(player)) <= 0) {
+                    winnerlist.add(player);
+                }
+            }
+            return winnerlist.toArray(new Player[winnerlist.size()]);
         }
     }
 }
