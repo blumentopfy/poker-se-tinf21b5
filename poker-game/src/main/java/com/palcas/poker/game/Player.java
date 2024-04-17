@@ -3,8 +3,8 @@ package com.palcas.poker.game;
 import com.palcas.poker.model.PlayerState;
 
 public class Player {
-    private String name;
-    private int chips;
+    protected String name;
+    protected int chips;
     private Pocket pocket;
     private int bet;
     private PlayerState state;
