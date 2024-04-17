@@ -14,12 +14,12 @@ public class JacksonAccountRepositoryTest {
 
     @BeforeAll
     public static void setUp() {
-        accountRepository = new JacksonAccountRepository(JacksonPersistenceSettings.testFilePath);
+        accountRepository = new JacksonAccountRepository(JacksonPersistenceSettings.testAccountFilePath);
         String testData = "[{\"name\": \"Alice\", \"passwordHash\": \"hashedPassword1\", \"chips\": 1000}, "
                 + "{\"name\": \"Bob\", \"passwordHash\": \"hashedPassword2\", \"chips\": 2000}]";
 
         // Testdaten in die Datei schreiben
-        try (FileWriter writer = new FileWriter(JacksonPersistenceSettings.testFilePath)) {
+        try (FileWriter writer = new FileWriter(JacksonPersistenceSettings.testAccountFilePath)) {
             System.out.println("set up the test data");
             writer.write(testData);
         } catch (IOException e) {
