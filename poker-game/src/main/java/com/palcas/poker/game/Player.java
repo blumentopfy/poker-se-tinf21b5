@@ -5,13 +5,8 @@ import com.palcas.poker.model.PlayerState;
 public class Player {
     private String name;
     private int chips;
-
     private Pocket pocket;
-
     private int bet;
-
-
-
     private PlayerState state;
 
     public Player(String name, int chips) {

@@ -23,8 +23,9 @@ public class HoldEmPocket extends Pocket {
         this.cards = cards;
     }
 
-    public void populatePocket(Deck deck) {
+    public HoldEmPocket populatePocket(Deck deck) {
         cards.add(deck.drawCard());
         cards.add(deck.drawCard());
+        return this;
     }
 }

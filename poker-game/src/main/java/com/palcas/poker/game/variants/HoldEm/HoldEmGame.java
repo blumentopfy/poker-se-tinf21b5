@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import com.palcas.poker.constants.PlayerNames;
 import com.palcas.poker.display.DisplayElements;
+import com.palcas.poker.display.HandDisplay;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.Deck;
 import com.palcas.poker.game.Player;
@@ -110,8 +111,8 @@ public class HoldEmGame {
     private HashMap<Player, HoldEmPocket> distributePocketCards() {
         HashMap<Player, HoldEmPocket> playersWithPockets = new HashMap<>();
         for (Player player : this.players) {
-            new HoldEmPocket().populatePocket(deck);
-            playersWithPockets.put(player, new HoldEmPocket());
+            HoldEmPocket newPocket = new HoldEmPocket().populatePocket(deck);
+            playersWithPockets.put(player, newPocket);
         }
         return playersWithPockets;
     }
@@ -140,17 +141,13 @@ public class HoldEmGame {
 
         // Distribute pocket cards
         HashMap<Player, HoldEmPocket> playersWithPockets = distributePocketCards();
+        List<Card> mainPlayerCards = playersWithPockets.get(this.mainPlayer).getCards();
 
-        boolean bettingOver = false;
-        int i = bigBlindIndex + 1 % player_count;
-
-        while (!bettingOver) {
-            // Start betting at index of big blind + 1
-            // Since this will overflow, we will take the modulo of the player count
-            bet(this.players.get(i));
-            bettingOver = checkIfBettingOver();
-            i++;
-        }
+        DisplayElements.printSeperator();
+        //todo Check charset display problem
+        HandDisplay.displayColoredPokerHand(mainPlayerCards.get(0), mainPlayerCards.get(1));
+        
+        doBetting(bigBlindIndex);
     }
 
     private void bet(Player player) {
@@ -250,5 +247,19 @@ public class HoldEmGame {
 
     // If none of the conditions above are met, betting is over
     return true;
+    }
+
+    private void doBetting(int bigBlindIndex) {
+
+        // Start betting at index of big blind + 1
+        // Since this will overflow, we will take the modulo of the player count
+        int playerToBetIndex = bigBlindIndex + 1 % this.players.size();
+
+        boolean bettingOver = false;
+        while (!bettingOver) {
+            bet(this.players.get(playerToBetIndex));
+            bettingOver = checkIfBettingOver();
+            playerToBetIndex = playerToBetIndex++ % this.players.size();
+        }
     }
 }
