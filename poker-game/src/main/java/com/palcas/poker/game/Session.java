@@ -10,9 +10,9 @@ public class Session {
     private ArrayList<Player> players;
     private Player mainPlayer;
 
-    public Session(String mainPlayerName) {
+    public Session(Player mainPlayer) {
         //TODO if Player has already played, retrieve their chips from database/file storage
-        this.mainPlayer = new Player(mainPlayerName, 10000);
+        this.mainPlayer = mainPlayer;
         this.players = new ArrayList<Player>();
         this.players.add(this.mainPlayer);
     }
