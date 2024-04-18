@@ -6,6 +6,10 @@ import java.util.List;
 
 public class LeaderboardDisplay {
     public static void displayLeaderboard(List<LeaderboardEntry> leaderboardTopTen) {
+        if(leaderboardTopTen.size() == 0) {
+            System.out.println("there are not entries yet in the leaderboard, you can be the first one ;-)");
+            return;
+        }
         int maxNameLength = maxNameLength(leaderboardTopTen);
         System.out.printf(DisplayElements.SEPERATOR + "%n");
         System.out.printf("   current leaderboard:   %n");
