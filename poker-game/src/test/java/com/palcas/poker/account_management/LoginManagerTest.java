@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,36 +39,36 @@ public class LoginManagerTest {
     }
 
     @Test
-    void testLoginSuccessull() {
-        Player player = loginManager.login("Max", "EierMitSalat");
+    void testLoginSuccessfulBecauseCredentialsMatch() {
+        Player player = loginManager.login("Max", "EierMitSalat").get();
         assertNotNull(player);
         assertEquals("Max", player.getName());
     }
 
     @Test
-    void testLoginNotSuccessull() {
-        Player player = loginManager.login("Max", "EierOhneSalat");
-        assertNull(player);
+    void testLoginNotSuccessfulBecauseWrongPassword() {
+        Optional<Player> player = loginManager.login("Max", "EierOhneSalat");
+        assertTrue(player.isEmpty());
     }
 
     @Test
-    void testRegisterNotSuccessfull() throws AccountAlreadyExistsException {
+    void registeringFailsWhenUserAlreadyExists() throws AccountAlreadyExistsException {
         assertThrows(AccountAlreadyExistsException.class, () -> {
-            Player player = loginManager.register("Max", "egalwas");
+            Player player = loginManager.register("Max", "egalwas").get();
         });
     }
 
     @Test
-    void testRegisterNotSuccessfull2() throws AccountAlreadyExistsException {
+    void registeringFailsWhenNameStartsWithGuest() throws AccountAlreadyExistsException {
         assertThrows(AccountAlreadyExistsException.class, () -> {
-            Player player = loginManager.register("Guest-name", "doesntmatter");
+            Player player = loginManager.register("Guest-name", "doesntmatter").get();
         });
     }
 
     @Test
-    void testRegisterSuccessfull() throws AccountAlreadyExistsException {
-        Player player = loginManager.register("Kevin", "ilovedonuts");
-        Player playerLoggedInAgain = loginManager.login("Kevin", "ilovedonuts");
+    void testRegisterSuccessful() throws AccountAlreadyExistsException {
+        Player player = loginManager.register("Kevin", "ilovedonuts").get();
+        Player playerLoggedInAgain = loginManager.login("Kevin", "ilovedonuts").get();
 
         assertNotNull(player);
         assertNotNull(playerLoggedInAgain);

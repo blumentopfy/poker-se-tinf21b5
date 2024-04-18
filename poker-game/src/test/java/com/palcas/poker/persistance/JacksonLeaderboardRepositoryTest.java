@@ -70,7 +70,7 @@ public class JacksonLeaderboardRepositoryTest {
 
     }
 
-    @Test void testUpdateLeaderboard() {
+    @Test void testNotUpdateLeaderboard() {
         try {
             List<LeaderboardEntry> leaderboard = leaderboardRepository.getTopTen();
 
@@ -91,7 +91,7 @@ public class JacksonLeaderboardRepositoryTest {
         }
     }
 
-    @Test void testNotUpdateLeaderboard() {
+    @Test void testUpdateLeaderboard() {
         try {
             List<LeaderboardEntry> leaderboard = leaderboardRepository.getTopTen();
 

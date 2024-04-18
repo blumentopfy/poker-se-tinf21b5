@@ -19,7 +19,7 @@ public class JacksonAccountRepository implements AccountRepository{
         File file = new File(filePath);
         if (!file.exists() || file.length() == 0) {
             System.out.println("account file doesn't exist or is empty");
-            return null;
+            throw new IOException("account file doesn't exist or is empty");
         }
 
         Account[] accounts = objectMapper.readValue(file, Account[].class);

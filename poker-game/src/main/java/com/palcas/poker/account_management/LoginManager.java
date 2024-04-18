@@ -3,44 +3,44 @@ package com.palcas.poker.account_management;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.persistance.Account;
 import com.palcas.poker.persistance.AccountRepository;
-import com.palcas.poker.persistance.JacksonAccountRepository;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class LoginManager {
     private AccountRepository accountRepository;
 
-    public LoginManager(JacksonAccountRepository jacksonAccountRepository) {
-        this.accountRepository = jacksonAccountRepository; //TODO zurückändern
+    public LoginManager(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
     }
 
-    public Player login(String username, String password) {
+    public Optional<Player> login(String username, String password) {
         try {
             Account account = accountRepository.loadAccount(username);
             if (account != null && account.getPasswordHash().equals(hashPassword(password, account.getPasswordSalt()))) {
-                return new Player(account.getName(), account.getChips());
+                return Optional.of(new Player(account.getName(), account.getChips()));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         // Login failed
-        return null;
+        return Optional.empty();
     }
 
-    public Player register(String username, String password) throws AccountAlreadyExistsException{
+    public Optional<Player> register(String username, String password) throws AccountAlreadyExistsException{
         //TODO add constraints for Names and Passwords
         try {
             if (username.startsWith("Guest-")) {
-                throw new AccountAlreadyExistsException("Username is not allwed to start with \"Guest\"...");
+                throw new AccountAlreadyExistsException("Username is not allowed to start with \"Guest\"...");
             }
             if (accountRepository.loadAccount(username) == null) {
                 String salt = getSalt();
                 Account newAccount = new Account(username, hashPassword(password, salt), salt);
                 accountRepository.saveAccount(newAccount);
-                return new Player(newAccount.getName(), newAccount.getChips());
+                return Optional.of(new Player(newAccount.getName(), newAccount.getChips()));
             } else {
                 throw new AccountAlreadyExistsException("An account with this name already exists...");
             }
@@ -48,7 +48,7 @@ public class LoginManager {
             e.printStackTrace();
         }
         // Login failed
-        return null;
+        return Optional.empty();
     }
 
     public Player loginAsGuest() {
