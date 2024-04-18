@@ -92,6 +92,14 @@ public class LoginManagerTest {
         assertThrows(PasswordRequirementsException.class, () -> {
             loginManager.register("Kevin", "WayyyyyyTooooooLoooooooooooooooong0").get();
         });
+        assertThrows(PasswordRequirementsException.class, () -> {
+            //empty password
+            loginManager.register("Kevin", "").get();
+        });
+        assertThrows(PasswordRequirementsException.class, () -> {
+            //password is null
+            loginManager.register("Kevin", null).get();
+        });
         Player player = loginManager.register("Kevin", "ValidPassw0rd").get();
         assertNotNull(player);
     }
