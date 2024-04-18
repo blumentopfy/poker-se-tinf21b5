@@ -1,18 +1,8 @@
 package com.palcas.poker.display;
 
-import com.palcas.poker.model.Rank;
-import com.palcas.poker.model.Suit;
 import com.palcas.poker.game.Card;
 
 public class HandDisplay {
-
-    public static void main(String[] args) {
-        //just for testing purposes, main can be deleted
-        Card card1 = new Card(Suit.DIAMONDS, Rank.FIVE);
-        Card card2 = new Card(Suit.SPADES, Rank.QUEEN);
-
-        displayColoredPokerHand(card1, card2);
-    }
 
     public static void displayColoredPokerHand(Card card1, Card card2) {
         String firstCardColorCode = CardDisplay.getColorCode(card1);
