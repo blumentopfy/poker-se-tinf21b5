@@ -30,8 +30,8 @@ public class LoginManager {
         return Optional.empty();
     }
 
-    public Optional<Player> register(String username, String password) throws AccountAlreadyExistsException{
-        //TODO add constraints for Names and Passwords
+    public Optional<Player> register(String username, String password) throws AccountAlreadyExistsException, PasswordRequirementsException{
+        validate(password);
         try {
             if (username.startsWith("Guest-")) {
                 throw new AccountAlreadyExistsException("Username is not allowed to start with \"Guest\"...");
@@ -79,5 +79,38 @@ public class LoginManager {
         byte[] salt = new byte[16];
         sr.nextBytes(salt);
         return salt.toString();
+    }
+
+    private void validate(String password) throws PasswordRequirementsException{
+        if (password == null || password.equals("")) {
+            throw new PasswordRequirementsException("password cannot be empty");
+        }
+        if (password.length() < 6 || password.length() > 32) {
+            throw new PasswordRequirementsException("password must be between 6 and 32 characters long");
+        }
+        boolean containsUpperCaseCharacter = false;
+        boolean containsLowerCaseCharacter = false;
+        boolean containsDigit = false;
+        for (char c : password.toCharArray()) {
+            if (Character.isLetter(c) && Character.isLowerCase(c)) {
+                containsLowerCaseCharacter = true;
+            } else if (Character.isLetter(c) && Character.isUpperCase(c)) {
+                containsUpperCaseCharacter = true;
+            } else if (Character.isDigit(c)) {
+                containsDigit = true;
+            }
+            if (containsLowerCaseCharacter && containsUpperCaseCharacter && containsDigit ) {
+                return;
+            }
+        }
+        if (!containsLowerCaseCharacter) {
+            throw new PasswordRequirementsException("password must contain at least 1 lower case character");
+        }
+        if (!containsUpperCaseCharacter) {
+            throw new PasswordRequirementsException("password must contain at least 1 upper case character");
+        }
+        if (!containsDigit) {
+            throw new PasswordRequirementsException("password must contain at least 1 digit");
+        }
     }
 }

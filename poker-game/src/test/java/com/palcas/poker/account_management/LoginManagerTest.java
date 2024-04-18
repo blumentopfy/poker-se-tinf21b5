@@ -54,26 +54,48 @@ public class LoginManagerTest {
     @Test
     void registeringFailsWhenUserAlreadyExists() throws AccountAlreadyExistsException {
         assertThrows(AccountAlreadyExistsException.class, () -> {
-            Player player = loginManager.register("Max", "egalwas").get();
+            Player player = loginManager.register("Max", "ValidPassw0rd").get();
         });
     }
 
     @Test
     void registeringFailsWhenNameStartsWithGuest() throws AccountAlreadyExistsException {
         assertThrows(AccountAlreadyExistsException.class, () -> {
-            Player player = loginManager.register("Guest-name", "doesntmatter").get();
+            Player player = loginManager.register("Guest-name", "ValidPassw0rd").get();
         });
     }
 
     @Test
-    void testRegisterSuccessful() throws AccountAlreadyExistsException {
-        Player player = loginManager.register("Kevin", "ilovedonuts").get();
-        Player playerLoggedInAgain = loginManager.login("Kevin", "ilovedonuts").get();
+    void testRegisterSuccessful() throws AccountAlreadyExistsException, PasswordRequirementsException {
+        Player player = loginManager.register("Kevin", "iLoveD0nuts").get();
+        Player playerLoggedInAgain = loginManager.login("Kevin", "iLoveD0nuts").get();
 
         assertNotNull(player);
         assertNotNull(playerLoggedInAgain);
         assertEquals(player.getName(), playerLoggedInAgain.getName());
     }
+
+    @Test
+    void registeringFailsBecausePasswordRequirementsAreNotMatched() throws AccountAlreadyExistsException, PasswordRequirementsException {
+        assertThrows(PasswordRequirementsException.class, () -> {
+            loginManager.register("Kevin", "nouppercase0").get();
+        });
+        assertThrows(PasswordRequirementsException.class, () -> {
+            loginManager.register("Kevin", "NOLOWERCASE0").get();
+        });
+        assertThrows(PasswordRequirementsException.class, () -> {
+            loginManager.register("Kevin", "NoDigits").get();
+        });
+        assertThrows(PasswordRequirementsException.class, () -> {
+            loginManager.register("Kevin", "Shor7").get();
+        });
+        assertThrows(PasswordRequirementsException.class, () -> {
+            loginManager.register("Kevin", "WayyyyyyTooooooLoooooooooooooooong0").get();
+        });
+        Player player = loginManager.register("Kevin", "ValidPassw0rd").get();
+        assertNotNull(player);
+    }
+
 
     @Test
     void testLoginAsGuest() {
