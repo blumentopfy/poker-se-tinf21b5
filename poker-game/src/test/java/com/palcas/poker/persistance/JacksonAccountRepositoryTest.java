@@ -15,8 +15,11 @@ public class JacksonAccountRepositoryTest {
     @BeforeAll
     public static void setUp() {
         accountRepository = new JacksonAccountRepository(JacksonPersistenceSettings.testAccountFilePath);
-        String testData = "[{\"name\": \"Alice\", \"passwordHash\": \"hashedPassword1\", \"chips\": 1000}, "
-                + "{\"name\": \"Bob\", \"passwordHash\": \"hashedPassword2\", \"chips\": 2000}]";
+        String testData = "["
+                + "{\"name\": \"Alice\", \"passwordHash\": \"e55a9d387402d3e84953f3b584a62eb5c8d9f796f1e1313cb6c6dc395f260d37\", \"passwordSalt\": \"1337\", \"chips\": 1000}, "
+                + "{\"name\": \"Bob\", \"passwordHash\": \"013bd4cdf01910a5a02bb51ad7b50de82553a1d31827ed5c1f6760bca326dcc2\", \"passwordSalt\": \"69\", \"chips\": 2000}"
+                + "]";
+
 
         // Testdaten in die Datei schreiben
         try (FileWriter writer = new FileWriter(JacksonPersistenceSettings.testAccountFilePath)) {
@@ -30,7 +33,7 @@ public class JacksonAccountRepositoryTest {
     @Test void testLoadAccount() {
         try {
             Account pascal = accountRepository.loadAccount("Bob");
-            assertEquals(pascal.getPasswordHash(), "hashedPassword2");
+            assertEquals(pascal.getPasswordHash(), "013bd4cdf01910a5a02bb51ad7b50de82553a1d31827ed5c1f6760bca326dcc2");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +42,7 @@ public class JacksonAccountRepositoryTest {
 
     @Test
     public void testAddAccount() {
-        Account account = new Account("Georg", "13374206969lelele");
+        Account account = new Account("Georg", "634aa687c3365f3d3ac110f61542a4fcf839b5efba21b6893d201a63aa8ecda6", "9572");
         Account loadedAccount;
         try {
             accountRepository.saveAccount(account);
@@ -49,11 +52,12 @@ public class JacksonAccountRepositoryTest {
         }
         assertEquals(account.getName(), loadedAccount.getName());
         assertEquals(account.getPasswordHash(), loadedAccount.getPasswordHash());
+        assertEquals(account.getPasswordSalt(), loadedAccount.getPasswordSalt());
     }
 
     @Test
     public void testAddAccountUpdate() {
-        Account account = new Account("Max", "EierMitSalat");
+        Account account = new Account("Max", "858620d32abff03ff587891b193e1de0f218e389ea0b16615902530fedbe0eea", "420");
         Account loadedAccount;
         try {
             accountRepository.saveAccount(account);
@@ -62,10 +66,10 @@ public class JacksonAccountRepositoryTest {
             throw new RuntimeException(e);
         }
         assertEquals("Max", loadedAccount.getName());
-        assertEquals("EierMitSalat", loadedAccount.getPasswordHash());
+        assertEquals("858620d32abff03ff587891b193e1de0f218e389ea0b16615902530fedbe0eea", loadedAccount.getPasswordHash());
 
         try {
-            account.setPasswordHash("EierOhneSalat");
+            account.setPasswordHash("96a6602ef951499be98990c3acf28d434056eeb865c1186b2e3c5456babc62ba");
             accountRepository.saveAccount(account);
             loadedAccount = accountRepository.loadAccount("Max");
         } catch (IOException e) {
@@ -73,6 +77,6 @@ public class JacksonAccountRepositoryTest {
         }
 
         assertEquals("Max", loadedAccount.getName());
-        assertEquals("EierOhneSalat", loadedAccount.getPasswordHash());
+        assertEquals("96a6602ef951499be98990c3acf28d434056eeb865c1186b2e3c5456babc62ba", loadedAccount.getPasswordHash());
     }
 }
