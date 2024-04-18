@@ -54,7 +54,6 @@ public class JacksonLeaderboardRepository implements LeaderboardRepository{
 
     private List<LeaderboardEntry> loadEntriesFromFile() throws IOException {
         File file = new File(filePath);
-        System.out.println(System.getProperty("user.dir"));
         if (file.exists() && file.length() != 0) {
             return objectMapper.readValue(file, new TypeReference<List<LeaderboardEntry>>() {});
         } else {
