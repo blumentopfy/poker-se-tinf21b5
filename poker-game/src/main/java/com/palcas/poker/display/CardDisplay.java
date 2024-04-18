@@ -10,10 +10,11 @@ public class CardDisplay {
     static final String space = " ";
 
     private static final Map<Suit, String> suitDisplay = Map.of(
-        Suit.DIAMONDS, space.repeat(3) + "\u2666" + space.repeat(3),
-        Suit.SPADES, space.repeat(3) + "\u2660" + space.repeat(3),
-        Suit.CLUBS, space.repeat(3) + "\u2663" + space.repeat(3),
-        Suit.HEARTS, space.repeat(3) + "\u2665" + space.repeat(3)
+        //todo Check charset display problem
+        Suit.DIAMONDS, space.repeat(3) + "D" + space.repeat(3),
+        Suit.SPADES, space.repeat(3) + "S" + space.repeat(3),
+        Suit.CLUBS, space.repeat(3) + "C" + space.repeat(3),
+        Suit.HEARTS, space.repeat(3) + "H" + space.repeat(3)
     );
 
 

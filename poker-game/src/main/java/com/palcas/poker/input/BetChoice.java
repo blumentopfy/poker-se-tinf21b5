@@ -3,6 +3,7 @@ package com.palcas.poker.input;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Objects;
 
 public class BetChoice implements LimitedChoice {
     private Scanner scanner;
@@ -15,6 +16,7 @@ public class BetChoice implements LimitedChoice {
 
     @Override
     public BetChoice addOption(String option) {
+        this.option = option;
         this.optionsToRunnables.put(option, null);
         return this;
     }
@@ -34,7 +36,7 @@ public class BetChoice implements LimitedChoice {
         }
 
         while (true) {
-            this.option = scanner.nextLine().toUpperCase();
+            this.option = scanner.nextLine();
 
             if (this.optionsToRunnables.containsKey(this.option)) {
                 this.optionsToRunnables.get(this.option).run();

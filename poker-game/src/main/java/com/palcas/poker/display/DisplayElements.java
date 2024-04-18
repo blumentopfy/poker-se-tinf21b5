@@ -5,6 +5,12 @@ public class DisplayElements {
     public static void printSeperator() {
         System.out.println(SEPERATOR);
     }
+
+    public static void clearConsole() {
+        for (int i = 0; i < 100; i++) {
+            System.out.println();
+        }
+    }
     
     public static String SEPERATOR = "-----------------------------";
 }

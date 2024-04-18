@@ -22,7 +22,7 @@ public class RaiseChoice implements ChoiceWithOpenOption {
                 scanner.nextLine(); // Consume the newline character
 
                 if (raiseAmount > 0) {
-                    System.out.println("You chose to raise by " + raiseAmount + "chips.");
+                    System.out.println("You chose to raise by " + raiseAmount + " chips.");
                     return Optional.of(raiseAmount);
                 } else {
                     System.out.println("Invalid amount! Please enter a positive number.");

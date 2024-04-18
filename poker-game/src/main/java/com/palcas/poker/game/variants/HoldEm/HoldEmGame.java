@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import com.palcas.poker.constants.PlayerNames;
+import com.palcas.poker.display.BoardDisplay;
 import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.display.HandDisplay;
 import com.palcas.poker.game.Card;
@@ -24,6 +25,8 @@ public class HoldEmGame {
 
     private static int bigBlind;
     private static int smallBlind;
+    private static int smallBlindIndex;
+    private static int bigBlindIndex;
     private static int pot;
     private Entry<Player, Integer> playerToHighestBet;
 
@@ -66,23 +69,27 @@ public class HoldEmGame {
 
         startPokerGameLoop();
 
-
         //TODO save progress of the player
 
     }
 
     private void startPokerGameLoop() {
 
-        int smallBlindIndex = 0;
-        int bigBlindIndex = 1;
+        //int smallBlindIndex = 0;
+        //int bigBlindIndex = 1;
+        smallBlindIndex = 0;
+        bigBlindIndex = 1;
         int round = 0;
 
         while (true) {
             // reset player states to WAITING_TO_BET and bets to 0
             resetStatesAndBets();
 
+            deck.shuffle();
+
             players.get(smallBlindIndex).setBet(smallBlind);
             players.get(bigBlindIndex).setBet(bigBlind);
+            pot = smallBlind + bigBlind;
             this.playerToHighestBet = new SimpleEntry<>(players.get(bigBlindIndex), bigBlind);
 
             // round loop
@@ -97,6 +104,8 @@ public class HoldEmGame {
             // rotate blinds
             smallBlindIndex = (smallBlindIndex + 1) % players.size();
             bigBlindIndex = (bigBlindIndex + 1) % players.size();
+
+            // check if game is over ie only 1 player left
         }
     }
 
@@ -106,15 +115,6 @@ public class HoldEmGame {
         }
 
         this.players.stream().forEach(player -> player.setBet(0));
-    }
-
-    private HashMap<Player, HoldEmPocket> distributePocketCards() {
-        HashMap<Player, HoldEmPocket> playersWithPockets = new HashMap<>();
-        for (Player player : this.players) {
-            HoldEmPocket newPocket = new HoldEmPocket().populatePocket(deck);
-            playersWithPockets.put(player, newPocket);
-        }
-        return playersWithPockets;
     }
 
     /**
@@ -142,12 +142,42 @@ public class HoldEmGame {
         // Distribute pocket cards
         HashMap<Player, HoldEmPocket> playersWithPockets = distributePocketCards();
         List<Card> mainPlayerCards = playersWithPockets.get(this.mainPlayer).getCards();
+        List<Card> communityCards = new ArrayList<Card>();        
 
-        DisplayElements.printSeperator();
-        //todo Check charset display problem
-        HandDisplay.displayColoredPokerHand(mainPlayerCards.get(0), mainPlayerCards.get(1));
+        // Preflop-Betting
+        BoardDisplay.printPreFlopBoard("Preflop-Betting", mainPlayerCards);
         
         doBetting(bigBlindIndex);
+
+        // Flop
+        for (int i = 0; i < 3; i++) {
+            communityCards.add(deck.drawCard());
+        }
+        BoardDisplay.printPostFlopBoard("Flop", mainPlayerCards, communityCards);
+        doBetting(bigBlindIndex);
+
+        // Turn
+        communityCards.add(deck.drawCard());
+        BoardDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
+        doBetting(bigBlindIndex);
+
+        // River
+        communityCards.add(deck.drawCard());
+        BoardDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
+        doBetting(bigBlindIndex);
+
+        // Check winner
+    }
+
+    
+    private HashMap<Player, HoldEmPocket> distributePocketCards() {
+        HashMap<Player, HoldEmPocket> playersWithPockets = new HashMap<>();
+        for (Player player : this.players) {
+            HoldEmPocket newPocket = new HoldEmPocket().populatePocket(deck);
+            player.setPocket(newPocket);
+            playersWithPockets.put(player, newPocket);
+        }
+        return playersWithPockets;
     }
 
     private void bet(Player player) {
@@ -160,7 +190,10 @@ public class HoldEmGame {
             .executeChoice();
         } else {
             //TODO implement AI
-            player.setState(PlayerState.CHECK);
+            // AIBehavior.decideAction();
+            // should return 
+            player.setState(PlayerState.FOLD);
+            System.out.println(player.getName() + " folds.");
         }
     }
 
@@ -171,7 +204,11 @@ public class HoldEmGame {
             return;
         } else {
             player.setState(PlayerState.CHECK);
-            System.out.println(player.getName() + " checks.");
+            if (player == this.mainPlayer) {
+                System.out.println("You check.");
+            } else {
+                System.out.println(player.getName() + " checks.");
+            }
         }
     }
 
@@ -179,7 +216,12 @@ public class HoldEmGame {
         int chipsToCall = playerToHighestBet.getValue() - player.getBet();
         player.setBet(player.getBet() + chipsToCall);
         player.setChips(player.getChips() - chipsToCall);
-        System.out.println(player.getName() + " calls " + chipsToCall + ".");
+
+        if (player == this.mainPlayer) {
+            System.out.println("You call " + chipsToCall + ".");
+        } else {
+            System.out.println(player.getName() + " calls " + chipsToCall + ".");
+        }
 
         pot += chipsToCall;
         System.out.println("The pot is now at " + pot + ".");
@@ -187,7 +229,9 @@ public class HoldEmGame {
 
     private void raise(Player player) {
         Optional<Object> raiseAmountOptional = new RaiseChoice(scanner).executeChoice();
+        // confident casting since we know the RaiseChoice returns an Integer
         int chipsToRaise = (int) raiseAmountOptional.get();
+
         // check if raise is higher than current highest bet
         if (chipsToRaise < playerToHighestBet.getValue()) {
             System.out.println("You have to raise at least " + playerToHighestBet.getValue() + " to raise.");
@@ -201,7 +245,10 @@ public class HoldEmGame {
         } else {
             player.setBet(player.getBet() + chipsToRaise);
             player.setChips(player.getChips() - chipsToRaise);
-            System.out.println(player.getName() + " raises by " + chipsToRaise + ".");
+
+            if (player != this.mainPlayer) {
+                System.out.println(player.getName() + " raises by " + chipsToRaise + ".");
+            }
 
             playerToHighestBet.setValue(playerToHighestBet.getValue() + chipsToRaise);
             pot += chipsToRaise;
@@ -211,7 +258,11 @@ public class HoldEmGame {
 
     private void fold(Player player) {
         player.setState(PlayerState.FOLD);
-        System.out.println(player.getName() + " folds.");
+        if (player == this.mainPlayer) {
+            System.out.println("You fold.");
+        } else {
+            System.out.println(player.getName() + " folds.");
+        }
     }
 
     private static void adjustBlinds(int round) {
@@ -240,7 +291,7 @@ public class HoldEmGame {
             } else if (player.getState() == PlayerState.CHECK && player.getBet() != playerToHighestBet.getValue()) {
                 return false;
             // ... or a player has raised but not to the currently highest bet
-            } else if (player.getState() == PlayerState.RAISE && player.getBet() == playerToHighestBet.getValue()) {
+            } else if (player.getState() == PlayerState.RAISE && player.getBet() != playerToHighestBet.getValue()) {
                 return false;
             }
         }
@@ -259,7 +310,12 @@ public class HoldEmGame {
         while (!bettingOver) {
             bet(this.players.get(playerToBetIndex));
             bettingOver = checkIfBettingOver();
-            playerToBetIndex = playerToBetIndex++ % this.players.size();
+            playerToBetIndex = ++playerToBetIndex % this.players.size();
         }
+
+        DisplayElements.printSeperator();
+        System.out.println("Betting is over.");
+        System.out.println("The pot is now at " + pot + ".");
+        DisplayElements.printSeperator();
     }
 }
