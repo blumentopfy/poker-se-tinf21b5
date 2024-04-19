@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import com.palcas.poker.constants.JacksonPersistenceSettings;
+import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.display.LeaderboardDisplay;
 import com.palcas.poker.game.Session;
 import com.palcas.poker.input.SystemChoice;
@@ -13,6 +14,7 @@ import com.palcas.poker.persistance.LeaderboardRepository;
 public class App {
 
     public static void main(String[] args) {
+        DisplayElements.clearConsole();
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("Hello to Palcas Poker v3: Electric Bogaloo!");
             System.out.println("Please enter your name to start the game session: ");
@@ -23,6 +25,7 @@ public class App {
 
             // Game Loop
             while (true) {
+                DisplayElements.clearConsole();
                 // Main menu, could set some options here like "Highscore", "Settings", etc.
                 new SystemChoice(scanner)
                     .addOption("Play a round of poker").withAction(session::start)

@@ -1,17 +1,25 @@
 package com.palcas.poker.input;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ThreadPoolExecutor.DiscardOldestPolicy;
 import java.util.Scanner;
-import java.util.Objects;
+
+import com.palcas.poker.display.DisplayElements;
+import com.palcas.poker.game.Player;
+
+
 
 public class BetChoice implements LimitedChoice {
     private Scanner scanner;
-    private Map<String, Runnable> optionsToRunnables = new HashMap<>();
+    private Map<String, Runnable> optionsToRunnables = new LinkedHashMap<>();
     private String option;
+    Entry<Player, Integer> playerToHighestBet;
 
-    public BetChoice(Scanner scanner) {
+    public BetChoice(Scanner scanner, Entry<Player, Integer> playerToHighestBet) {
         this.scanner = scanner;
+        this.playerToHighestBet = playerToHighestBet;
     }
 
     @Override
@@ -29,20 +37,45 @@ public class BetChoice implements LimitedChoice {
 
     @Override
     public void executeChoice() {
+        DisplayElements.printSeperator();
         System.out.println("Please choose an action:");
 
         for (String option : this.optionsToRunnables.keySet()) {
-            System.out.println(option);
+            if (option.equals("(CALL)")) {
+                System.out.println("(CALL) " + playerToHighestBet.getKey().getName() + "'s bet of " + playerToHighestBet.getValue() + ".");
+            } else {
+                System.out.println(option);
+            }
         }
 
         while (true) {
-            this.option = scanner.nextLine();
+            String userInput = scanner.nextLine();
+            boolean actionExecuted = false;
 
-            if (this.optionsToRunnables.containsKey(this.option)) {
-                this.optionsToRunnables.get(this.option).run();
+            if ("CALL".equals(userInput)) {
+                this.optionsToRunnables.get("(CALL)").run();
+                actionExecuted = true;
+                break;
+            }
+
+            for (String option : this.optionsToRunnables.keySet()) {
+                // Look at 2nd character of option according to how options are defined, not the best way I'm sure
+                if (option.charAt(1) == userInput.charAt(0)) {
+                    this.optionsToRunnables.get(option).run();
+                    actionExecuted = true;
+                }
+            }
+
+            if (actionExecuted) {
                 break;
             } else {
-                System.out.println("Invalid option! Please choose a valid action.");
+                DisplayElements.printSeperator();
+                System.out.println("Invalid option! Please choose a valid action:");
+                System.out.println("\"C\" for checking");
+                System.out.println("\"CALL\" for calling");
+                System.out.println("\"R\" for raising");
+                System.out.println("\"F\" for folding");
+
             }
         }
     }

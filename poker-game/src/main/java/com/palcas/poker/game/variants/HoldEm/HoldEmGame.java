@@ -28,7 +28,7 @@ public class HoldEmGame {
     private static int smallBlindIndex;
     private static int bigBlindIndex;
     private static int pot;
-    private Entry<Player, Integer> playerToHighestBet;
+    private static Entry<Player, Integer> playerToHighestBet;
 
 
     private Deck deck;
@@ -40,11 +40,14 @@ public class HoldEmGame {
     }
 
     public void start() {
+        DisplayElements.clearConsole();
         System.out.println("Starting a game of Texas Hold'em...");
 
         // Query player for number of players he wants to play with and how many chips everyone should have
         int playerCount = new PlayerCountChoice(scanner).executeChoice().get();
+        DisplayElements.clearConsole();
         int startingChips = new StartingChipsChoice(scanner).executeChoice().get();
+        DisplayElements.clearConsole();
 
         // Populate player list with the main player and the number of players he wants to play with
         Collections.shuffle(PlayerNames.NAMES);
@@ -75,37 +78,32 @@ public class HoldEmGame {
 
     private void startPokerGameLoop() {
 
-        //int smallBlindIndex = 0;
-        //int bigBlindIndex = 1;
         smallBlindIndex = 0;
         bigBlindIndex = 1;
+        bigBlind = 50;
+        smallBlind = 25;
         int round = 0;
 
         while (true) {
+            DisplayElements.clearConsole();
+            System.out.println("Starting round " + round + ".");
             // reset player states to WAITING_TO_BET and bets to 0
             resetStatesAndBets();
 
             deck.shuffle();
 
-            players.get(smallBlindIndex).setBet(smallBlind);
-            players.get(bigBlindIndex).setBet(bigBlind);
-            pot = smallBlind + bigBlind;
-            this.playerToHighestBet = new SimpleEntry<>(players.get(bigBlindIndex), bigBlind);
+            setBlinds();
 
-            // round loop
             roundLoop(bigBlindIndex);
 
-            // check for losers
             checkLosers();
 
-            // adjust blinds
             adjustBlinds(round++);
 
             // rotate blinds
             smallBlindIndex = (smallBlindIndex + 1) % players.size();
             bigBlindIndex = (bigBlindIndex + 1) % players.size();
 
-            // check if game is over ie only 1 player left
         }
     }
 
@@ -115,6 +113,26 @@ public class HoldEmGame {
         }
 
         this.players.stream().forEach(player -> player.setBet(0));
+    }
+
+    private void setBlinds() {
+        if (players.get(smallBlindIndex) == mainPlayer) {
+            System.out.println("You set the small blind of " + smallBlind + ".");
+        } else {
+            System.out.println(players.get(smallBlindIndex).getName() + " sets the small blind of " + smallBlind + ".");
+        }
+        players.get(smallBlindIndex).setBet(smallBlind);
+
+
+        if (players.get(bigBlindIndex) == mainPlayer) {
+            System.out.println("You set the big blind of " + bigBlind + ".");
+        } else {
+            System.out.println(players.get(bigBlindIndex).getName() + " sets the big blind of " + bigBlind + ".");
+        }
+        players.get(bigBlindIndex).setBet(bigBlind);
+
+        pot = smallBlind + bigBlind;
+        HoldEmGame.playerToHighestBet = new SimpleEntry<>(players.get(bigBlindIndex), bigBlind);
     }
 
     /**
@@ -145,7 +163,6 @@ public class HoldEmGame {
         List<Card> communityCards = new ArrayList<Card>();        
 
         // Preflop-Betting
-        System.out.println("Starting preflop betting.");
         BoardDisplay.printPreFlopBoard("Preflop-Betting", mainPlayerCards);
         
         startBettingLoop(bigBlindIndex);
@@ -174,8 +191,8 @@ public class HoldEmGame {
     }
 
     
-    private HashMap<Player, HoldEmPocket> distributePocketCards() {
-        HashMap<Player, HoldEmPocket> playersWithPockets = new HashMap<>();
+    private LinkedHashMap<Player, HoldEmPocket> distributePocketCards() {
+        LinkedHashMap<Player, HoldEmPocket> playersWithPockets = new LinkedHashMap<>();
         for (Player player : this.players) {
             HoldEmPocket newPocket = new HoldEmPocket().populatePocket(deck);
             player.setPocket(newPocket);
@@ -185,19 +202,20 @@ public class HoldEmGame {
     }
 
     private void bet(Player player) {
+
         if (player == this.mainPlayer) {
-            new BetChoice(scanner)
-            .addOption("Check").withAction(() -> check(player))
-            .addOption("Call").withAction(() -> call(player))
-            .addOption("Raise").withAction(() -> raise(player))
-            .addOption("Fold").withAction(() -> fold(player))
+            new BetChoice(scanner, playerToHighestBet)
+            .addOption("(C)heck").withAction(() -> check(player))
+            .addOption("(CALL)").withAction(() -> call(player))
+            .addOption("(R)aise").withAction(() -> raise(player))
+            .addOption("(F)old").withAction(() -> fold(player))
             .executeChoice();
         } else {
             //TODO implement AI
             // AIBehavior.decideAction();
             // should return 
-            player.setState(PlayerState.FOLD);
-            System.out.println(player.getName() + " folds.");
+            player.setState(PlayerState.CALL);
+            System.out.println(player.getName() + " calls.");
         }
     }
 
@@ -312,12 +330,9 @@ public class HoldEmGame {
 
         boolean bettingOver = false;
         while (!bettingOver) {
-            System.out.println("currently betting at " + this.players.get(playerToBetIndex).getName() + "'s position.");
-            System.out.println("current playertobetindex: " + playerToBetIndex);
             bet(this.players.get(playerToBetIndex));
             bettingOver = checkIfBettingOver();
             playerToBetIndex = ++playerToBetIndex % this.players.size();
-            System.out.println("new playertobetindex: " + playerToBetIndex);
         }
 
         DisplayElements.printSeperator();
@@ -328,7 +343,7 @@ public class HoldEmGame {
         checkForWalk();
     }
 
-    // Checks whether a player has won the pot without a showdown, eg all other players have folded
+    // Checks whether a player has won the pot without a showdown, i.e. all other players have folded
     public void checkForWalk() {
         int playersNotFoldedCount = 0;
         Player potentialWinner = null;

@@ -36,8 +36,6 @@ public class BoardDisplay {
     }
 
     public static void printPreFlopBoard(String state, List<Card> cards) {
-        DisplayElements.clearConsole();
-
         DisplayElements.printSeperator();
         System.out.println("Currently: " + state);
         DisplayElements.printSeperator();
