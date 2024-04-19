@@ -145,26 +145,30 @@ public class HoldEmGame {
         List<Card> communityCards = new ArrayList<Card>();        
 
         // Preflop-Betting
+        System.out.println("Starting preflop betting.");
         BoardDisplay.printPreFlopBoard("Preflop-Betting", mainPlayerCards);
         
-        doBetting(bigBlindIndex);
+        startBettingLoop(bigBlindIndex);
 
         // Flop
         for (int i = 0; i < 3; i++) {
             communityCards.add(deck.drawCard());
         }
         BoardDisplay.printPostFlopBoard("Flop", mainPlayerCards, communityCards);
-        doBetting(bigBlindIndex);
+        System.out.println("Starting flop betting.");
+        startBettingLoop(bigBlindIndex);
 
         // Turn
         communityCards.add(deck.drawCard());
         BoardDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
-        doBetting(bigBlindIndex);
+        System.out.println("Starting turn betting.");
+        startBettingLoop(bigBlindIndex);
 
         // River
         communityCards.add(deck.drawCard());
         BoardDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
-        doBetting(bigBlindIndex);
+        System.out.println("Starting river betting.");
+        startBettingLoop(bigBlindIndex);
 
         // Check winner
     }
@@ -300,7 +304,7 @@ public class HoldEmGame {
     return true;
     }
 
-    private void doBetting(int bigBlindIndex) {
+    private void startBettingLoop(int bigBlindIndex) {
 
         // Start betting at index of big blind + 1
         // Since this will overflow, we will take the modulo of the player count
@@ -308,14 +312,38 @@ public class HoldEmGame {
 
         boolean bettingOver = false;
         while (!bettingOver) {
+            System.out.println("currently betting at " + this.players.get(playerToBetIndex).getName() + "'s position.");
+            System.out.println("current playertobetindex: " + playerToBetIndex);
             bet(this.players.get(playerToBetIndex));
             bettingOver = checkIfBettingOver();
             playerToBetIndex = ++playerToBetIndex % this.players.size();
+            System.out.println("new playertobetindex: " + playerToBetIndex);
         }
 
         DisplayElements.printSeperator();
         System.out.println("Betting is over.");
         System.out.println("The pot is now at " + pot + ".");
         DisplayElements.printSeperator();
+
+        checkForWalk();
+    }
+
+    // Checks whether a player has won the pot without a showdown, eg all other players have folded
+    public void checkForWalk() {
+        int playersNotFoldedCount = 0;
+        Player potentialWinner = null;
+        for (Player player : players) {
+            if (player.getState() != PlayerState.FOLD) {
+                playersNotFoldedCount++;
+                potentialWinner = player;
+            }
+        }
+
+        if (playersNotFoldedCount == 1) {
+            System.out.println(potentialWinner.getName() + " wins the pot of " + pot + " without a showdown!");
+            System.out.println("Congratulations, " + potentialWinner.getName() + "! :)");
+            potentialWinner.setChips(potentialWinner.getChips() + pot);
+            pot = 0;
+        }
     }
 }
