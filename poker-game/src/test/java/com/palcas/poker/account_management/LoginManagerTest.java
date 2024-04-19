@@ -66,7 +66,7 @@ public class LoginManagerTest {
     }
 
     @Test
-    void testRegisterSuccessful() throws AccountAlreadyExistsException, PasswordRequirementsException {
+    void testRegisterSuccessful() throws AccountAlreadyExistsException, PasswordRequirementsException, IOException {
         Player player = loginManager.register("Kevin", "iLoveD0nuts").get();
         Player playerLoggedInAgain = loginManager.login("Kevin", "iLoveD0nuts").get();
 
@@ -76,7 +76,7 @@ public class LoginManagerTest {
     }
 
     @Test
-    void registeringFailsBecausePasswordRequirementsAreNotMatched() throws AccountAlreadyExistsException, PasswordRequirementsException {
+    void registeringFailsBecausePasswordRequirementsAreNotMatched() throws AccountAlreadyExistsException, PasswordRequirementsException, IOException {
         assertThrows(PasswordRequirementsException.class, () -> {
             loginManager.register("Kevin", "nouppercase0").get();
         });

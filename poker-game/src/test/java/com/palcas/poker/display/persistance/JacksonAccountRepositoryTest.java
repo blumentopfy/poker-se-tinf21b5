@@ -1,6 +1,9 @@
-package com.palcas.poker.persistance;
+package com.palcas.poker.display.persistance;
 
 import com.palcas.poker.constants.JacksonPersistenceSettings;
+import com.palcas.poker.persistance.Account;
+import com.palcas.poker.persistance.AccountRepository;
+import com.palcas.poker.persistance.JacksonAccountRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

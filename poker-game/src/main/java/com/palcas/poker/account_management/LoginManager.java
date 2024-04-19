@@ -30,21 +30,16 @@ public class LoginManager {
         return Optional.empty();
     }
 
-    public Optional<Player> register(String username, String password) throws AccountAlreadyExistsException, PasswordRequirementsException{
-        validate(password);
+    public Optional<Player> register(String username, String password)
+            throws AccountAlreadyExistsException, PasswordRequirementsException, IOException {
+        validatePassword(password);
+        validateUsername(username);
         try {
-            if (username.startsWith("Guest-")) {
-                throw new AccountAlreadyExistsException("Username is not allowed to start with \"Guest\"...");
-            }
-            if (accountRepository.loadAccount(username) == null) {
-                String salt = getSalt();
-                Account newAccount = new Account(username, hashPassword(password, salt), salt);
-                accountRepository.saveAccount(newAccount);
-                return Optional.of(new Player(newAccount.getName(), newAccount.getChips()));
-            } else {
-                throw new AccountAlreadyExistsException("An account with this name already exists...");
-            }
-        } catch (IOException | NoSuchAlgorithmException e) {
+            String salt = getSalt();
+            Account newAccount = new Account(username, hashPassword(password, salt), salt);
+            accountRepository.saveAccount(newAccount);
+            return Optional.of(new Player(newAccount.getName(), newAccount.getChips()));
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         // Login failed
@@ -81,7 +76,7 @@ public class LoginManager {
         return salt.toString();
     }
 
-    private void validate(String password) throws PasswordRequirementsException{
+    private void validatePassword(String password) throws PasswordRequirementsException{
         if (password == null || password.equals("")) {
             throw new PasswordRequirementsException("password cannot be empty");
         }
@@ -111,6 +106,15 @@ public class LoginManager {
         }
         if (!containsDigit) {
             throw new PasswordRequirementsException("password must contain at least 1 digit");
+        }
+    }
+
+    private void validateUsername(String username) throws AccountAlreadyExistsException, IOException {
+        if (username.startsWith("Guest-")) {
+            throw new AccountAlreadyExistsException("Username is not allowed to start with \"Guest\"...");
+        }
+        if (accountRepository.loadAccount(username) != null) {
+            throw new AccountAlreadyExistsException("An account with this name already exists...");
         }
     }
 }

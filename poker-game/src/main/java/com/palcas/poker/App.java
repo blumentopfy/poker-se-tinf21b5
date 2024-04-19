@@ -2,9 +2,11 @@ package com.palcas.poker;
 import java.io.IOException;
 import java.util.Scanner;
 
+import com.palcas.poker.account_management.CLILoginUserInteraction;
 import com.palcas.poker.constants.JacksonPersistenceSettings;
 import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.display.LeaderboardDisplay;
+import com.palcas.poker.game.Player;
 import com.palcas.poker.game.Session;
 import com.palcas.poker.input.SystemChoice;
 import com.palcas.poker.persistance.JacksonLeaderboardRepository;
@@ -13,14 +15,20 @@ import com.palcas.poker.persistance.LeaderboardRepository;
 // Entry point for the game, should really only include welcome & game loop
 public class App {
 
+    private static Player mainPlayer;
+
     public static void main(String[] args) {
         DisplayElements.clearConsole();
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("Hello to Palcas Poker v3: Electric Bogaloo!");
-            System.out.println("Please enter your name to start the game session: ");
 
-            String playerName = scanner.nextLine();
-            Session session = new Session(playerName);
+            new SystemChoice(scanner)
+                    .addOption("Login").withAction(() -> mainPlayer = new CLILoginUserInteraction().login())
+                    .addOption("Register").withAction(() -> mainPlayer = new CLILoginUserInteraction().register())
+                    .addOption("Continue as guest").withAction(() -> mainPlayer = new CLILoginUserInteraction().loginAsGuest())
+                    .executeChoice();
+
+            Session session = new Session(mainPlayer);
             LeaderboardRepository leaderboardRepository = new JacksonLeaderboardRepository(JacksonPersistenceSettings.leaderboardFilePath);
 
             // Game Loop
