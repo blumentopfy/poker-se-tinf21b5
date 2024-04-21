@@ -77,6 +77,6 @@ public class CLILoginUserInteraction implements LoginUserInteraction{
     public Player loginAsGuest() {
         Player player = loginManager.loginAsGuest();
         System.out.println("Successfully logged in as " + player.getName());
-        return null;
+        return player;
     }
 }
