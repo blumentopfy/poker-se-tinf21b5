@@ -5,8 +5,6 @@ import com.palcas.poker.model.Suit;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.evaluation.CardsStatisticsService;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class StraightFlush {

@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import com.palcas.poker.constants.PlayerNames;
 import com.palcas.poker.display.BoardDisplay;
 import com.palcas.poker.display.DisplayElements;
-import com.palcas.poker.display.HandDisplay;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.Deck;
 import com.palcas.poker.game.Player;
@@ -155,7 +154,6 @@ public class HoldEmGame {
      *
      */
     private void roundLoop(int bigBlindIndex) {
-        int player_count = this.players.size();
 
         // Distribute pocket cards
         HashMap<Player, HoldEmPocket> playersWithPockets = distributePocketCards();

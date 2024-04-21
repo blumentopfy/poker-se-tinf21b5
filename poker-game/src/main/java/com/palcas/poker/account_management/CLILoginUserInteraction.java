@@ -4,7 +4,6 @@ import com.palcas.poker.constants.JacksonPersistenceSettings;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.persistance.JacksonAccountRepository;
 
-import java.io.Console;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.Scanner;

@@ -38,7 +38,6 @@ public class TwoPairs {
 
         Rank betterPair = null;
         Rank worsePair = null;
-        Rank highCardRank = null;
         for (Rank rank : descendingSortedRanks) {
             if (countedRanks.get(rank) == 2) {
                 if(betterPair == null) {

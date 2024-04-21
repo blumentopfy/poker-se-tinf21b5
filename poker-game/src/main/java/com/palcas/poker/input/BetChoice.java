@@ -3,7 +3,6 @@ package com.palcas.poker.input;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.ThreadPoolExecutor.DiscardOldestPolicy;
 import java.util.Scanner;
 
 import com.palcas.poker.display.DisplayElements;
