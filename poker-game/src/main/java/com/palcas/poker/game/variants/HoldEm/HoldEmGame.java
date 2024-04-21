@@ -11,10 +11,7 @@ import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.Deck;
 import com.palcas.poker.game.Player;
-import com.palcas.poker.input.BetChoice;
-import com.palcas.poker.input.PlayerCountChoice;
-import com.palcas.poker.input.RaiseChoice;
-import com.palcas.poker.input.StartingChipsChoice;
+import com.palcas.poker.input.*;
 import com.palcas.poker.model.PlayerState;
 
 public class HoldEmGame {
@@ -45,15 +42,22 @@ public class HoldEmGame {
         // Query player for number of players he wants to play with and how many chips everyone should have
         int playerCount = new PlayerCountChoice(scanner).executeChoice().get();
         DisplayElements.clearConsole();
-        int startingChips = new StartingChipsChoice(scanner).executeChoice().get();
+        new StakeLevelChoice(scanner)
+                .addOption("Low Stakes (Blinds: 5/10)").withAction(() -> initializeBlinds(5))
+                .addOption("Medium Stakes (Blinds: 25/50)").withAction(() -> initializeBlinds(25))
+                .addOption("High Stakes (Blinds: 100/200)").withAction(() -> initializeBlinds(100))
+                .addOption("Very High Stakes (Blinds: 500/1000)").withAction(() -> initializeBlinds(500))
+                .executeChoice();
+
         DisplayElements.clearConsole();
 
         // Populate player list with the main player and the number of players he wants to play with
         Collections.shuffle(PlayerNames.NAMES);
         List<String> playerNames = PlayerNames.NAMES.subList(0, playerCount);
-        
+
+        // Initialize players with random chips between 20x and 40x big blind
         this.players = playerNames.stream()
-            .map(player -> new Player(player, startingChips))
+            .map(player -> new Player(player, (int) (bigBlind * ((Math.random() * 20) + 20))))
             .collect(Collectors.toList());
         this.players.add(this.mainPlayer);
 
@@ -65,6 +69,8 @@ public class HoldEmGame {
                 System.out.println(player.getName() + " - Chips: " + player.getChips());
             }
         }
+        System.out.println("(press enter to proceed)");
+        scanner.nextLine();
         
         // Create a new deck and shuffle it
         this.deck = new Deck().shuffle();
@@ -76,13 +82,7 @@ public class HoldEmGame {
     }
 
     private void startPokerGameLoop() {
-
-        smallBlindIndex = 0;
-        bigBlindIndex = 1;
-        bigBlind = 50;
-        smallBlind = 25;
         int round = 0;
-
         while (true) {
             DisplayElements.clearConsole();
             System.out.println("Starting round " + round + ".");
@@ -102,7 +102,6 @@ public class HoldEmGame {
             // rotate blinds
             smallBlindIndex = (smallBlindIndex + 1) % players.size();
             bigBlindIndex = (bigBlindIndex + 1) % players.size();
-
         }
     }
 
@@ -358,5 +357,12 @@ public class HoldEmGame {
             potentialWinner.setChips(potentialWinner.getChips() + pot);
             pot = 0;
         }
+    }
+
+    private void initializeBlinds(int smallBlindValue) {
+        smallBlindIndex = 0;
+        bigBlindIndex = 1;
+        smallBlind = smallBlindValue;
+        bigBlind = 2*smallBlindValue;
     }
 }

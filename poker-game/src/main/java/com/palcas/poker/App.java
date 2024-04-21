@@ -8,6 +8,7 @@ import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.display.LeaderboardDisplay;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.game.Session;
+import com.palcas.poker.input.StakeLevelChoice;
 import com.palcas.poker.input.SystemChoice;
 import com.palcas.poker.persistance.JacksonLeaderboardRepository;
 import com.palcas.poker.persistance.LeaderboardRepository;
@@ -34,12 +35,12 @@ public class App {
             // Game Loop
             while (true) {
                 DisplayElements.clearConsole();
-                // Main menu, could set some options here like "Highscore", "Settings", etc.
+                // Main menu
                 new SystemChoice(scanner)
                     .addOption("Play a round of poker").withAction(session::start)
                     .addOption("Highscore").withAction(() -> {
                             try {
-                                LeaderboardDisplay.displayLeaderboard(leaderboardRepository.getTopTen());
+                                LeaderboardDisplay.displayLeaderboard(leaderboardRepository.getTopTen(), scanner);
                             } catch (IOException e) {
                                 System.out.println("There has been a problem loading the leaderboard, please contact your admin or the developers for support...");
                                 e.printStackTrace();

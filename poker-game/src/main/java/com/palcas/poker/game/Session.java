@@ -12,7 +12,6 @@ public class Session {
     private Player mainPlayer;
 
     public Session(Player mainPlayer) {
-        //TODO if Player has already played, retrieve their chips from database/file storage
         this.mainPlayer = mainPlayer;
         this.players = new ArrayList<Player>();
         this.players.add(this.mainPlayer);

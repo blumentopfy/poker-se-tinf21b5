@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class LeaderboardDisplayTest {
     @Test public void testPrintLeaderboard() {
@@ -15,7 +16,7 @@ public class LeaderboardDisplayTest {
                 new LeaderboardEntry("David", 2100),
                 new LeaderboardEntry("Eve", 1900)
         );
-        LeaderboardDisplay.displayLeaderboard(leaderboardTopTen);
+        LeaderboardDisplay.displayLeaderboard(leaderboardTopTen, new Scanner(System.in));
     }
 
 }
