@@ -115,7 +115,7 @@ public class TexasHoldEmHandEvaluationServiceTest {
         int AgreaterB = handCheckerService.compare(selectedCardsA, selectedCardsB);
 
 
-        assertEquals(HandRanking.FULL_HOUSE, handCheckerService.check(cardsa));
+        assertEquals(HandRanking.FULL_HOUSE, handCheckerService.evaluate(cardsa));
         assertEquals(5, selectedCardsA.length);
         assertEquals(selectedCardsA[0].getRank(), Rank.TWO);
         assertEquals(selectedCardsA[1].getRank(), Rank.TWO);
@@ -123,7 +123,7 @@ public class TexasHoldEmHandEvaluationServiceTest {
         assertEquals(selectedCardsA[3].getRank(), Rank.THREE);
         assertEquals(selectedCardsA[4].getRank(), Rank.THREE);
 
-        assertEquals(HandRanking.FULL_HOUSE, handCheckerService.check(cardsb));
+        assertEquals(HandRanking.FULL_HOUSE, handCheckerService.evaluate(cardsb));
         assertEquals(5, selectedCardsB.length);
         assertEquals(selectedCardsB[0].getRank(), Rank.TWO);
         assertEquals(selectedCardsB[1].getRank(), Rank.TWO);
@@ -178,9 +178,9 @@ public class TexasHoldEmHandEvaluationServiceTest {
         Player[] winners = handCheckerService.determineWinner(playerCardMap);
 
 
-        assertEquals(HandRanking.FULL_HOUSE, handCheckerService.check(cardsa));
-        assertEquals(HandRanking.HIGH_CARD, handCheckerService.check(cardsb));
-        assertEquals(HandRanking.FLUSH, handCheckerService.check(cardsc));
+        assertEquals(HandRanking.FULL_HOUSE, handCheckerService.evaluate(cardsa));
+        assertEquals(HandRanking.HIGH_CARD, handCheckerService.evaluate(cardsb));
+        assertEquals(HandRanking.FLUSH, handCheckerService.evaluate(cardsc));
         assertEquals(1, winners.length);
         assertEquals(alice, winners[0]);
     }
@@ -227,9 +227,9 @@ public class TexasHoldEmHandEvaluationServiceTest {
 
         Player[] winners = handCheckerService.determineWinner(playerCardMap);
 
-        assertEquals(HandRanking.THREE_OF_A_KIND, handCheckerService.check(cardsd));
-        assertEquals(HandRanking.THREE_OF_A_KIND, handCheckerService.check(cardse));
-        assertEquals(HandRanking.HIGH_CARD, handCheckerService.check(cardsf));
+        assertEquals(HandRanking.THREE_OF_A_KIND, handCheckerService.evaluate(cardsd));
+        assertEquals(HandRanking.THREE_OF_A_KIND, handCheckerService.evaluate(cardse));
+        assertEquals(HandRanking.HIGH_CARD, handCheckerService.evaluate(cardsf));
 
         assertEquals(1, winners.length);
         assertEquals(dave, winners[0]);
@@ -269,9 +269,9 @@ public class TexasHoldEmHandEvaluationServiceTest {
 
         Player[] winners = handCheckerService.determineWinner(playerCardMap);
 
-        assertEquals(HandRanking.FOUR_OF_A_KIND, handCheckerService.check(cardsg));
-        assertEquals(HandRanking.FOUR_OF_A_KIND, handCheckerService.check(cardsh));
-        assertEquals(HandRanking.FOUR_OF_A_KIND, handCheckerService.check(cardsi));
+        assertEquals(HandRanking.FOUR_OF_A_KIND, handCheckerService.evaluate(cardsg));
+        assertEquals(HandRanking.FOUR_OF_A_KIND, handCheckerService.evaluate(cardsh));
+        assertEquals(HandRanking.FOUR_OF_A_KIND, handCheckerService.evaluate(cardsi));
 
         assertEquals(2, winners.length);
         assertTrue(Arrays.asList(winners).contains(grace));

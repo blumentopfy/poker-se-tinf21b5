@@ -1,16 +1,17 @@
 package com.palcas.poker.game;
 
+/*
+ * In our terminology, a Hand is the combination of pocket cards & community cards
+ * the player chooses to compete with out of all 7 cards available
+ */
 public class Hand {
     private Card[] cards; //here, only 5 cards get saved
     private HandRanking handRanking;
-
-
 
     public Hand(Card[] cardsOfCombination){
         this.handRanking = evaluateHandRanking(cards);
         //TODO select the 5 best out of the 7 and set them
     }
-
 
     public Card[] getCards() {
         return this.cards;

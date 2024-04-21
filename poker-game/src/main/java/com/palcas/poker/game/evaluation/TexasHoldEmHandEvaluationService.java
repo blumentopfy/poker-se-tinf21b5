@@ -37,7 +37,7 @@ public class TexasHoldEmHandEvaluationService implements HandEvaluationService {
     }
 
     @Override
-    public HandRanking check(Card[] all7cards) {
+    public HandRanking evaluate(Card[] all7cards) {
         if (royalFlush.containsRoyalFlush(all7cards)) {
             return HandRanking.ROYAL_FLUSH;
         } else if (straightFlush.containsStraightFlush(all7cards)) {
@@ -63,7 +63,7 @@ public class TexasHoldEmHandEvaluationService implements HandEvaluationService {
 
     @Override
     public Card[] select(Card[] all7cards) {
-        HandRanking handRanking = check(all7cards);
+        HandRanking handRanking = evaluate(all7cards);
         return switch (handRanking) {
             case ROYAL_FLUSH -> royalFlush.selectHandForRoyalFlush(all7cards);
             case STRAIGHT_FLUSH -> straightFlush.selectHandForStraightFlush(all7cards);
@@ -83,8 +83,8 @@ public class TexasHoldEmHandEvaluationService implements HandEvaluationService {
     public int compare(Card[] all7cardsA, Card[] all7cardsB) {
         Card[] handA = select(all7cardsA);
         Card[] handB = select(all7cardsB);
-        HandRanking handARanking = check(all7cardsA);
-        HandRanking handBRanking = check(all7cardsB);
+        HandRanking handARanking = evaluate(all7cardsA);
+        HandRanking handBRanking = evaluate(all7cardsB);
         if (handARanking.getValue() > handBRanking.getValue()) {
             return 1;
         } else if (handARanking.getValue() < handBRanking.getValue()) {
@@ -111,7 +111,7 @@ public class TexasHoldEmHandEvaluationService implements HandEvaluationService {
         Player[] winner;
         HashMap<Player, HandRanking> playerHandRanking = new HashMap<>();
         for (Player player : player7cards.keySet()) {
-            HandRanking handRanking = check(player7cards.get(player));
+            HandRanking handRanking = evaluate(player7cards.get(player));
             player7cards.put(player, select(player7cards.get(player)));
             playerHandRanking.put(player, handRanking);
         }

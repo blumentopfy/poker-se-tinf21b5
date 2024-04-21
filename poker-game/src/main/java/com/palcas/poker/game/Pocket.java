@@ -3,6 +3,7 @@ package com.palcas.poker.game;
 import java.util.List;
 import java.util.Objects;
 
+// Implementations of this class should represent a player's pocket, i.e. the 2 cards exclusive to him
 public abstract class Pocket {
     List<Card> cards;
 

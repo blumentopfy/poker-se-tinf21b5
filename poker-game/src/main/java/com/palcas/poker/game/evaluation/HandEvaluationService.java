@@ -6,9 +6,9 @@ import com.palcas.poker.game.Player;
 import java.util.HashMap;
 
 public interface HandEvaluationService {
-    HandRanking check (Card[] all7cards);
+    HandRanking evaluate(Card[] all7cards);
 
-    Card[] select (Card[] all7cards);
+    Card[] select(Card[] all7cards);
 
     int compare(Card[] all7cardsA, Card[] all7cardsB);
 
