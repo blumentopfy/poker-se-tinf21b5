@@ -1,5 +1,7 @@
 package com.palcas.poker.game;
 
+import com.palcas.poker.game.evaluation.HandRanking;
+
 /*
  * In our terminology, a Hand is the combination of pocket cards & community cards
  * the player chooses to compete with out of all 7 cards available

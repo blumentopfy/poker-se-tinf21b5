@@ -3,6 +3,7 @@ package com.palcas.poker.game;
 import java.util.Random;
 
 import com.palcas.poker.model.PlayerState;
+import java.util.Objects;
 
 public class Player {
     protected String name;
@@ -83,5 +84,35 @@ public class Player {
     public int generateRandomIntBetween(int min, int max) {
         Random random = new Random();
         return random.ints(min, max).findFirst().getAsInt();
+    }
+
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Player)) {
+            return false;
+        }
+        Player player = (Player) o;
+        return Objects.equals(name, player.name) && chips == player.chips && Objects.equals(pocket, player.pocket) && bet == player.bet && Objects.equals(state, player.state) && agressionLevel == player.agressionLevel && bluffAffinity == player.bluffAffinity;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, chips, pocket, bet, state, agressionLevel, bluffAffinity);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " name='" + getName() + "'" +
+            ", chips='" + getChips() + "'" +
+            ", pocket='" + getPocket() + "'" +
+            ", bet='" + getBet() + "'" +
+            ", state='" + getState() + "'" +
+            ", agressionLevel='" + getAgressionLevel() + "'" +
+            ", bluffAffinity='" + getBluffAffinity() + "'" +
+            "}";
     }
 }

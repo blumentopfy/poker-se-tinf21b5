@@ -7,10 +7,10 @@ import java.util.Optional;
 
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.Hand;
-import com.palcas.poker.game.HandRanking;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.game.Pocket;
 import com.palcas.poker.game.evaluation.HandEvaluationService;
+import com.palcas.poker.game.evaluation.HandRanking;
 
 public class BotActionService {
     private HandEvaluationService handEvaluator;

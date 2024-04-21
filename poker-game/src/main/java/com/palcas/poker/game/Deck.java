@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import com.palcas.poker.model.Rank;
 import com.palcas.poker.model.Suit;
+import java.util.Objects;
 
 public class Deck {
     private final ArrayList<Card> cards;
@@ -35,5 +36,23 @@ public class Deck {
 
     public Card drawCard() {
         return cards.remove(0);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Deck)) {
+            return false;
+        }
+        Deck deck = (Deck) o;
+        return Objects.equals(cards, deck.cards);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " cards='" + getCards() + "'" +
+            "}";
     }
 }

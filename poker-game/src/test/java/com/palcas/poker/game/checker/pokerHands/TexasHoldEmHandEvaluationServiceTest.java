@@ -1,9 +1,9 @@
 package com.palcas.poker.game.checker.pokerHands;
 
 import com.palcas.poker.game.Card;
-import com.palcas.poker.game.HandRanking;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.game.evaluation.HandEvaluationService;
+import com.palcas.poker.game.evaluation.HandRanking;
 import com.palcas.poker.game.evaluation.TexasHoldEmHandEvaluationService;
 import com.palcas.poker.model.Rank;
 import com.palcas.poker.model.Suit;

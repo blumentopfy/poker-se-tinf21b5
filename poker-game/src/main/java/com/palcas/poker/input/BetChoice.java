@@ -4,11 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
-
 import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.game.Player;
-
-
 
 public class BetChoice implements LimitedChoice {
     private Scanner scanner;

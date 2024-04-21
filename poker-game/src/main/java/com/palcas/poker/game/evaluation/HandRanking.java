@@ -1,4 +1,4 @@
-package com.palcas.poker.game;
+package com.palcas.poker.game.evaluation;
 
 public enum HandRanking {
     ROYAL_FLUSH("Royal Flush", 9),
