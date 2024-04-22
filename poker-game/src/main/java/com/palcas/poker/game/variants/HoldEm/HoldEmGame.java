@@ -171,6 +171,25 @@ public class HoldEmGame {
         ArrayList<Player> winners = determineWinners(playersWithPockets, communityCards);
     }
 
+    private void splitPot(List<Player> winners) {
+        if (winners.isEmpty()) {
+            System.out.println("No winners to split the pot.");
+            return;
+        }
+        int chipsPerWinner = pot / winners.size();  // this automatically rounds down to the nearest whole number
+        for (Player winner : winners) {
+            winner.addChips(chipsPerWinner);
+            System.out.println(winner.getName() + " wins " + chipsPerWinner + " chips!");
+        }
+
+        // If there's a remainder, keep them in the pot for next round
+        int remainder = pot % winners.size();
+        if (remainder > 0 && !winners.isEmpty()) {
+            System.out.println("The remaining " + remainder + " chips can't be distributed equally, so they stay in the pot for the next round!");
+        }
+        pot = remainder;
+    }
+
     private ArrayList<Player> determineWinners(HashMap<Player, HoldEmPocket> playersWithPockets, List<Card> communityCards) {
         // Bring Information in right Format for handEvaluationService.determineWinner
         HashMap<Player, Card[]> playersWithPocketAndBoardCards = new HashMap<>();

@@ -26,6 +26,10 @@ public class Player {
         this.chips = 0;
     }
 
+    public void addChips(int amountToAdd) {
+        chips += amountToAdd;
+    }
+
     public String getName() {
         return name;
     }
