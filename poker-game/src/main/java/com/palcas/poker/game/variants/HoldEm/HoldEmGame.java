@@ -133,25 +133,6 @@ public class HoldEmGame {
         HoldEmGame.playerToHighestBet = new SimpleEntry<>(players.get(bigBlindIndex), bigBlind);
     }
 
-    /**
-     * One round in the game:
-     * first round of bets
-     *      flop
-     *      second round of bets
-     *      turn
-     *      third round of bets
-     *      river
-     *      fourth round of bets
-     * if players > 1
-     *      check winner
-     *
-     *
-     * Betting:
-     *      First round betting starts after bigblind
-     *      Bets have to be at least big blind
-     *      Betting ends if a round is complete without a re-raise
-     *
-     */
     private void roundLoop(int bigBlindIndex) {
 
         // Distribute pocket cards
@@ -162,7 +143,7 @@ public class HoldEmGame {
         // Preflop-Betting
         BoardDisplay.printPreFlopBoard("Preflop-Betting", mainPlayerCards);
         
-        startBettingLoop(bigBlindIndex);
+        bettingLoop(bigBlindIndex);
 
         // Flop
         for (int i = 0; i < 3; i++) {
@@ -170,19 +151,19 @@ public class HoldEmGame {
         }
         BoardDisplay.printPostFlopBoard("Flop", mainPlayerCards, communityCards);
         System.out.println("Starting flop betting.");
-        startBettingLoop(bigBlindIndex);
+        bettingLoop(bigBlindIndex);
 
         // Turn
         communityCards.add(deck.drawCard());
         BoardDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
         System.out.println("Starting turn betting.");
-        startBettingLoop(bigBlindIndex);
+        bettingLoop(bigBlindIndex);
 
         // River
         communityCards.add(deck.drawCard());
         BoardDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
         System.out.println("Starting river betting.");
-        startBettingLoop(bigBlindIndex);
+        bettingLoop(bigBlindIndex);
 
         // Check winner
     }
@@ -319,7 +300,7 @@ public class HoldEmGame {
     return true;
     }
 
-    private void startBettingLoop(int bigBlindIndex) {
+    private void bettingLoop(int bigBlindIndex) {
 
         // Start betting at index of big blind + 1
         // Since this will overflow, we will take the modulo of the player count
