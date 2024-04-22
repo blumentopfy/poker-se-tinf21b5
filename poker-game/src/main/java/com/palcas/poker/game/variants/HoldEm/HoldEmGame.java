@@ -11,6 +11,8 @@ import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.Deck;
 import com.palcas.poker.game.Player;
+import com.palcas.poker.game.evaluation.HandEvaluationService;
+import com.palcas.poker.game.evaluation.TexasHoldEmHandEvaluationService;
 import com.palcas.poker.input.*;
 import com.palcas.poker.model.PlayerState;
 
@@ -166,9 +168,27 @@ public class HoldEmGame {
         bettingLoop(bigBlindIndex);
 
         // Check winner
+        ArrayList<Player> winners = determineWinners(playersWithPockets, communityCards);
     }
 
-    
+    private ArrayList<Player> determineWinners(HashMap<Player, HoldEmPocket> playersWithPockets, List<Card> communityCards) {
+        // Bring Information in right Format for handEvaluationService.determineWinner
+        HashMap<Player, Card[]> playersWithPocketAndBoardCards = new HashMap<>();
+        for (Player player : players) {
+            Card[] all7cardsOfPlayer = new Card[7];
+            for (int i = 0; i < 5; i++) {
+                all7cardsOfPlayer[i] = communityCards.get(i);
+            }
+            all7cardsOfPlayer[5] = playersWithPockets.get(player).getCards().get(0);
+            all7cardsOfPlayer[6] = playersWithPockets.get(player).getCards().get(0);
+            playersWithPocketAndBoardCards.put(player, all7cardsOfPlayer);
+        }
+        // Determine Winner
+        HandEvaluationService handEvaluationService = new TexasHoldEmHandEvaluationService();
+        return new ArrayList<>(Arrays.asList(handEvaluationService.determineWinner(playersWithPocketAndBoardCards)));
+    }
+
+
     private LinkedHashMap<Player, HoldEmPocket> distributePocketCards() {
         LinkedHashMap<Player, HoldEmPocket> playersWithPockets = new LinkedHashMap<>();
         for (Player player : this.players) {
