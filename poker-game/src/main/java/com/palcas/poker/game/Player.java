@@ -26,8 +26,13 @@ public class Player {
         this.chips = 0;
     }
 
+    //TODO implement persisting for addChips and substractChips
     public void addChips(int amountToAdd) {
         chips += amountToAdd;
+    }
+
+    public void substractChips(int amountToSubstract) {
+        chips -= amountToSubstract;
     }
 
     public String getName() {

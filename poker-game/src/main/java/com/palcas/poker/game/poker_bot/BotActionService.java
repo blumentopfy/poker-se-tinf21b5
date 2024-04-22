@@ -20,7 +20,7 @@ public class BotActionService {
     }
 
     //TODO implement bluffing
-    public BotAction decidePreFlipAction(Player bot, ArrayList<Player> players, int bigBlindAmount) {
+    public BotAction decidePreFlopAction(Player bot, ArrayList<Player> players, int bigBlindAmount) {
         Pocket pocket = bot.getPocket();
         List<Card> pocketCards = pocket.getCards();
         
@@ -34,7 +34,7 @@ public class BotActionService {
             double secondRankMultiplier = pocketCards.get(1).getRank().getValue() / 10;
             double finalMultiplier = (firstRankMultiplier + secondRankMultiplier) / 4;
 
-            if (randomFoldWithProbabilityOf(finalMultiplier)) {
+            if (foldRandomlyWithProbabilityOf(finalMultiplier)) {
                 return new BotAction(BotAction.ActionType.FOLD);
             } else {
                 return new BotAction(BotAction.ActionType.CALL);
@@ -66,14 +66,14 @@ public class BotActionService {
         Card[] communityCardsAndBotPocketAsArray = communityCardsAndBotPocket.toArray(Card[]::new);
         HandRanking botHandRanking = handEvaluator.evaluate(communityCardsAndBotPocketAsArray);
 
-        if (randomFoldWithProbabilityOf(botHandRanking.getValue() / 10)) {
+        if (foldRandomlyWithProbabilityOf(botHandRanking.getValue() / 10)) {
             return new BotAction(BotAction.ActionType.FOLD);
         } 
 
         return new BotAction(BotAction.ActionType.CALL);
     }
 
-    private boolean randomFoldWithProbabilityOf(double foldProbability) {
+    private boolean foldRandomlyWithProbabilityOf(double foldProbability) {
         return Math.random() < foldProbability;
     }
 
