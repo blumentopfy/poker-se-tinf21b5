@@ -2,21 +2,19 @@ package com.palcas.poker.game;
 
 import java.util.HashMap;
 import java.util.List;
-
-import com.palcas.poker.game.variants.HoldEm.HoldEmPocket;
 import java.util.Objects;
 
 public abstract class GameState {
     Player mainPlayer;
     List<Player> players;
-    HashMap<Player, HoldEmPocket> playersWithPockets;
+    HashMap<Player, Pocket> playersWithPockets;
     int bigBlindIndex;
     int smallBlindIndex;
     int pot;
     int roundsPlayed;
     int roundsWonByMainPlayer;
 
-    public GameState(Player mainPlayer, List<Player> players, HashMap<Player,HoldEmPocket> playersWithPockets, int bigBlindIndex, int smallBlindIndex, int pot, int roundsPlayed, int roundsWonByMainPlayer) {
+    public GameState(Player mainPlayer, List<Player> players, HashMap<Player,Pocket> playersWithPockets, int bigBlindIndex, int smallBlindIndex, int pot, int roundsPlayed, int roundsWonByMainPlayer) {
         this.mainPlayer = mainPlayer;
         this.players = players;
         this.playersWithPockets = playersWithPockets;
@@ -43,11 +41,11 @@ public abstract class GameState {
         this.players = players;
     }
 
-    public HashMap<Player,HoldEmPocket> getPlayersWithPockets() {
+    public HashMap<Player,Pocket> getPlayersWithPockets() {
         return this.playersWithPockets;
     }
 
-    public void setPlayersWithPockets(HashMap<Player,HoldEmPocket> playersWithPockets) {
+    public void setPlayersWithPockets(HashMap<Player,Pocket> playersWithPockets) {
         this.playersWithPockets = playersWithPockets;
     }
 
@@ -101,7 +99,7 @@ public abstract class GameState {
         return this;
     }
 
-    public GameState playersWithPockets(HashMap<Player,HoldEmPocket> playersWithPockets) {
+    public GameState playersWithPockets(HashMap<Player,Pocket> playersWithPockets) {
         setPlayersWithPockets(playersWithPockets);
         return this;
     }

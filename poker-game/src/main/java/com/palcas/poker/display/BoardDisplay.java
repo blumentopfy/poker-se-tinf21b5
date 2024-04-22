@@ -60,5 +60,4 @@ public class BoardDisplay {
         displayColoredPokerBoard(communityCards.toArray(new Card[0]));
         DisplayElements.printSeperator();
     }
-
 }
