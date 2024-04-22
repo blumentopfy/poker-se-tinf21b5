@@ -231,7 +231,7 @@ public class HoldEmGame {
             //TODO implement AI
             // AIBehavior.decideAction();
             // should return 
-            player.setState(PlayerState.CALL);
+            player.setState(PlayerState.CALLED);
             System.out.println(player.getName() + " calls.");
         }
     }
@@ -242,7 +242,7 @@ public class HoldEmGame {
             bet(player);
             return;
         } else {
-            player.setState(PlayerState.CHECK);
+            player.setState(PlayerState.CHECKED);
             if (player == this.mainPlayer) {
                 System.out.println("You check.");
             } else {
@@ -296,7 +296,7 @@ public class HoldEmGame {
     }
 
     private void fold(Player player) {
-        player.setState(PlayerState.FOLD);
+        player.setState(PlayerState.FOLDED);
         if (player == this.mainPlayer) {
             System.out.println("You fold.");
         } else {
@@ -327,10 +327,10 @@ public class HoldEmGame {
             if (player.getState() == PlayerState.WAITING_TO_BET) {
                 return false;
             // ... or a player has checked and has not called the highest bet/raise
-            } else if (player.getState() == PlayerState.CHECK && player.getBet() != playerToHighestBet.getValue()) {
+            } else if (player.getState() == PlayerState.CHECKED && player.getBet() != playerToHighestBet.getValue()) {
                 return false;
             // ... or a player has raised but not to the currently highest bet
-            } else if (player.getState() == PlayerState.RAISE && player.getBet() != playerToHighestBet.getValue()) {
+            } else if (player.getState() == PlayerState.RAISED && player.getBet() != playerToHighestBet.getValue()) {
                 return false;
             }
         }
@@ -365,7 +365,7 @@ public class HoldEmGame {
         int playersNotFoldedCount = 0;
         Player potentialWinner = null;
         for (Player player : players) {
-            if (player.getState() != PlayerState.FOLD) {
+            if (player.getState() != PlayerState.FOLDED) {
                 playersNotFoldedCount++;
                 potentialWinner = player;
             }
