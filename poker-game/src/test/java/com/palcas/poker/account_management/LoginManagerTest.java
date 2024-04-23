@@ -19,7 +19,7 @@ public class LoginManagerTest {
 
     @BeforeAll
     public static void setUp() {
-        loginManager = new LoginManager(new JacksonAccountRepository(JacksonPersistenceSettings.testAccountFilePath));
+        loginManager = new LoginManager(new JacksonAccountRepository(JacksonPersistenceSettings.TEST_ACCOUNT_FILE_PATH));
     }
 
     @BeforeEach
@@ -31,7 +31,7 @@ public class LoginManagerTest {
                 + "{\"name\": \"Georg\", \"passwordHash\": \"634aa687c3365f3d3ac110f61542a4fcf839b5efba21b6893d201a63aa8ecda6\", \"passwordSalt\": \"9572\", \"chips\": 2000}"
                 + "]";
 
-        try (FileWriter writer = new FileWriter(JacksonPersistenceSettings.testAccountFilePath)) {
+        try (FileWriter writer = new FileWriter(JacksonPersistenceSettings.TEST_ACCOUNT_FILE_PATH)) {
             writer.write(accountTestData);
         } catch (IOException e) {
             throw new RuntimeException(e);

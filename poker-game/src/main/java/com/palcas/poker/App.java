@@ -30,7 +30,7 @@ public class App {
                     .executeChoice();
 
             Session session = new Session(mainPlayer);
-            LeaderboardRepository leaderboardRepository = new JacksonLeaderboardRepository(JacksonPersistenceSettings.leaderboardFilePath);
+            LeaderboardRepository leaderboardRepository = new JacksonLeaderboardRepository(JacksonPersistenceSettings.LEADERBOARD_FILE_PATH);
 
             // Game Loop
             while (true) {

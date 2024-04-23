@@ -17,7 +17,7 @@ public class JacksonAccountRepositoryTest {
 
     @BeforeAll
     public static void setUp() {
-        accountRepository = new JacksonAccountRepository(JacksonPersistenceSettings.testAccountFilePath);
+        accountRepository = new JacksonAccountRepository(JacksonPersistenceSettings.TEST_ACCOUNT_FILE_PATH);
         String testData = "["
                 + "{\"name\": \"Alice\", \"passwordHash\": \"e55a9d387402d3e84953f3b584a62eb5c8d9f796f1e1313cb6c6dc395f260d37\", \"passwordSalt\": \"1337\", \"chips\": 1000}, "
                 + "{\"name\": \"Bob\", \"passwordHash\": \"013bd4cdf01910a5a02bb51ad7b50de82553a1d31827ed5c1f6760bca326dcc2\", \"passwordSalt\": \"69\", \"chips\": 2000}"
@@ -25,7 +25,7 @@ public class JacksonAccountRepositoryTest {
 
 
         // Testdaten in die Datei schreiben
-        try (FileWriter writer = new FileWriter(JacksonPersistenceSettings.testAccountFilePath)) {
+        try (FileWriter writer = new FileWriter(JacksonPersistenceSettings.TEST_ACCOUNT_FILE_PATH)) {
             System.out.println("set up the test data");
             writer.write(testData);
         } catch (IOException e) {

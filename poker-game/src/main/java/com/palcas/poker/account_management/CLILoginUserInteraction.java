@@ -13,7 +13,7 @@ public class CLILoginUserInteraction implements LoginUserInteraction{
     LoginManager loginManager;
     public CLILoginUserInteraction() {
         scanner = new Scanner(System.in);
-        loginManager = new LoginManager(new JacksonAccountRepository(JacksonPersistenceSettings.accountfilePath));
+        loginManager = new LoginManager(new JacksonAccountRepository(JacksonPersistenceSettings.ACCOUNT_FILE_PATH));
     }
 
     @Override

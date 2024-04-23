@@ -18,7 +18,7 @@ public class JacksonLeaderboardRepositoryTest {
 
     @BeforeAll
     public static void setUp() {
-        leaderboardRepository = new JacksonLeaderboardRepository(JacksonPersistenceSettings.testLeaderboardFilePath);
+        leaderboardRepository = new JacksonLeaderboardRepository(JacksonPersistenceSettings.TEST_LEADERBOARD_FILE_PATH);
     }
 
     @BeforeEach void setUpTestData() {
@@ -29,7 +29,7 @@ public class JacksonLeaderboardRepositoryTest {
                 + "{\"name\": \"David\", \"chips\": 2100}, "
                 + "{\"name\": \"Eve\", \"chips\": 1900}"
                 + "]";
-        try (FileWriter writer = new FileWriter(JacksonPersistenceSettings.testLeaderboardFilePath)) {
+        try (FileWriter writer = new FileWriter(JacksonPersistenceSettings.TEST_LEADERBOARD_FILE_PATH)) {
             writer.write(leaderboardTestData);
         } catch (IOException e) {
             throw new RuntimeException(e);
