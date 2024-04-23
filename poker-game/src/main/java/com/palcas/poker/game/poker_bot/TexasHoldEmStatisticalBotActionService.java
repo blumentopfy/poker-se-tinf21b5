@@ -49,7 +49,7 @@ public class TexasHoldEmStatisticalBotActionService implements BotActionService{
                     throw new IllegalStateException("bot is already all in, he doesn't have to decide this round");
                 } else {
                     BotAction allInAction = new BotAction(BotAction.ActionType.RAISE);
-                    allInAction.setRaiseAmount(overallChipsOfBot);
+                    allInAction.setRaiseAmount(bot.getChips());
                     return allInAction;
                 }
             }
@@ -61,7 +61,7 @@ public class TexasHoldEmStatisticalBotActionService implements BotActionService{
         } else {
             // if highest justifiable bet is higher than what is bet at the moment --> bet higher
             BotAction raiseAction = new BotAction(BotAction.ActionType.RAISE);
-            raiseAction.setRaiseAmount(highestJustifiableBet);
+            raiseAction.setRaiseAmount(highestJustifiableBet - bot.getBet());
             return raiseAction;
         }
     }

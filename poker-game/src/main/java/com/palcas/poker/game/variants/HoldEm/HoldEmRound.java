@@ -200,8 +200,8 @@ public class HoldEmRound extends Round {
         int chipsToRaise = (int) raiseAmountOptional.get();
 
         // check if raise is higher than current highest bet
-        if (chipsToRaise < playerToHighestBet.getValue()) {
-            System.out.println("You have to raise at least " + playerToHighestBet.getValue() + " to raise.");
+        if (chipsToRaise + player.getBet() < playerToHighestBet.getValue()) {
+            System.out.println("You have to raise at least to " + playerToHighestBet.getValue() + " to raise.");
             bet(player);
             return;
         // check if player has enough chips
@@ -213,6 +213,7 @@ public class HoldEmRound extends Round {
             player.setBet(player.getBet() + chipsToRaise);
             player.setChips(player.getChips() - chipsToRaise);
 
+            //TODO does this ever get executed?
             if (player != gameState.getMainPlayer()) {
                 System.out.println(player.getName() + " raises by " + chipsToRaise + ".");
             }

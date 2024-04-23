@@ -14,7 +14,7 @@ public class RaiseChoice implements ChoiceWithOpenOption {
 
     @Override
     public Optional<Object> executeChoice() {
-        System.out.println("Please enter the amount you want to raise:");
+        System.out.println("Please enter the amount you want to raise by:");
 
         while (true) {
             try {

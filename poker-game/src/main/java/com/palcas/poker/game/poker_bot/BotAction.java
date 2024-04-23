@@ -2,6 +2,8 @@ package com.palcas.poker.game.poker_bot;
 
 public class BotAction {
     private ActionType actionType;
+
+    // this is the relative raise amount by which the bet of the player will be increased
     private Integer raiseAmount;
 
     public enum ActionType {
