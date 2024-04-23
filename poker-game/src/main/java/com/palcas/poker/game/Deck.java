@@ -55,4 +55,8 @@ public class Deck {
             " cards='" + getCards() + "'" +
             "}";
     }
+
+    public void removeCard(Card card) {
+        cards.remove(card);
+    }
 }

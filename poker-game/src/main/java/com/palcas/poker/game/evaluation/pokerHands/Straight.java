@@ -45,7 +45,7 @@ public class Straight {
         Card[] selected5cards = new Card[5];
         for (Rank rank : descendingSortedRanks) {
             if (streak == 5) {
-                break;
+                return selected5cards;
             }
             if (countedRanks.get(rank) >= 1) {
                 selected5cards[streak++] = cardsStatistics.getCardByRank(all7cards, rank);
