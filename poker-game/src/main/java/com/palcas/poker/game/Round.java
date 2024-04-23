@@ -3,13 +3,13 @@ package com.palcas.poker.game;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.palcas.poker.game.poker_bot.BotActionService;
+import com.palcas.poker.game.poker_bot.TexasHoldEmBotActionService;
 import com.palcas.poker.game.variants.HoldEm.HoldEmPocket;
 import java.util.Objects;
 
 public abstract class Round {
     GameState gameState;
-    BotActionService botActionService;
+    TexasHoldEmBotActionService botActionService;
     List<Card> mainPlayerCards;
     List<Card> communityCards;
 
@@ -28,7 +28,7 @@ public abstract class Round {
     protected abstract void fold(Player player);
     protected abstract boolean checkIfBettingOver();
     
-    public Round(GameState gameState, BotActionService botActionService, List<Card> mainPlayerCards, List<Card> communityCards) {
+    public Round(GameState gameState, TexasHoldEmBotActionService botActionService, List<Card> mainPlayerCards, List<Card> communityCards) {
         this.gameState = gameState;
         this.botActionService = botActionService;
         this.mainPlayerCards = mainPlayerCards;
@@ -43,11 +43,11 @@ public abstract class Round {
         this.gameState = gameState;
     }
 
-    public BotActionService getBotActionService() {
+    public TexasHoldEmBotActionService getBotActionService() {
         return this.botActionService;
     }
 
-    public void setBotActionService(BotActionService botActionService) {
+    public void setBotActionService(TexasHoldEmBotActionService botActionService) {
         this.botActionService = botActionService;
     }
 
@@ -72,7 +72,7 @@ public abstract class Round {
         return this;
     }
 
-    public Round botActionService(BotActionService botActionService) {
+    public Round botActionService(TexasHoldEmBotActionService botActionService) {
         setBotActionService(botActionService);
         return this;
     }
