@@ -1,28 +1,37 @@
 package com.palcas.poker.game;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Objects;
 
-public abstract class GameState {
-    Player mainPlayer;
-    List<Player> players;
-    HashMap<Player, Pocket> playersWithPockets;
-    int bigBlindIndex;
-    int smallBlindIndex;
-    int pot;
-    int roundsPlayed;
-    int roundsWonByMainPlayer;
+public class GameState {
+    public Player mainPlayer;
+    public List<Player> players;
+    public int bigBlindIndex;
+    public int smallBlindIndex;
+    public int bigBlind;
+    public int smallBlind;
+    public int pot;
+    private HashMap<Player, Pocket> playersWithPockets;
+    private List<Card> communityCards;
+    private Deck deck;
+    private int roundsPlayed;
+    private int roundsWonByMainPlayer;
+    private SimpleEntry<Player, Integer> playerToHighestBet;
+    private List<Player> winners;
 
-    public GameState(Player mainPlayer, List<Player> players, HashMap<Player,Pocket> playersWithPockets, int bigBlindIndex, int smallBlindIndex, int pot, int roundsPlayed, int roundsWonByMainPlayer) {
+    public GameState(Player mainPlayer, ArrayList<Player> players) {
         this.mainPlayer = mainPlayer;
         this.players = players;
-        this.playersWithPockets = playersWithPockets;
-        this.bigBlindIndex = bigBlindIndex;
-        this.smallBlindIndex = smallBlindIndex;
-        this.pot = pot;
-        this.roundsPlayed = roundsPlayed;
-        this.roundsWonByMainPlayer = roundsWonByMainPlayer;
+        this.playersWithPockets = new HashMap<Player, Pocket>();
+        this.bigBlindIndex = 1;
+        this.smallBlindIndex = 0;
+        this.pot = 0;
+        this.roundsPlayed = 0;
+        this.roundsWonByMainPlayer = 0;
     }
 
     public Player getMainPlayer() {
@@ -89,44 +98,36 @@ public abstract class GameState {
         this.roundsWonByMainPlayer = roundsWonByMainPlayer;
     }
 
-    public GameState mainPlayer(Player mainPlayer) {
-        setMainPlayer(mainPlayer);
-        return this;
+    public Deck getDeck() {
+        return this.deck;
     }
 
-    public GameState players(List<Player> players) {
-        setPlayers(players);
-        return this;
+    public void setDeck(Deck deck) {
+        this.deck = deck;
     }
 
-    public GameState playersWithPockets(HashMap<Player,Pocket> playersWithPockets) {
-        setPlayersWithPockets(playersWithPockets);
-        return this;
+    public Entry<Player, Integer> getPlayerToHighestBet() {
+        return this.playerToHighestBet;
     }
 
-    public GameState bigBlindIndex(int bigBlindIndex) {
-        setBigBlindIndex(bigBlindIndex);
-        return this;
+    public void setPlayerToHighestBet(SimpleEntry<Player, Integer> playerToHighestBet) {
+        this.playerToHighestBet = playerToHighestBet;
     }
 
-    public GameState smallBlindIndex(int smallBlindIndex) {
-        setSmallBlindIndex(smallBlindIndex);
-        return this;
+    public List<Card> getCommunityCards() {
+        return this.communityCards;
     }
 
-    public GameState pot(int pot) {
-        setPot(pot);
-        return this;
+    public void setCommunityCards(List<Card> communityCards) {
+        this.communityCards = communityCards;
     }
 
-    public GameState roundsPlayed(int roundsPlayed) {
-        setRoundsPlayed(roundsPlayed);
-        return this;
+    public List<Player> getWinners() {
+        return this.winners;
     }
 
-    public GameState roundsWonByMainPlayer(int roundsWonByMainPlayer) {
-        setRoundsWonByMainPlayer(roundsWonByMainPlayer);
-        return this;
+    public void setWinners(List<Player> winners) {
+        this.winners = winners;
     }
 
     @Override

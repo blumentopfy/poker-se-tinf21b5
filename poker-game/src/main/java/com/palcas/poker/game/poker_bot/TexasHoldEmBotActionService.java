@@ -11,16 +11,17 @@ import com.palcas.poker.game.Player;
 import com.palcas.poker.game.Pocket;
 import com.palcas.poker.game.evaluation.HandEvaluationService;
 import com.palcas.poker.game.evaluation.HandRanking;
+import com.palcas.poker.game.evaluation.TexasHoldEmHandEvaluationService;
 
-public class TexasHoldEmBotActionService {
+public class TexasHoldEmBotActionService extends BotActionService {
     private HandEvaluationService handEvaluator;
 
-    public TexasHoldEmBotActionService(HandEvaluationService handEvaluator) {
-        this.handEvaluator = handEvaluator;
+    public TexasHoldEmBotActionService() {
+        this.handEvaluator = new TexasHoldEmHandEvaluationService();
     }
 
     //TODO implement bluffing
-    public BotAction decidePreFlopAction(Player bot, ArrayList<Player> players, int bigBlindAmount) {
+    public BotAction decidePreFlopAction(Player bot, List<Player> players, int bigBlindAmount) {
         Pocket pocket = bot.getPocket();
         List<Card> pocketCards = pocket.getCards();
         
@@ -73,7 +74,7 @@ public class TexasHoldEmBotActionService {
         return new BotAction(BotAction.ActionType.CALL);
     }
 
-    private boolean foldRandomlyWithProbabilityOf(double foldProbability) {
+    protected boolean foldRandomlyWithProbabilityOf(double foldProbability) {
         return Math.random() < foldProbability;
     }
 
