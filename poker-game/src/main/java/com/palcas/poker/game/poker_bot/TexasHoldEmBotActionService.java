@@ -5,15 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import com.palcas.poker.game.Card;
-import com.palcas.poker.game.Hand;
-import com.palcas.poker.game.Player;
-import com.palcas.poker.game.Pocket;
+import com.palcas.poker.game.*;
 import com.palcas.poker.game.evaluation.HandEvaluationService;
 import com.palcas.poker.game.evaluation.HandRanking;
 import com.palcas.poker.game.evaluation.TexasHoldEmHandEvaluationService;
 
-public class TexasHoldEmBotActionService extends BotActionService {
+public class TexasHoldEmBotActionService implements BotActionService {
     private HandEvaluationService handEvaluator;
 
     public TexasHoldEmBotActionService() {
@@ -46,7 +43,7 @@ public class TexasHoldEmBotActionService extends BotActionService {
 
             // Calculate the raise amount based on the pair rank, agression level, and randomness
             int raiseAmount = bigBlindAmount * calculateRaiseMultiplier(pairRank, bot.getAggressionLevel());
-            
+
             // Checks whether bot has enoug chips to raise, else reduce amount
             raiseAmount = checkIfRaiseAmountIsLegal(bot, raiseAmount);
 
@@ -57,7 +54,7 @@ public class TexasHoldEmBotActionService extends BotActionService {
     //TODO implement bluffing
     //TODO implement checking for flush and straight draws
     //TODO implement checking for pairs, two pairs, three of a kind, full house, four of a kind
-    public BotAction decideFlopAction(Player bot, List<Card> communityCards) {
+    public BotAction decidePostFlopAction(Player bot, List<Card> communityCards, GameState gameState) {
         // Create new object holding both the community cards and the bot's pocket cards
         List<Card> communityCardsAndBotPocket = new ArrayList<>();
         communityCardsAndBotPocket.addAll(communityCards);
@@ -74,7 +71,7 @@ public class TexasHoldEmBotActionService extends BotActionService {
         return new BotAction(BotAction.ActionType.CALL);
     }
 
-    protected boolean foldRandomlyWithProbabilityOf(double foldProbability) {
+    public boolean foldRandomlyWithProbabilityOf(double foldProbability) {
         return Math.random() < foldProbability;
     }
 
