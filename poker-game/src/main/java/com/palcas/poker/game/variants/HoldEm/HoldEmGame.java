@@ -152,8 +152,8 @@ public class HoldEmGame {
 
     private void checkLosers() {
         for (Player player : gameState.players) {
-            if (player.getChips() == 0) {
-                System.out.println(player.getName() + " is out of chips and has lost the game.");
+            if (player.getChips() <= gameState.bigBlind) {
+                System.out.println(player.getName() + " doesn't have enough chips and has lost the game.");
                 gameState.players.remove(player);
             }
         }

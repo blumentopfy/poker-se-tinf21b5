@@ -45,7 +45,7 @@ public class TexasHoldEmBotActionService extends BotActionService {
             int pairRank = pocketCards.get(0).getRank().getValue();
 
             // Calculate the raise amount based on the pair rank, agression level, and randomness
-            int raiseAmount = bigBlindAmount * calculateRaiseMultiplier(pairRank, bot.getAgressionLevel());
+            int raiseAmount = bigBlindAmount * calculateRaiseMultiplier(pairRank, bot.getAggressionLevel());
             
             // Checks whether bot has enoug chips to raise, else reduce amount
             raiseAmount = checkIfRaiseAmountIsLegal(bot, raiseAmount);
