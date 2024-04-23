@@ -11,13 +11,13 @@ public class Player {
     private Pocket pocket;
     private int bet;
     private PlayerState state;
-    private int agressionLevel;
+    private int aggressionLevel;
     private int bluffAffinity;
 
     public Player(String name, int chips) {
         this.name = name;
         this.chips = chips;
-        this.agressionLevel = generateRandomIntBetween(1, 100);
+        this.aggressionLevel = generateRandomIntBetween(1, 100);
         this.bluffAffinity = generateRandomIntBetween(1, 100);
     }
 
@@ -74,12 +74,12 @@ public class Player {
         this.name = name;
     }
 
-    public int getAgressionLevel() {
-        return this.agressionLevel;
+    public int getAggressionLevel() {
+        return this.aggressionLevel;
     }
 
-    public void setAgressionLevel(int agressionLevel) {
-        this.agressionLevel = agressionLevel;
+    public void setAggressionLevel(int aggressionLevel) {
+        this.aggressionLevel = aggressionLevel;
     }
 
     public int getBluffAffinity() {
@@ -104,12 +104,12 @@ public class Player {
             return false;
         }
         Player player = (Player) o;
-        return Objects.equals(name, player.name) && chips == player.chips && Objects.equals(pocket, player.pocket) && bet == player.bet && Objects.equals(state, player.state) && agressionLevel == player.agressionLevel && bluffAffinity == player.bluffAffinity;
+        return Objects.equals(name, player.name) && chips == player.chips && Objects.equals(pocket, player.pocket) && bet == player.bet && Objects.equals(state, player.state) && aggressionLevel == player.aggressionLevel && bluffAffinity == player.bluffAffinity;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, chips, pocket, bet, state, agressionLevel, bluffAffinity);
+        return Objects.hash(name, chips, pocket, bet, state, aggressionLevel, bluffAffinity);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class Player {
             ", pocket='" + getPocket() + "'" +
             ", bet='" + getBet() + "'" +
             ", state='" + getState() + "'" +
-            ", agressionLevel='" + getAgressionLevel() + "'" +
+            ", agressionLevel='" + getAggressionLevel() + "'" +
             ", bluffAffinity='" + getBluffAffinity() + "'" +
             "}";
     }
