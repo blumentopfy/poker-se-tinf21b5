@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.palcas.poker.constants.PlayerNames;
 import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.game.Deck;
+import com.palcas.poker.game.GameResult;
 import com.palcas.poker.game.GameState;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.game.PokerGame;
@@ -17,17 +18,22 @@ import com.palcas.poker.model.PlayerState;
 public class HoldEmGame extends PokerGame {
     private final Scanner scanner;
     private final Player mainPlayer;
+    private final int initialMainPlayerChips;
     private final TexasHoldEmBotActionService botActionService;
     private GameState gameState;
+    public static int chipsWon;
+    public static int roundsWon;
 
     public HoldEmGame(Player mainPlayer, ArrayList<Player> players) {
         this.gameState = new GameState(mainPlayer, players);
         this.mainPlayer = mainPlayer;
+        this.initialMainPlayerChips = mainPlayer.getChips();
         this.scanner = new Scanner(System.in);
         this.botActionService = new TexasHoldEmBotActionService();
+        chipsWon = 0;
     }
 
-    public void start() {
+    public GameResult playGame() {
         DisplayElements.clearConsole();
         System.out.println("Starting a game of Texas Hold'em...");
 
@@ -70,10 +76,20 @@ public class HoldEmGame extends PokerGame {
         startPokerGameLoop();
 
         //TODO save progress of the player
+
+        int chipsChange = mainPlayer.getChips() - initialMainPlayerChips;
+        GameResult gameResult = new GameResult(mainPlayer, 
+                                        chipsChange, 
+                                        chipsWon, 
+                                        roundsPlayed, 
+                                        roundsWon);
+        
+        return gameResult;
     }
 
     protected void startPokerGameLoop() {
-        while (true) {
+        boolean gameRunning = true;
+        while (gameRunning) {
             DisplayElements.clearConsole();
             System.out.println("Starting round " + gameState.getRoundsPlayed() + ".");
             // reset player states to WAITING_TO_BET and bets to 0
@@ -84,9 +100,13 @@ public class HoldEmGame extends PokerGame {
 
             setBlinds();
 
-            new HoldEmRound(gameState, botActionService).executeRound();
+            gameState = new HoldEmRound(gameState, botActionService).executeRound();
+            roundsPlayed++;
 
-            checkLosers();
+            //TODO process new gameState / winners in gameState
+            //processWinners();
+
+            gameRunning = checkLosers();
 
             gameState.setRoundsPlayed(gameState.getRoundsPlayed() + 1);
             adjustBlinds(gameState.getRoundsPlayed());
@@ -94,6 +114,8 @@ public class HoldEmGame extends PokerGame {
             // rotate blinds
             gameState.smallBlindIndex = (gameState.smallBlindIndex + 1) % gameState.players.size();
             gameState.bigBlindIndex = (gameState.bigBlindIndex + 1) % gameState.players.size();
+
+            roundsPlayed++;
         }
     }
 
@@ -125,6 +147,7 @@ public class HoldEmGame extends PokerGame {
         gameState.setPlayerToHighestBet(new SimpleEntry<>(gameState.players.get(gameState.bigBlindIndex), gameState.bigBlind));
     }
 
+    //TODO move this to round
     protected void splitPot(List<Player> winners) {
         if (winners.isEmpty()) {
             System.out.println("No winners to split the pot.");
@@ -134,6 +157,13 @@ public class HoldEmGame extends PokerGame {
         for (Player winner : winners) {
             winner.addChips(chipsPerWinner);
             System.out.println(winner.getName() + " wins " + chipsPerWinner + " chips!");
+        }
+
+        for (Player player : gameState.players) {
+            if (player == mainPlayer) {
+                chipsWon += chipsPerWinner;
+                roundsWon++;
+            }
         }
 
         // If there's a remainder, keep them in the pot for next round
@@ -151,12 +181,22 @@ public class HoldEmGame extends PokerGame {
         }
     }
 
-    protected void checkLosers() {
+    protected boolean checkLosers() {
         for (Player player : gameState.players) {
             if (player.getChips() <= gameState.bigBlind) {
                 System.out.println(player.getName() + " doesn't have enough chips and has lost the game.");
                 gameState.players.remove(player);
             }
+        }
+
+        if (gameState.players.size() == 1) {
+            System.out.println("Only one player left, " + gameState.players.get(0).getName() + ", who wins the game!");
+            return true;
+        } else if (!gameState.players.contains(mainPlayer)) {
+            System.out.println("You have lost the game.");
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -165,5 +205,25 @@ public class HoldEmGame extends PokerGame {
         gameState.bigBlindIndex = 1;
         gameState.smallBlind = smallBlindValue;
         gameState.bigBlind = 2*smallBlindValue;
+    }
+
+    protected void processWinners() {
+        List<Player> winners = gameState.getWinners();
+        int pot = gameState.getPot();
+        
+        if (winners.size() > 1) {
+            System.out.println("Splitting pot of " + gameState.getPot() + " to " + winners.stream()
+                .map(Player::getName)
+                .collect(Collectors.joining(", ")));
+            splitPot(winners);
+        } else {
+            Player winner = winners.get(0);
+            System.out.println(winner.getName() + " wins the pot of " + pot + "!");
+            winner.addChips(pot);
+            if (winner == mainPlayer) {
+                chipsWon += pot;
+                roundsWon++;
+            }
+        }
     }
 }

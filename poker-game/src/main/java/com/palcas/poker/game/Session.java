@@ -27,7 +27,7 @@ public class Session {
     }
 
     private void startHoldEmGame() {
-        new HoldEmGame(mainPlayer, players).start();
+        new HoldEmGame(mainPlayer, players).playGame();
     }
 
     private void startOmahaHoldEmGame() {

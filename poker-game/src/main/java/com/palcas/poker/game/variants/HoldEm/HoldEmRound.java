@@ -119,6 +119,11 @@ public class HoldEmRound extends Round {
             System.out.println(potentialWinner.getName() + " wins the pot of " + gameState.getPot() + " without a showdown!");
             System.out.println("Congratulations, " + potentialWinner.getName() + "! :)");
             potentialWinner.setChips(potentialWinner.getChips() + gameState.getPot());
+
+            if (potentialWinner == gameState.getMainPlayer()) {
+                HoldEmGame.chipsWon += gameState.getPot();
+            }
+
             gameState.setPot(0);
         }
     }
