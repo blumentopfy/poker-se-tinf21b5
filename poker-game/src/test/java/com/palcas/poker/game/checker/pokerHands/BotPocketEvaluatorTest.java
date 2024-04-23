@@ -19,7 +19,7 @@ public class BotPocketEvaluatorTest {
     }
 
     @Test
-    public void returns100BecauseItHasTheBestPossibleHand() {
+    public void returns1000BecauseItHasTheBestPossibleHand() {
         ArrayList<Card> commonCards = new ArrayList<>();
         commonCards.add(new Card(Suit.DIAMONDS, Rank.TEN));
         commonCards.add(new Card(Suit.DIAMONDS, Rank.JACK));
@@ -31,9 +31,9 @@ public class BotPocketEvaluatorTest {
         pocketCards.add(new Card(Suit.DIAMONDS, Rank.KING));
         pocketCards.add(new Card(Suit.DIAMONDS, Rank.ACE));
 
-        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePocketAgainst100RandomPockets(commonCards, pocketCards);
+        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePocketAgainstNRandomPockets(commonCards, pocketCards, 1000);
 
-        assertEquals(100, timesWonAgainstOtherRandomPockets);
+        assertEquals(1000, timesWonAgainstOtherRandomPockets);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class BotPocketEvaluatorTest {
         pocketCards.add(new Card(Suit.CLUBS, Rank.TWO));
         pocketCards.add(new Card(Suit.CLUBS, Rank.THREE));
 
-        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePocketAgainst100RandomPockets(commonCards, pocketCards);
+        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePocketAgainstNRandomPockets(commonCards, pocketCards, 1000);
 
         assertEquals(0, timesWonAgainstOtherRandomPockets);
     }
@@ -67,10 +67,10 @@ public class BotPocketEvaluatorTest {
         pocketCards.add(new Card(Suit.CLUBS, Rank.TWO));
         pocketCards.add(new Card(Suit.CLUBS, Rank.THREE));
 
-        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePocketAgainst100RandomPockets(commonCards, pocketCards);
+        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePocketAgainstNRandomPockets(commonCards, pocketCards, 1000);
 
-        assertTrue(timesWonAgainstOtherRandomPockets >= 20);
-        assertTrue(timesWonAgainstOtherRandomPockets <= 80);
+        assertTrue(timesWonAgainstOtherRandomPockets >= 200);
+        assertTrue(timesWonAgainstOtherRandomPockets <= 800);
     }
 
     @Test
@@ -84,9 +84,9 @@ public class BotPocketEvaluatorTest {
         pocketCards.add(new Card(Suit.CLUBS, Rank.TWO));
         pocketCards.add(new Card(Suit.CLUBS, Rank.THREE));
 
-        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePocketAgainst100RandomPockets(commonCards, pocketCards);
+        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePocketAgainstNRandomPockets(commonCards, pocketCards, 1000);
 
-        assertTrue(timesWonAgainstOtherRandomPockets >= 20);
-        assertTrue(timesWonAgainstOtherRandomPockets <= 80);
+        assertTrue(timesWonAgainstOtherRandomPockets >= 200);
+        assertTrue(timesWonAgainstOtherRandomPockets <= 800);
     }
 }

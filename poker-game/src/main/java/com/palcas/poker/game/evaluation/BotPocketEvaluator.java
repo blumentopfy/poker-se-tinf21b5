@@ -13,7 +13,7 @@ public class BotPocketEvaluator {
         handEvaluationService = new TexasHoldEmHandEvaluationService();
     }
 
-    public int evaluatePocketAgainst100RandomPockets(ArrayList<Card> communityCards, ArrayList<Card> pocketCards) {
+    public int evaluatePocketAgainstNRandomPockets(ArrayList<Card> communityCards, ArrayList<Card> pocketCards, int numberPockets) {
         // create deck with all cards except the known cards
         Deck deck = new Deck().shuffle();
         for (Card card : communityCards) {
@@ -23,9 +23,9 @@ public class BotPocketEvaluator {
         deck.removeCard(pocketCards.get(1));
         ArrayList<Card> cardsWithoutKnownCards = deck.getCards();
 
-        // create a list with 100 random decks
+        // create a list with 100 random pockets
         ArrayList<ArrayList<Card>> simulatedPockets = new ArrayList<>();
-        for(int i = 0; i < 100; i++) {
+        for(int i = 0; i < 1000; i++) {
             ArrayList<Card> tempDeck = new ArrayList<>(cardsWithoutKnownCards);
             Collections.shuffle(tempDeck);
             ArrayList<Card> pocket = new ArrayList<>();
