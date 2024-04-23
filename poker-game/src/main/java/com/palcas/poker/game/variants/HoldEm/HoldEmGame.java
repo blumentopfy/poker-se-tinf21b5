@@ -9,11 +9,12 @@ import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.game.Deck;
 import com.palcas.poker.game.GameState;
 import com.palcas.poker.game.Player;
+import com.palcas.poker.game.PokerGame;
 import com.palcas.poker.game.poker_bot.TexasHoldEmBotActionService;
 import com.palcas.poker.input.*;
 import com.palcas.poker.model.PlayerState;
 
-public class HoldEmGame {
+public class HoldEmGame extends PokerGame {
     private final Scanner scanner;
     private final Player mainPlayer;
     private final TexasHoldEmBotActionService botActionService;
@@ -71,7 +72,7 @@ public class HoldEmGame {
         //TODO save progress of the player
     }
 
-    private void startPokerGameLoop() {
+    protected void startPokerGameLoop() {
         while (true) {
             DisplayElements.clearConsole();
             System.out.println("Starting round " + gameState.getRoundsPlayed() + ".");
@@ -96,7 +97,7 @@ public class HoldEmGame {
         }
     }
 
-    private void resetStatesAndBets() {
+    protected void resetStatesAndBets() {
         for (Player player : gameState.players) {
             player.setState(PlayerState.WAITING_TO_BET);
         }
@@ -104,7 +105,7 @@ public class HoldEmGame {
         gameState.players.stream().forEach(player -> player.setBet(0));
     }
 
-    private void setBlinds() {
+    protected void setBlinds() {
         if (gameState.players.get(gameState.smallBlindIndex) == mainPlayer) {
             System.out.println("You set the small blind of " + gameState.smallBlind + ".");
         } else {
@@ -124,7 +125,7 @@ public class HoldEmGame {
         gameState.setPlayerToHighestBet(new SimpleEntry<>(gameState.players.get(gameState.bigBlindIndex), gameState.bigBlind));
     }
 
-    private void splitPot(List<Player> winners) {
+    protected void splitPot(List<Player> winners) {
         if (winners.isEmpty()) {
             System.out.println("No winners to split the pot.");
             return;
@@ -143,14 +144,14 @@ public class HoldEmGame {
         gameState.pot = remainder;
     }
 
-    private void adjustBlinds(int round) {
+    protected void adjustBlinds(int round) {
         if (round % 2 == 0) {
             gameState.bigBlind = (int) Math.ceil(gameState.bigBlind * 1.25);
             gameState.smallBlind = (int) Math.ceil(gameState.smallBlind * 1.25);
         }
     }
 
-    private void checkLosers() {
+    protected void checkLosers() {
         for (Player player : gameState.players) {
             if (player.getChips() <= gameState.bigBlind) {
                 System.out.println(player.getName() + " doesn't have enough chips and has lost the game.");
@@ -159,7 +160,7 @@ public class HoldEmGame {
         }
     }
 
-    private void initializeBlinds(int smallBlindValue) {
+    protected void initializeBlinds(int smallBlindValue) {
         gameState.smallBlindIndex = 0;
         gameState.bigBlindIndex = 1;
         gameState.smallBlind = smallBlindValue;
