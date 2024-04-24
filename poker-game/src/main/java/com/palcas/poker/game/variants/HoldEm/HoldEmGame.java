@@ -71,7 +71,7 @@ public class HoldEmGame extends PokerGame {
         scanner.nextLine();
         
         // Create a new deck and shuffle it
-        gameState.setDeck(new Deck().shuffle());
+        gameState.setDeck(new Deck().shuffleFullDeck());
 
         startPokerGameLoop();
 
@@ -96,7 +96,7 @@ public class HoldEmGame extends PokerGame {
             resetStatesAndBets();
 
             // shuffle here means creating a new deck and shuffling it, contrary to Collections.shuffle()
-            gameState.getDeck().shuffle();
+            gameState.getDeck().shuffleFullDeck();
 
             setBlinds();
 

@@ -23,13 +23,18 @@ public class Deck {
         return cards;
     }
 
-    public Deck shuffle() {
+    public Deck shuffleFullDeck() {
         cards.clear();
         for (Suit suit : Suit.values()) {
             for (Rank rank : Rank.values()) {
                 cards.add(new Card(suit, rank));
             }
         }
+        Collections.shuffle(cards);
+        return this;
+    }
+
+    public Deck shuffle() {
         Collections.shuffle(cards);
         return this;
     }

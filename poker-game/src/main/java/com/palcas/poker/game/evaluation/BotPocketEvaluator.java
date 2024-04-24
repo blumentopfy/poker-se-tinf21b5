@@ -13,9 +13,18 @@ public class BotPocketEvaluator {
         handEvaluationService = new TexasHoldEmHandEvaluationService();
     }
 
-    public int evaluatePocketAgainstNRandomPockets(ArrayList<Card> communityCards, ArrayList<Card> pocketCards, int numberPockets) {
+    /*
+    creates a given number of random virtual pockets. They form a combination with the community cards.
+    those combinations get compared to the combination the original pocket can pose. Then evaluates against how many
+    virtual pockets the original pocket would win.
+    @param communityCards community cards, communityCards.size() must be between 3 and 5
+    @param pocketCards original pocket cards of bot
+    @param numberPockets number of virtual pockets to simulate and compare to
+    @return number of virtual pockets, the original pocket would win against or would draw
+     */
+    public int evaluatePostFlopPocket(ArrayList<Card> communityCards, ArrayList<Card> pocketCards, int numberPockets) {
         // create deck with all cards except the known cards
-        Deck deck = new Deck().shuffle();
+        Deck deck = new Deck().shuffleFullDeck();
         for (Card card : communityCards) {
             deck.removeCard(card);
         }
