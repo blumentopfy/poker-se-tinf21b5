@@ -49,6 +49,9 @@ public class Straight {
             }
             if (countedRanks.get(rank) >= 1) {
                 selected5cards[streak++] = cardsStatistics.getCardByRank(all7cards, rank);
+                if (streak == 5) {
+                    return selected5cards;
+                }
             } else {
                 streak = 0;
             }
