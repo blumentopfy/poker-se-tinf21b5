@@ -9,25 +9,25 @@ import java.util.Scanner;
 
 import com.palcas.poker.display.DisplayElements;
 
-public class SystemChoice implements LimitedChoice {
+public class MainMenuChoice implements LimitedChoice {
     private final Scanner scanner;
     private final Map<String, Runnable> choicesToRunnables;
     String option;
     int choice;
 
-    public SystemChoice(Scanner scanner) {
+    public MainMenuChoice(Scanner scanner) {
         this.scanner = scanner;
         this.choicesToRunnables = new HashMap<String, Runnable>();
     }
 
     @Override
-    public SystemChoice addOption(String option) {
+    public MainMenuChoice addOption(String option) {
         this.option = option;
         return this;
     }
 
     @Override
-    public SystemChoice withAction(Runnable action) {
+    public MainMenuChoice withAction(Runnable action) {
         this.choicesToRunnables.put(this.option, action);
         return this;
     }

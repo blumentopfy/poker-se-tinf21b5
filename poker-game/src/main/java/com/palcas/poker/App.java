@@ -9,7 +9,7 @@ import com.palcas.poker.display.LeaderboardDisplay;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.game.Session;
 import com.palcas.poker.input.StakeLevelChoice;
-import com.palcas.poker.input.SystemChoice;
+import com.palcas.poker.input.MainMenuChoice;
 import com.palcas.poker.persistance.JacksonLeaderboardRepository;
 import com.palcas.poker.persistance.LeaderboardRepository;
 
@@ -23,7 +23,7 @@ public class App {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("Hello to Palcas Poker v3: Electric Bogaloo!");
 
-            new SystemChoice(scanner)
+            new MainMenuChoice(scanner)
                     .addOption("Login").withAction(() -> mainPlayer = new CLILoginUserInteraction().login())
                     .addOption("Register").withAction(() -> mainPlayer = new CLILoginUserInteraction().register())
                     .addOption("Continue as guest").withAction(() -> mainPlayer = new CLILoginUserInteraction().loginAsGuest())
@@ -32,11 +32,10 @@ public class App {
             Session session = new Session(mainPlayer);
             LeaderboardRepository leaderboardRepository = new JacksonLeaderboardRepository(JacksonPersistenceSettings.LEADERBOARD_FILE_PATH);
 
-            // Game Loop
             while (true) {
                 DisplayElements.clearConsole();
                 // Main menu
-                new SystemChoice(scanner)
+                new MainMenuChoice(scanner)
                     .addOption("Play a round of poker").withAction(session::start)
                     .addOption("Highscore").withAction(() -> {
                             try {
