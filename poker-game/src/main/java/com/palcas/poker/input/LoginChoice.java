@@ -5,41 +5,38 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import com.palcas.poker.display.DisplayElements;
 
-public class MainMenuChoice implements LimitedChoice {
+public class LoginChoice implements LimitedChoice {
+    private final Scanner scanner;
     private final Map<String, Runnable> choicesToRunnables;
     String option;
     int choice;
 
-    public MainMenuChoice() {
+    public LoginChoice(Scanner scanner) {
+        this.scanner = scanner;
         this.choicesToRunnables = new HashMap<String, Runnable>();
     }
 
     @Override
-    public MainMenuChoice addOption(String option) {
+    public LoginChoice addOption(String option) {
         this.option = option;
         return this;
     }
 
     @Override
-    public MainMenuChoice withAction(Runnable action) {
+    public LoginChoice withAction(Runnable action) {
         this.choicesToRunnables.put(this.option, action);
         return this;
     }
 
+    @Override
     public void executeChoice() {
-        return;
-    }
-
-    //@Override
-    public void executeChoice(Scanner scanner) {
-        System.out.println("----------MAIN MENU----------");
-        System.out.println("Please choose an option:");
-
+        System.out.println("----------LOGIN----------");
+        System.out.println("Please choose how you would like to log in:");
+        
         List<String> choices = new ArrayList<>(this.choicesToRunnables.keySet());
         choices = choices.reversed();
 
@@ -59,7 +56,6 @@ public class MainMenuChoice implements LimitedChoice {
                 scanner.nextLine(); // Consume the invalid input
             }
         }
-
 
         if (choice >= 1 && choice <= choices.size()) {
             // Execute the choice that is stored at the index of the choice - 1            

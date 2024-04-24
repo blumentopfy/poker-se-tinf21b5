@@ -1,5 +1,6 @@
 package com.palcas.poker.display;
 
+import com.palcas.poker.App;
 import com.palcas.poker.persistance.LeaderboardEntry;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ public class LeaderboardDisplayTest {
                 new LeaderboardEntry("David", 2100),
                 new LeaderboardEntry("Eve", 1900)
         );
-        LeaderboardDisplay.displayLeaderboard(leaderboardTopTen, new Scanner(System.in));
+        LeaderboardDisplay.displayLeaderboard(leaderboardTopTen, App.globalScanner);
     }
 
 }

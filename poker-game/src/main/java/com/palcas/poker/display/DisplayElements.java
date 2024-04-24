@@ -11,6 +11,11 @@ public class DisplayElements {
             System.out.println();
         }
     }
+
+    public static void clearWithSeperator() {
+        clearConsole();
+        printSeperator();
+    }
     
     public static String SEPERATOR = "-----------------------------";
 }

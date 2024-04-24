@@ -9,7 +9,7 @@ import com.palcas.poker.input.PokerVariantChoice;
 
 public class Session {
     private ArrayList<Player> players;
-    private Player mainPlayer;
+    public Player mainPlayer;
 
     public Session(Player mainPlayer) {
         this.mainPlayer = mainPlayer;
@@ -27,7 +27,8 @@ public class Session {
     }
 
     private void startHoldEmGame() {
-        new HoldEmGame(mainPlayer, players).playGame();
+        GameResult gameResult = new HoldEmGame(mainPlayer, players).playGame();
+        //TODO persist game result
     }
 
     private void startOmahaHoldEmGame() {
