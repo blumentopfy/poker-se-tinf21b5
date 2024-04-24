@@ -31,7 +31,7 @@ public class BotPocketEvaluatorTest {
         pocketCards.add(new Card(Suit.DIAMONDS, Rank.KING));
         pocketCards.add(new Card(Suit.DIAMONDS, Rank.ACE));
 
-        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePocketAgainstNRandomPockets(commonCards, pocketCards, 1000);
+        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePostFlopPocket(commonCards, pocketCards, 1000);
 
         assertEquals(1000, timesWonAgainstOtherRandomPockets);
     }
@@ -49,7 +49,7 @@ public class BotPocketEvaluatorTest {
         pocketCards.add(new Card(Suit.CLUBS, Rank.TWO));
         pocketCards.add(new Card(Suit.CLUBS, Rank.THREE));
 
-        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePocketAgainstNRandomPockets(commonCards, pocketCards, 1000);
+        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePostFlopPocket(commonCards, pocketCards, 1000);
 
         assertEquals(0, timesWonAgainstOtherRandomPockets);
     }
@@ -67,7 +67,7 @@ public class BotPocketEvaluatorTest {
         pocketCards.add(new Card(Suit.CLUBS, Rank.TWO));
         pocketCards.add(new Card(Suit.CLUBS, Rank.THREE));
 
-        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePocketAgainstNRandomPockets(commonCards, pocketCards, 1000);
+        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePostFlopPocket(commonCards, pocketCards, 1000);
 
         assertTrue(timesWonAgainstOtherRandomPockets >= 200);
         assertTrue(timesWonAgainstOtherRandomPockets <= 800);
@@ -84,9 +84,31 @@ public class BotPocketEvaluatorTest {
         pocketCards.add(new Card(Suit.CLUBS, Rank.TWO));
         pocketCards.add(new Card(Suit.CLUBS, Rank.THREE));
 
-        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePocketAgainstNRandomPockets(commonCards, pocketCards, 1000);
+        int timesWonAgainstOtherRandomPockets = botPocketEvaluator.evaluatePostFlopPocket(commonCards, pocketCards, 1000);
 
         assertTrue(timesWonAgainstOtherRandomPockets >= 200);
         assertTrue(timesWonAgainstOtherRandomPockets <= 800);
+    }
+
+    @Test
+    public void shouldReturnLowWinRateBecauseOfBadCards() {
+        ArrayList<Card> pocketCards = new ArrayList<>();
+        pocketCards.add(new Card(Suit.CLUBS, Rank.TWO));
+        pocketCards.add(new Card(Suit.DIAMONDS, Rank.THREE));
+
+        int timesWonIn1000Scenarios = botPocketEvaluator.evaluatePreFlopPocket(pocketCards, 1000);
+        assertTrue(timesWonIn1000Scenarios >= 0);
+        assertTrue(timesWonIn1000Scenarios <= 500);
+    }
+
+    @Test
+    public void shouldReturnHighWinRateBecauseOfGoodCards() {
+        ArrayList<Card> pocketCards = new ArrayList<>();
+        pocketCards.add(new Card(Suit.CLUBS, Rank.ACE));
+        pocketCards.add(new Card(Suit.DIAMONDS, Rank.ACE));
+
+        int timesWonIn1000Scenarios = botPocketEvaluator.evaluatePreFlopPocket(pocketCards, 1000);
+        assertTrue(timesWonIn1000Scenarios >= 500);
+        assertTrue(timesWonIn1000Scenarios <= 1000);
     }
 }

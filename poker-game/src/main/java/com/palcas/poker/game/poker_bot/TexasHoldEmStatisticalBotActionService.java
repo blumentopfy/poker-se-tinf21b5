@@ -25,7 +25,7 @@ public class TexasHoldEmStatisticalBotActionService implements BotActionService{
     @Override
     public BotAction decidePostFlopAction(Player bot, List<Card> communityCards, GameState gameState) {
         ArrayList<Card> botPocket = new ArrayList<>(bot.getPocket().getCards());
-        int timesWonAgainstNOtherPockets = pocketEvaluator.evaluatePocketAgainstNRandomPockets(
+        int timesWonAgainstNOtherPockets = pocketEvaluator.evaluatePostFlopPocket(
                 new ArrayList<>(communityCards),
                 botPocket,
                 mentalCapacity);
