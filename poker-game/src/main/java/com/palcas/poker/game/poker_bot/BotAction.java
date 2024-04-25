@@ -7,7 +7,7 @@ public class BotAction {
     private Integer raiseAmount;
 
     public enum ActionType {
-        CHECK, CALL, FOLD, RAISE
+        CHECK, CALL, FOLD, RAISE, ALL_IN
     }
 
     public BotAction(ActionType actionType) {

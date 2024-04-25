@@ -18,8 +18,48 @@ public class TexasHoldEmStatisticalBotActionService implements BotActionService{
     }
 
     @Override
-    public BotAction decidePreFlopAction(Player bot, List<Player> players, int bigBlindAmount) {
-        return null;
+    public BotAction decidePreFlopAction(Player bot, List<Player> players, GameState gameState) {
+        ArrayList<Card> botPocket = new ArrayList<>(bot.getPocket().getCards());
+        int timesWonAgainstNOtherPockets = pocketEvaluator.evaluatePreFlopPocket(botPocket, mentalCapacity);
+        double winRateAgainstRandomOtherPockets = timesWonAgainstNOtherPockets / (double) mentalCapacity;
+        double botAggressionLevelDouble = bot.getAggressionLevel() / 100.0;
+        int highestBetFromOtherPlayer = gameState.getPlayerToHighestBet().getValue();
+
+        if (bot.equals(gameState.getSmallBlindPlayer()) && bot.getBet() < (gameState.getSmallBlind())) {
+            // if bot is small blind and hasn't paid the small blind yet, then do it now
+            return raiseBy(gameState.getSmallBlind() - bot.getBet(), bot);
+        } else if (bot.equals(gameState.getBigBlindPlayer()) && bot.getBet() < (gameState.getBigBlind())) {
+            // if bot is big blind and hasn't paid the big blind yet, then do it now
+            return raiseBy(gameState.getBigBlind() - bot.getBet(), bot);
+        } else if (winRateAgainstRandomOtherPockets < 0.3) {
+            // don't invest any further money because the pocket is bad
+            if (bot.getBet() < highestBetFromOtherPlayer) {
+                return new BotAction(BotAction.ActionType.FOLD);
+            } else if (bot.getBet() >= highestBetFromOtherPlayer) {
+                return new BotAction(BotAction.ActionType.CHECK);
+            }
+        } else if (winRateAgainstRandomOtherPockets >= 0.3 && winRateAgainstRandomOtherPockets < 0.7) {
+            // play passively because cards are okay; don't raise; but call if necessary amount is justifiable
+            // if winRate is very average (0.5), then call up to 2 times bigBlind
+            int maxJustifiableAmountToCall = (int) (winRateAgainstRandomOtherPockets * 4 * gameState.getBigBlind());
+            if (bot.getBet() >= highestBetFromOtherPlayer) {
+                // check because no higher investment necessary
+                return new BotAction(BotAction.ActionType.CHECK);
+            } else if (bot.getBet() < highestBetFromOtherPlayer) {
+                if (highestBetFromOtherPlayer <= maxJustifiableAmountToCall) {
+                    // call if necessary bet is still justifiable
+                    return call(gameState, bot);
+                } else {
+                    // fold because necessary bet is too high
+                    return new BotAction(BotAction.ActionType.FOLD);
+                }
+            }
+        }else if (winRateAgainstRandomOtherPockets >= 0.7) {
+            // play aggressively because cards are good. Raise
+            int highestJustifiableBet = (int) (winRateAgainstRandomOtherPockets * 5 * gameState.getBigBlind());
+            return raiseBy(highestJustifiableBet - bot.getBet(), bot);
+        }
+        throw new IllegalStateException("The bot was unable to make a decision pre flop");
     }
 
     @Override
@@ -29,7 +69,6 @@ public class TexasHoldEmStatisticalBotActionService implements BotActionService{
                 new ArrayList<>(communityCards),
                 botPocket,
                 mentalCapacity);
-
         double winRateAgainstRandomOtherPockets = timesWonAgainstNOtherPockets / (double) mentalCapacity;
         double botAggressionLevelDouble = bot.getAggressionLevel() / 100.0;
         int overallChipsOfBot = bot.getChips() + bot.getBet();
@@ -37,43 +76,47 @@ public class TexasHoldEmStatisticalBotActionService implements BotActionService{
 
         // if close to all in, then go all in
         if (highestJustifiableBet / (double) overallChipsOfBot >= 0.95) {
-            highestJustifiableBet = overallChipsOfBot;
+            return new BotAction(BotAction.ActionType.ALL_IN);
         }
         int highestBetFromOtherPlayer = gameState.getPlayerToHighestBet().getValue();
 
         if (highestJustifiableBet < highestBetFromOtherPlayer) {
             // if all in would be justifiable:
-            if (highestJustifiableBet == overallChipsOfBot) {
+            if (overallChipsOfBot <= highestJustifiableBet) {
                 // if already all in:
-                if(bot.getChips() == 0) {
-                    throw new IllegalStateException("bot is already all in, he doesn't have to decide this round");
+                if(bot.getChips() > 0) {
+                    return new BotAction(BotAction.ActionType.ALL_IN);
                 } else {
-                    BotAction allInAction = new BotAction(BotAction.ActionType.RAISE);
-                    allInAction.setRaiseAmount(bot.getChips());
-                    return allInAction;
+                    throw new IllegalStateException("bot is already all in, he doesn't have to decide this round");
                 }
             }
-            // if no AllIn justifiable, then fold, because highestJustifiableBet is smaller than what is needed
+            // if no ALL_IN justifiable, then fold, because highestJustifiableBet is smaller than what is needed
             return new BotAction(BotAction.ActionType.FOLD);
         } else if (highestJustifiableBet == highestBetFromOtherPlayer) {
             //if a raise is neither necessary nor wanted, then just check
             return new BotAction(BotAction.ActionType.CHECK);
         } else {
             // if highest justifiable bet is higher than what is bet at the moment --> bet higher
+            return raiseBy(highestJustifiableBet - bot.getBet(), bot);
+        }
+    }
+
+    private BotAction raiseBy(int raiseAmount, Player bot) {
+        if (bot.getChips() < raiseAmount) {
+            return new BotAction(BotAction.ActionType.ALL_IN);
+        } else {
             BotAction raiseAction = new BotAction(BotAction.ActionType.RAISE);
-            raiseAction.setRaiseAmount(highestJustifiableBet - bot.getBet());
+            raiseAction.setRaiseAmount(raiseAmount);
             return raiseAction;
         }
     }
 
-    @Override
-    public boolean foldRandomlyWithProbabilityOf(double foldProbability) {
-        return Math.random() < foldProbability;
-    }
-
-    private ArrayList<BotAction> determinePossibleActions(Player bot) {
-        ArrayList<BotAction> possibleActions = new ArrayList<>();
-
-        return null;
+    private BotAction call(GameState gameState, Player bot) {
+        int highestBet = gameState.getPlayerToHighestBet().getValue();
+        if (bot.getChips() + bot.getBet() <= highestBet) {
+            return new BotAction(BotAction.ActionType.ALL_IN);
+        } else {
+            return new BotAction(BotAction.ActionType.CALL);
+        }
     }
 }

@@ -18,7 +18,8 @@ public class TexasHoldEmBotActionService implements BotActionService {
     }
 
     //TODO implement bluffing
-    public BotAction decidePreFlopAction(Player bot, List<Player> players, int bigBlindAmount) {
+    public BotAction decidePreFlopAction(Player bot, List<Player> players, GameState gameState) {
+        int bigBlindAmount = gameState.getBigBlind();
         Pocket pocket = bot.getPocket();
         List<Card> pocketCards = pocket.getCards();
         

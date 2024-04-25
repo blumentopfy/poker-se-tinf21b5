@@ -11,7 +11,8 @@ import com.palcas.poker.game.GameResult;
 import com.palcas.poker.game.GameState;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.game.PokerGame;
-import com.palcas.poker.game.poker_bot.TexasHoldEmBotActionService;
+import com.palcas.poker.game.poker_bot.BotActionService;
+import com.palcas.poker.game.poker_bot.TexasHoldEmStatisticalBotActionService;
 import com.palcas.poker.input.*;
 import com.palcas.poker.model.PlayerState;
 
@@ -19,7 +20,7 @@ public class HoldEmGame extends PokerGame {
     private final Scanner scanner;
     private final Player mainPlayer;
     private final int initialMainPlayerChips;
-    private final TexasHoldEmBotActionService botActionService;
+    private final BotActionService botActionService;
     private GameState gameState;
     public static int chipsWon;
     public static int roundsWon;
@@ -29,7 +30,7 @@ public class HoldEmGame extends PokerGame {
         this.mainPlayer = mainPlayer;
         this.initialMainPlayerChips = mainPlayer.getChips();
         this.scanner = new Scanner(System.in);
-        this.botActionService = new TexasHoldEmBotActionService();
+        this.botActionService = new TexasHoldEmStatisticalBotActionService(1000); //TODO adjust this depending on stakes level
         chipsWon = 0;
     }
 

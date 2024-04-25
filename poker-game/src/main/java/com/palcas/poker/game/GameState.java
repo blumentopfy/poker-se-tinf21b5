@@ -66,6 +66,22 @@ public class GameState {
         this.bigBlindIndex = bigBlindIndex;
     }
 
+    public Player getSmallBlindPlayer() {
+        return players.get(smallBlindIndex);
+    }
+
+    public Player getBigBlindPlayer() {
+        return players.get(bigBlindIndex);
+    }
+
+    public int getSmallBlind() {
+        return smallBlind;
+    }
+
+    public int getBigBlind() {
+        return bigBlind;
+    }
+
     public int getSmallBlindIndex() {
         return this.smallBlindIndex;
     }
