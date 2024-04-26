@@ -1,4 +1,5 @@
 package com.palcas.poker;
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -40,28 +41,30 @@ public class App {
 
     private static void executeLogin(Scanner scanner) {
         new LoginChoice(scanner)
-                    .addOption("Login").withAction(() -> mainPlayer = new CLILoginUserInteraction().login())
-                    .addOption("Register").withAction(() -> mainPlayer = new CLILoginUserInteraction().register())
-                    .addOption("Continue as guest").withAction(() -> mainPlayer = new CLILoginUserInteraction().loginAsGuest())
-                    .executeChoice();
+                .addOption("Login").withAction(() -> mainPlayer = new CLILoginUserInteraction().login())
+                .addOption("Register").withAction(() -> mainPlayer = new CLILoginUserInteraction().register())
+                .addOption("Continue as guest")
+                .withAction(() -> mainPlayer = new CLILoginUserInteraction().loginAsGuest())
+                .executeChoice();
     }
 
     private static void mainMenu() {
         DisplayElements.clearConsole();
-                // Main menu
-                new MainMenuChoice()
-                    .addOption("Play a round of poker").withAction(session::start)
-                    .addOption("Highscore").withAction(() -> {
-                            try {
-                                LeaderboardDisplay.displayLeaderboard(leaderboardRepository.getTopTen(), globalScanner);
-                            } catch (IOException e) {
-                                System.out.println("There has been a problem loading the leaderboard, please contact your admin or the developers for support...");
-                                e.printStackTrace();
-                            }
-                        })
-                    .addOption("Settings").withAction(() -> System.out.println("Settings not yet implemented!"))
-                    .addOption("Play Tutorial (TexasHoldEm)").withAction(() -> Tutorial.playTutorial(globalScanner))
-                    .addOption("Exit the game").withAction(() -> System.exit(0))
-                    .executeChoice(globalScanner);
+        // Main menu
+        new MainMenuChoice()
+                .addOption("Play a round of poker").withAction(session::start)
+                .addOption("Highscore").withAction(() -> {
+                    try {
+                        LeaderboardDisplay.displayLeaderboard(leaderboardRepository.getTopTen(), globalScanner);
+                    } catch (IOException e) {
+                        System.out.println(
+                                "There has been a problem loading the leaderboard, please contact your admin or the developers for support...");
+                        e.printStackTrace();
+                    }
+                })
+                .addOption("Settings").withAction(() -> System.out.println("Settings not yet implemented!"))
+                .addOption("Play Tutorial (TexasHoldEm)").withAction(() -> Tutorial.playTutorial(globalScanner))
+                .addOption("Exit the game").withAction(() -> System.exit(0))
+                .executeChoice(globalScanner);
     }
 }

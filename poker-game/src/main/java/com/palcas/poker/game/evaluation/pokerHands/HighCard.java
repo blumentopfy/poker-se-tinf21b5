@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class HighCard {
-    //Structure of hand returned: sorted by descending value
+    // Structure of hand returned: sorted by descending value
     public Card[] selectHandForHighCard(Card[] all7cards) {
         Arrays.sort(all7cards, Comparator.reverseOrder());
         return Arrays.copyOfRange(all7cards, 0, 5);

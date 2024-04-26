@@ -41,13 +41,12 @@ public class OmahaHoldEmRound extends Round {
         // Distribute pocket cards
         HashMap<Player, OmahaHoldEmPocket> playersWithPockets = distributePocketCards();
         List<Card> mainPlayerCards = playersWithPockets.get(gameState.mainPlayer).getCards();
-        List<Card> communityCards = new ArrayList<Card>();    
+        List<Card> communityCards = new ArrayList<Card>();
 
         // Preflop-Betting
         BoardDisplay.printPreFlopBoard("Preflop-Betting", mainPlayerCards);
         bettingLoop(gameState.bigBlindIndex);
 
-        
         // Flop
         for (int i = 0; i < 3; i++) {
             communityCards.add(gameState.getDeck().drawCard());
@@ -71,7 +70,7 @@ public class OmahaHoldEmRound extends Round {
         // Check winner
         gameState.setWinners(determineWinners(playersWithPockets, communityCards));
 
-        return gameState;	
+        return gameState;
     }
 
     @Override
@@ -92,21 +91,22 @@ public class OmahaHoldEmRound extends Round {
             // ... a player is still waiting to bet
             if (player.getState() == PlayerState.WAITING_TO_BET) {
                 return false;
-            // ... or a player has checked and has not called the highest bet/raise
+                // ... or a player has checked and has not called the highest bet/raise
             } else if (player.getState() == PlayerState.CHECKED && player.getBet() != playerToHighestBet.getValue()) {
                 return false;
-            // ... or a player has raised but not to the currently highest bet
+                // ... or a player has raised but not to the currently highest bet
             } else if (player.getState() == PlayerState.RAISED && player.getBet() != playerToHighestBet.getValue()) {
                 return false;
             }
         }
 
-    // If none of the conditions above are met, betting is over
-    return true;
+        // If none of the conditions above are met, betting is over
+        return true;
     }
 
     @Override
-    // Checks whether a player has won the pot without a showdown, i.e. all other players have folded
+    // Checks whether a player has won the pot without a showdown, i.e. all other
+    // players have folded
     public void checkForWalk() {
         int playersNotFoldedCount = 0;
         Player potentialWinner = null;
@@ -118,7 +118,8 @@ public class OmahaHoldEmRound extends Round {
         }
 
         if (playersNotFoldedCount == 1) {
-            System.out.println(potentialWinner.getName() + " wins the pot of " + gameState.getPot() + " without a showdown!");
+            System.out.println(
+                    potentialWinner.getName() + " wins the pot of " + gameState.getPot() + " without a showdown!");
             System.out.println("Congratulations, " + potentialWinner.getName() + "! :)");
             potentialWinner.setChips(potentialWinner.getChips() + gameState.getPot());
 
@@ -130,7 +131,8 @@ public class OmahaHoldEmRound extends Round {
         }
     }
 
-    protected List<Player> determineWinners(HashMap<Player, ? extends Pocket> playersWithPockets, List<Card> communityCards) {
+    protected List<Player> determineWinners(HashMap<Player, ? extends Pocket> playersWithPockets,
+            List<Card> communityCards) {
         // Bring Information in right Format for handEvaluationService.determineWinner
         HashMap<Player, Card[]> playersWithPocketAndBoardCards = new HashMap<>();
         for (Player player : gameState.getPlayers()) {
@@ -152,15 +154,15 @@ public class OmahaHoldEmRound extends Round {
         Scanner scanner = new Scanner(System.in);
         if (player == gameState.getMainPlayer()) {
             new BetChoice(scanner, playerToHighestBet)
-            .addOption("(C)heck").withAction(() -> check(player))
-            .addOption("(CALL)").withAction(() -> call(player))
-            .addOption("(R)aise").withAction(() -> raise(player))
-            .addOption("(F)old").withAction(() -> fold(player))
-            .executeChoice();
+                    .addOption("(C)heck").withAction(() -> check(player))
+                    .addOption("(CALL)").withAction(() -> call(player))
+                    .addOption("(R)aise").withAction(() -> raise(player))
+                    .addOption("(F)old").withAction(() -> fold(player))
+                    .executeChoice();
         } else {
-            //TODO implement AI
+            // TODO implement AI
             // AIBehavior.decideAction();
-            // should return 
+            // should return
             player.setState(PlayerState.CALLED);
             System.out.println(player.getName() + " calls.");
         }
@@ -210,7 +212,7 @@ public class OmahaHoldEmRound extends Round {
             System.out.println("You have to raise at least to " + playerToHighestBet.getValue() + " to raise.");
             bet(player);
             return;
-        // check if player has enough chips
+            // check if player has enough chips
         } else if (chipsToRaise > player.getChips()) {
             System.out.println("You don't have enough chips to raise by " + chipsToRaise + ".");
             bet(player);
@@ -219,7 +221,7 @@ public class OmahaHoldEmRound extends Round {
             player.setBet(player.getBet() + chipsToRaise);
             player.setChips(player.getChips() - chipsToRaise);
 
-            //TODO does this ever get executed?
+            // TODO does this ever get executed?
             if (player != gameState.getMainPlayer()) {
                 System.out.println(player.getName() + " raises by " + chipsToRaise + ".");
             }
@@ -347,7 +349,9 @@ public class OmahaHoldEmRound extends Round {
             return false;
         }
         Round round = (Round) o;
-        return Objects.equals(gameState, this.gameState) && Objects.equals(botActionService, this.botActionService) && Objects.equals(mainPlayerCards, gameState.getMainPlayer().getPocket().getCards()) && Objects.equals(communityCards, gameState.getCommunityCards());
+        return Objects.equals(gameState, this.gameState) && Objects.equals(botActionService, this.botActionService)
+                && Objects.equals(mainPlayerCards, gameState.getMainPlayer().getPocket().getCards())
+                && Objects.equals(communityCards, gameState.getCommunityCards());
     }
 
     @Override
@@ -358,10 +362,10 @@ public class OmahaHoldEmRound extends Round {
     @Override
     public String toString() {
         return "{" +
-            " gameState='" + getGameState() + "'" +
-            ", botActionService='" + getBotActionService() + "'" +
-            ", mainPlayerCards='" + getMainPlayerCards() + "'" +
-            ", communityCards='" + getCommunityCards() + "'" +
-            "}";
+                " gameState='" + getGameState() + "'" +
+                ", botActionService='" + getBotActionService() + "'" +
+                ", mainPlayerCards='" + getMainPlayerCards() + "'" +
+                ", communityCards='" + getCommunityCards() + "'" +
+                "}";
     }
 }

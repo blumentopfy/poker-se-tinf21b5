@@ -50,11 +50,11 @@ public class GameState {
         this.players = players;
     }
 
-    public HashMap<Player,Pocket> getPlayersWithPockets() {
+    public HashMap<Player, Pocket> getPlayersWithPockets() {
         return this.playersWithPockets;
     }
 
-    public void setPlayersWithPockets(HashMap<Player,Pocket> playersWithPockets) {
+    public void setPlayersWithPockets(HashMap<Player, Pocket> playersWithPockets) {
         this.playersWithPockets = playersWithPockets;
     }
 
@@ -154,25 +154,30 @@ public class GameState {
             return false;
         }
         GameState gameState = (GameState) o;
-        return Objects.equals(mainPlayer, gameState.mainPlayer) && Objects.equals(players, gameState.players) && Objects.equals(playersWithPockets, gameState.playersWithPockets) && bigBlindIndex == gameState.bigBlindIndex && smallBlindIndex == gameState.smallBlindIndex && pot == gameState.pot && roundsPlayed == gameState.roundsPlayed && roundsWonByMainPlayer == gameState.roundsWonByMainPlayer;
+        return Objects.equals(mainPlayer, gameState.mainPlayer) && Objects.equals(players, gameState.players)
+                && Objects.equals(playersWithPockets, gameState.playersWithPockets)
+                && bigBlindIndex == gameState.bigBlindIndex && smallBlindIndex == gameState.smallBlindIndex
+                && pot == gameState.pot && roundsPlayed == gameState.roundsPlayed
+                && roundsWonByMainPlayer == gameState.roundsWonByMainPlayer;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mainPlayer, players, playersWithPockets, bigBlindIndex, smallBlindIndex, pot, roundsPlayed, roundsWonByMainPlayer);
+        return Objects.hash(mainPlayer, players, playersWithPockets, bigBlindIndex, smallBlindIndex, pot, roundsPlayed,
+                roundsWonByMainPlayer);
     }
 
     @Override
     public String toString() {
         return "{" +
-            " mainPlayer='" + getMainPlayer() + "'" +
-            ", players='" + getPlayers() + "'" +
-            ", playersWithPockets='" + getPlayersWithPockets() + "'" +
-            ", bigBlindIndex='" + getBigBlindIndex() + "'" +
-            ", smallBlindIndex='" + getSmallBlindIndex() + "'" +
-            ", pot='" + getPot() + "'" +
-            ", roundsPlayed='" + getRoundsPlayed() + "'" +
-            ", roundsWonByMainPlayer='" + getRoundsWonByMainPlayer() + "'" +
-            "}";
+                " mainPlayer='" + getMainPlayer() + "'" +
+                ", players='" + getPlayers() + "'" +
+                ", playersWithPockets='" + getPlayersWithPockets() + "'" +
+                ", bigBlindIndex='" + getBigBlindIndex() + "'" +
+                ", smallBlindIndex='" + getSmallBlindIndex() + "'" +
+                ", pot='" + getPot() + "'" +
+                ", roundsPlayed='" + getRoundsPlayed() + "'" +
+                ", roundsWonByMainPlayer='" + getRoundsWonByMainPlayer() + "'" +
+                "}";
     }
 }

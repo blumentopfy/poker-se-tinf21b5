@@ -15,7 +15,7 @@ public class ThreeOfAKind {
     public ThreeOfAKind(CardsStatisticsService cardsStatistics) {
         this.cardsStatistics = cardsStatistics;
     }
-    
+
     public boolean containsThreeOfAKind(Card[] cards) {
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(cards);
         for (int rankCount : countedRanks.values()) {
@@ -26,9 +26,12 @@ public class ThreeOfAKind {
         return false;
     }
 
-    //Structure of hand returned: cards 0,1,2 are ThreeOfAKind, card 3,4 are high cards
+    // Structure of hand returned: cards 0,1,2 are ThreeOfAKind, card 3,4 are high
+    // cards
     public Card[] selectHandForThreeOfAKind(Card[] all7cards) {
-        if (!containsThreeOfAKind(all7cards)) {return null;}
+        if (!containsThreeOfAKind(all7cards)) {
+            return null;
+        }
         Rank[] descendingSortedRanks = cardsStatistics.getDescendingOrderedRanks();
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
         Rank rankOfThreeOfAKind = null;
@@ -43,12 +46,12 @@ public class ThreeOfAKind {
         int i = 0;
         Card[] selected5cards = new Card[5];
         for (Card card : all7cards) {
-            if(card.getRank() == rankOfThreeOfAKind) {
+            if (card.getRank() == rankOfThreeOfAKind) {
                 selected5cards[i] = card;
                 i++;
-            } else if (card.getRank() != rankOfThreeOfAKind && selected5cards[3] == null){
+            } else if (card.getRank() != rankOfThreeOfAKind && selected5cards[3] == null) {
                 selected5cards[3] = card;
-            } else if (card.getRank() != rankOfThreeOfAKind && selected5cards[4] == null){
+            } else if (card.getRank() != rankOfThreeOfAKind && selected5cards[4] == null) {
                 selected5cards[4] = card;
             }
         }

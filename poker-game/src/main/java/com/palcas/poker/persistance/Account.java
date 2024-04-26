@@ -3,8 +3,7 @@ package com.palcas.poker.persistance;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
-public class Account{
+public class Account {
     private String name;
     private String passwordHash;
     private String passwordSalt;
@@ -19,9 +18,9 @@ public class Account{
 
     @JsonCreator
     public Account(@JsonProperty("name") String name,
-                   @JsonProperty("passwordHash") String passwordHash,
-                   @JsonProperty("passwordSalt") String passwordSalt,
-                   @JsonProperty("chips") int chips) {
+            @JsonProperty("passwordHash") String passwordHash,
+            @JsonProperty("passwordSalt") String passwordSalt,
+            @JsonProperty("chips") int chips) {
         this.name = name;
         this.passwordHash = passwordHash;
         this.passwordSalt = passwordSalt;

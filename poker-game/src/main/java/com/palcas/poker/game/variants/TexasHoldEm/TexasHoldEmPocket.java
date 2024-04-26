@@ -15,6 +15,12 @@ public class TexasHoldEmPocket extends Pocket {
         this.cards = new ArrayList<Card>();
     }
 
+    public TexasHoldEmPocket(Card firstCard, Card secondCard) {
+        this.cards = new ArrayList<Card>();
+        cards.add(firstCard);
+        cards.add(secondCard);
+    }
+
     public List<Card> getCards() {
         return cards;
     }

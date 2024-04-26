@@ -19,7 +19,8 @@ public class LoginManagerTest {
 
     @BeforeAll
     public static void setUp() {
-        loginManager = new LoginManager(new JacksonAccountRepository(JacksonPersistenceSettings.TEST_ACCOUNT_FILE_PATH));
+        loginManager = new LoginManager(
+                new JacksonAccountRepository(JacksonPersistenceSettings.TEST_ACCOUNT_FILE_PATH));
     }
 
     @BeforeEach
@@ -27,7 +28,8 @@ public class LoginManagerTest {
         String accountTestData = "["
                 + "{\"name\": \"Alice\", \"passwordHash\": \"e55a9d387402d3e84953f3b584a62eb5c8d9f796f1e1313cb6c6dc395f260d37\", \"passwordSalt\": \"1337\", \"chips\": 1000}, "
                 + "{\"name\": \"Bob\", \"passwordHash\": \"013bd4cdf01910a5a02bb51ad7b50de82553a1d31827ed5c1f6760bca326dcc2\", \"passwordSalt\": \"69\", \"chips\": 2000}, "
-                + "{\"name\": \"Max\", \"passwordHash\": \"858620d32abff03ff587891b193e1de0f218e389ea0b16615902530fedbe0eea\", \"passwordSalt\": \"420\", \"chips\": 2000}, " //pwd: EierMitSalat
+                + "{\"name\": \"Max\", \"passwordHash\": \"858620d32abff03ff587891b193e1de0f218e389ea0b16615902530fedbe0eea\", \"passwordSalt\": \"420\", \"chips\": 2000}, " // pwd:
+                                                                                                                                                                              // EierMitSalat
                 + "{\"name\": \"Georg\", \"passwordHash\": \"634aa687c3365f3d3ac110f61542a4fcf839b5efba21b6893d201a63aa8ecda6\", \"passwordSalt\": \"9572\", \"chips\": 2000}"
                 + "]";
 
@@ -76,7 +78,8 @@ public class LoginManagerTest {
     }
 
     @Test
-    void registeringFailsBecausePasswordRequirementsAreNotMatched() throws AccountAlreadyExistsException, PasswordRequirementsException, IOException {
+    void registeringFailsBecausePasswordRequirementsAreNotMatched()
+            throws AccountAlreadyExistsException, PasswordRequirementsException, IOException {
         assertThrows(PasswordRequirementsException.class, () -> {
             loginManager.register("Kevin", "nouppercase0").get();
         });
@@ -93,17 +96,16 @@ public class LoginManagerTest {
             loginManager.register("Kevin", "WayyyyyyTooooooLoooooooooooooooong0").get();
         });
         assertThrows(PasswordRequirementsException.class, () -> {
-            //empty password
+            // empty password
             loginManager.register("Kevin", "").get();
         });
         assertThrows(PasswordRequirementsException.class, () -> {
-            //password is null
+            // password is null
             loginManager.register("Kevin", null).get();
         });
         Player player = loginManager.register("Kevin", "ValidPassw0rd").get();
         assertNotNull(player);
     }
-
 
     @Test
     void testLoginAsGuest() {

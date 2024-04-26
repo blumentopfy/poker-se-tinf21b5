@@ -8,9 +8,10 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class CLILoginUserInteraction implements LoginUserInteraction{
+public class CLILoginUserInteraction implements LoginUserInteraction {
     Scanner scanner;
     LoginManager loginManager;
+
     public CLILoginUserInteraction() {
         scanner = new Scanner(System.in);
         loginManager = new LoginManager(new JacksonAccountRepository(JacksonPersistenceSettings.ACCOUNT_FILE_PATH));
@@ -25,13 +26,13 @@ public class CLILoginUserInteraction implements LoginUserInteraction{
             System.out.print("Password: ");
             String password = scanner.nextLine();
             Optional<Player> optionalPlayer = loginManager.login(username, password);
-            if(optionalPlayer.isPresent()) {
+            if (optionalPlayer.isPresent()) {
                 Player player = optionalPlayer.get();
                 System.out.println("Successfully logged in as " + player.getName());
                 return player;
-            } else if (i>1) {
+            } else if (i > 1) {
                 System.out.println("Username or password do not match...");
-                System.out.println("Please try again (" + (i-1) + "/3 tries left)");
+                System.out.println("Please try again (" + (i - 1) + "/3 tries left)");
             }
         }
         System.out.println("Username or password do not match...");
@@ -53,7 +54,7 @@ public class CLILoginUserInteraction implements LoginUserInteraction{
             Optional<Player> optionalPlayer = null;
             try {
                 optionalPlayer = loginManager.register(username, password);
-                if(optionalPlayer.isPresent()) {
+                if (optionalPlayer.isPresent()) {
                     Player player = optionalPlayer.get();
                     System.out.println("Successfully registered and logged in as " + player.getName());
                     return player;
@@ -65,7 +66,8 @@ public class CLILoginUserInteraction implements LoginUserInteraction{
             } catch (PasswordRequirementsException e) {
                 System.out.println(e.getMessage());
             } catch (IOException e) {
-                System.out.println("Something went wrong looking up existing users... show the following lines to your administrator: ");
+                System.out.println(
+                        "Something went wrong looking up existing users... show the following lines to your administrator: ");
                 e.printStackTrace();
             }
         }

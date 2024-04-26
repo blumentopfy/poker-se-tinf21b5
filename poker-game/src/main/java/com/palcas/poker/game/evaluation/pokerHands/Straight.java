@@ -13,20 +13,21 @@ public class Straight {
     public Straight(CardsStatisticsService cardsStatistics) {
         this.cardsStatistics = cardsStatistics;
     }
-    
+
     public boolean containsStraight(Card[] cards) {
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(cards);
         Rank[] ascendingOrderedRanks = cardsStatistics.getAscendingOrderedRanks();
 
         int streak = 0;
-        // check for Ace at the beginning of the streak, since it can be the very lowest or very highest card
+        // check for Ace at the beginning of the streak, since it can be the very lowest
+        // or very highest card
         if (countedRanks.get(Rank.ACE) >= 1) {
             streak++;
         }
         for (Rank rank : ascendingOrderedRanks) {
             if (countedRanks.get(rank) >= 1) {
                 streak++;
-                if(streak >= 5) {
+                if (streak >= 5) {
                     return true;
                 }
             } else {
@@ -36,9 +37,11 @@ public class Straight {
         return false;
     }
 
-    //Structure of hand returned: cards ordered by descending value
+    // Structure of hand returned: cards ordered by descending value
     public Card[] selectHandForStraight(Card[] all7cards) {
-        if (!containsStraight(all7cards)) {return null;}
+        if (!containsStraight(all7cards)) {
+            return null;
+        }
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
         Rank[] descendingSortedRanks = cardsStatistics.getDescendingOrderedRanks();
         int streak = 0;
@@ -56,7 +59,8 @@ public class Straight {
                 streak = 0;
             }
         }
-        // check for Ace at both ends of the streak, since it can be the very lowest or very highest card
+        // check for Ace at both ends of the streak, since it can be the very lowest or
+        // very highest card
         if (countedRanks.get(Rank.ACE) >= 1) {
             selected5cards[streak] = cardsStatistics.getCardByRank(all7cards, Rank.ACE);
         }

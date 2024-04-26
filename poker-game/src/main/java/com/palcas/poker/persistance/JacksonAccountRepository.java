@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.io.File;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-public class JacksonAccountRepository implements AccountRepository{
+public class JacksonAccountRepository implements AccountRepository {
     private final ObjectMapper objectMapper;
     private final String filePath;
 
@@ -55,7 +54,7 @@ public class JacksonAccountRepository implements AccountRepository{
                 accounts = newAccounts;
             }
         } else {
-            accounts = new Account[]{account};
+            accounts = new Account[] { account };
         }
 
         objectMapper.writeValue(file, accounts);

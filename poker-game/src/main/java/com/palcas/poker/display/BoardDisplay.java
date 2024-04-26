@@ -6,7 +6,7 @@ import com.palcas.poker.game.Card;
 
 public class BoardDisplay {
 
-        public static void displayColoredPokerBoard(Card[] board) {
+    public static void displayColoredPokerBoard(Card[] board) {
         String neutralColorCode = "\u001B[0m";
         System.out.println("   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐");
         System.out.println("   │         │   │         │   │         │   │         │   │         │");
@@ -21,7 +21,8 @@ public class BoardDisplay {
         String neutralColorCode = "\u001B[0m";
         String rankLineString = "";
         for (int i = 0; i < board.length; i++) {
-            rankLineString += "   │  " + CardDisplay.getColorCode(board[i]) + CardDisplay.getFormattedRank(board[i]) + neutralColorCode + "  │";
+            rankLineString += "   │  " + CardDisplay.getColorCode(board[i]) + CardDisplay.getFormattedRank(board[i])
+                    + neutralColorCode + "  │";
         }
         return rankLineString;
     }
@@ -30,7 +31,8 @@ public class BoardDisplay {
         String neutralColorCode = "\u001B[0m";
         String suiteLineString = "";
         for (int i = 0; i < board.length; i++) {
-            suiteLineString += "   │ " + CardDisplay.getColorCode(board[i]) + CardDisplay.getFormattedSuit(board[i]) + neutralColorCode + " │";
+            suiteLineString += "   │ " + CardDisplay.getColorCode(board[i]) + CardDisplay.getFormattedSuit(board[i])
+                    + neutralColorCode + " │";
         }
         return suiteLineString;
     }

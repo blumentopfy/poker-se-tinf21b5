@@ -58,7 +58,7 @@ public class PokerVariantChoice implements LimitedChoice {
         }
 
         if (choice >= 1 && choice <= choices.size()) {
-            // Execute the choice that is stored at the index of the choice - 1            
+            // Execute the choice that is stored at the index of the choice - 1
             choicesToRunnables.get(choices.get(choice - 1)).run();
         } else {
             System.out.println("Invalid choice, please try again.");

@@ -15,7 +15,7 @@ public class FourOfAKind {
     public FourOfAKind(CardsStatisticsService cardsStatistics) {
         this.cardsStatistics = cardsStatistics;
     }
-    
+
     public boolean containsFourOfAKind(Card[] cards) {
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(cards);
         for (int rankCount : countedRanks.values()) {
@@ -28,14 +28,16 @@ public class FourOfAKind {
 
     // Stucture of hand returned: card 0-3 are 4 of a kind, card 4 is high card
     public Card[] selectHandForFourOfAKind(Card[] all7cards) {
-        if(!containsFourOfAKind(all7cards)) { return null; }
+        if (!containsFourOfAKind(all7cards)) {
+            return null;
+        }
         Rank rankOfFourOfAKind = calculateRankOfFourOfAKind(all7cards);
         // sort cards ascending so, we can easily also find the high card
         Arrays.sort(all7cards, Comparator.comparingInt(card -> card.getRank().getValue()));
         int i = 0;
         Card[] selected5cards = new Card[5];
         for (Card card : all7cards) {
-            if(card.getRank() == rankOfFourOfAKind) {
+            if (card.getRank() == rankOfFourOfAKind) {
                 selected5cards[i] = card;
                 i++;
             } else {

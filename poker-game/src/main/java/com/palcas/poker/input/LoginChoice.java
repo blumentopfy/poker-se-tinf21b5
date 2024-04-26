@@ -36,14 +36,14 @@ public class LoginChoice implements LimitedChoice {
     public void executeChoice() {
         System.out.println("----------LOGIN----------");
         System.out.println("Please choose how you would like to log in:");
-        
+
         List<String> choices = new ArrayList<>(this.choicesToRunnables.keySet());
         choices = choices.reversed();
 
         for (int i = 0; i < choices.size(); i++) {
             System.out.println((i + 1) + ". " + choices.get(i));
         }
-        
+
         System.out.println(DisplayElements.SEPERATOR);
 
         while (true) {
@@ -58,7 +58,7 @@ public class LoginChoice implements LimitedChoice {
         }
 
         if (choice >= 1 && choice <= choices.size()) {
-            // Execute the choice that is stored at the index of the choice - 1            
+            // Execute the choice that is stored at the index of the choice - 1
             choicesToRunnables.get(choices.get(choice - 1)).run();
         } else {
             System.out.println("Invalid choice, please try again.");

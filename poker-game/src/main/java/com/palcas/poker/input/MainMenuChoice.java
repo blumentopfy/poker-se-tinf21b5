@@ -35,7 +35,7 @@ public class MainMenuChoice implements LimitedChoice {
         return;
     }
 
-    //@Override
+    // @Override
     public void executeChoice(Scanner scanner) {
         System.out.println("----------MAIN MENU----------");
         System.out.println("Please choose an option:");
@@ -46,7 +46,7 @@ public class MainMenuChoice implements LimitedChoice {
         for (int i = 0; i < choices.size(); i++) {
             System.out.println((i + 1) + ". " + choices.get(i));
         }
-        
+
         System.out.println(DisplayElements.SEPERATOR);
 
         while (true) {
@@ -60,9 +60,8 @@ public class MainMenuChoice implements LimitedChoice {
             }
         }
 
-
         if (choice >= 1 && choice <= choices.size()) {
-            // Execute the choice that is stored at the index of the choice - 1            
+            // Execute the choice that is stored at the index of the choice - 1
             choicesToRunnables.get(choices.get(choice - 1)).run();
         } else {
             System.out.println("Invalid choice, please try again.");

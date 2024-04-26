@@ -20,7 +20,8 @@ public class LoginManager {
     public Optional<Player> login(String username, String password) {
         try {
             Account account = accountRepository.loadAccount(username);
-            if (account != null && account.getPasswordHash().equals(hashPassword(password, account.getPasswordSalt()))) {
+            if (account != null
+                    && account.getPasswordHash().equals(hashPassword(password, account.getPasswordSalt()))) {
                 return Optional.of(new Player(account.getName(), account.getChips()));
             }
         } catch (IOException e) {
@@ -47,8 +48,8 @@ public class LoginManager {
     }
 
     public Player loginAsGuest() {
-        int randNumber = (int)(Math.ceil(Math.random()*1000));
-        return new Player("Guest-"+randNumber, 2000);
+        int randNumber = (int) (Math.ceil(Math.random() * 1000));
+        return new Player("Guest-" + randNumber, 2000);
     }
 
     private String hashPassword(String passwordToHash, String salt) {
@@ -76,7 +77,7 @@ public class LoginManager {
         return salt.toString();
     }
 
-    private void validatePassword(String password) throws PasswordRequirementsException{
+    private void validatePassword(String password) throws PasswordRequirementsException {
         if (password == null || password.equals("")) {
             throw new PasswordRequirementsException("password cannot be empty");
         }
@@ -94,7 +95,7 @@ public class LoginManager {
             } else if (Character.isDigit(c)) {
                 containsDigit = true;
             }
-            if (containsLowerCaseCharacter && containsUpperCaseCharacter && containsDigit ) {
+            if (containsLowerCaseCharacter && containsUpperCaseCharacter && containsDigit) {
                 return;
             }
         }

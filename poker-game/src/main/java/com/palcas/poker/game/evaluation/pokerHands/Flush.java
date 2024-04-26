@@ -16,14 +16,18 @@ public class Flush {
 
     public boolean containsFlush(Card[] cards) {
         Suit suitOfPotentialRoyalFlush = cardsStatistics.calculateSuitOfPotentialFlush(cards);
-        if (suitOfPotentialRoyalFlush == null) {return false;} else {
+        if (suitOfPotentialRoyalFlush == null) {
+            return false;
+        } else {
             return true;
         }
     }
 
-    //Structure of hand returned: cards are ordered by descending value
+    // Structure of hand returned: cards are ordered by descending value
     public Card[] selectHandForFlush(Card[] all7cards) {
-        if(!containsFlush(all7cards)) {return null;}
+        if (!containsFlush(all7cards)) {
+            return null;
+        }
         Suit suitOfFlush = cardsStatistics.calculateSuitOfPotentialFlush(all7cards);
         Arrays.sort(all7cards, Comparator.comparingInt(card -> ((Card) card).getRank().getValue()).reversed());
         Card[] selected5cards = new Card[5];

@@ -13,14 +13,14 @@ public class FullHouse {
     public FullHouse(CardsStatisticsService cardsStatistics) {
         this.cardsStatistics = cardsStatistics;
     }
-    
+
     public boolean containsFullHouse(Card[] cards) {
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(cards);
         boolean containsThreeOfAKind = false;
         boolean containsTwoOfAKind = false;
         for (int rankCount : countedRanks.values()) {
             if (rankCount == 3) {
-                if(containsThreeOfAKind || containsTwoOfAKind) {
+                if (containsThreeOfAKind || containsTwoOfAKind) {
                     return true;
                 } else {
                     containsThreeOfAKind = true;
@@ -39,16 +39,18 @@ public class FullHouse {
 
     // Structure of hand returned: cards 0-2 are 3 of a kind, cards 3-4 are pair
     public Card[] selectHandForFullHouse(Card[] all7cards) {
-        if(!containsFullHouse(all7cards)) {return null;}
+        if (!containsFullHouse(all7cards)) {
+            return null;
+        }
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
         Rank[] descendingSortedRanks = cardsStatistics.getDescendingOrderedRanks();
 
-        //determine, which rank do the pair and triplet have
+        // determine, which rank do the pair and triplet have
         Rank pairOfThreeRank = null;
         Rank pairOfTwoRank = null;
         for (Rank rank : descendingSortedRanks) {
             if (countedRanks.get(rank) == 3) {
-                if(pairOfThreeRank == null) {
+                if (pairOfThreeRank == null) {
                     pairOfThreeRank = rank;
                 } else if (pairOfTwoRank == null) {
                     pairOfTwoRank = rank;
@@ -62,7 +64,7 @@ public class FullHouse {
         return createFullHouseHand(all7cards, pairOfThreeRank, pairOfTwoRank);
     }
 
-    private Card[] createFullHouseHand(Card[] all7cards, Rank pairOfThreeRank, Rank pairOfTwoRank){
+    private Card[] createFullHouseHand(Card[] all7cards, Rank pairOfThreeRank, Rank pairOfTwoRank) {
         Card[] selected5cards = new Card[5];
         int pairOfThreeCounter = 0;
         int pairOfTwoCounter = 3;

@@ -1,4 +1,5 @@
 package com.palcas.poker.game;
+
 import java.util.Objects;
 
 // Represents the result of a game, should be returned by a game and used by session to persist progress
@@ -45,7 +46,9 @@ public class GameResult {
             return false;
         }
         GameResult gameResult = (GameResult) o;
-        return Objects.equals(player, gameResult.player) && chipsChange == gameResult.chipsChange && chipsWon == gameResult.chipsWon && roundsPlayed == gameResult.roundsPlayed && roundsWonByMainPlayer == gameResult.roundsWonByMainPlayer;
+        return Objects.equals(player, gameResult.player) && chipsChange == gameResult.chipsChange
+                && chipsWon == gameResult.chipsWon && roundsPlayed == gameResult.roundsPlayed
+                && roundsWonByMainPlayer == gameResult.roundsWonByMainPlayer;
     }
 
     @Override
@@ -56,11 +59,11 @@ public class GameResult {
     @Override
     public String toString() {
         return "{" +
-            " player='" + getPlayer() + "'" +
-            ", chipsChange='" + getChipsChange() + "'" +
-            ", chipsWon='" + getChipsWon() + "'" +
-            ", roundsPlayed='" + getRoundsPlayed() + "'" +
-            ", roundsWon='" + getRoundsWonByMainPlayer() + "'" +
-            "}";
+                " player='" + getPlayer() + "'" +
+                ", chipsChange='" + getChipsChange() + "'" +
+                ", chipsWon='" + getChipsWon() + "'" +
+                ", roundsPlayed='" + getRoundsPlayed() + "'" +
+                ", roundsWon='" + getRoundsWonByMainPlayer() + "'" +
+                "}";
     }
 }

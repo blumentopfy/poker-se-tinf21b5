@@ -25,9 +25,11 @@ public class Pair {
         return false;
     }
 
-    //Structure of hand returned: cards 0,1 are pair; cards 2-4 are high card
+    // Structure of hand returned: cards 0,1 are pair; cards 2-4 are high card
     public Card[] selectHandForPair(Card[] all7cards) {
-        if (!containsPair(all7cards)) {return null;}
+        if (!containsPair(all7cards)) {
+            return null;
+        }
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
         // sort cards ascending, so we can easily also find the high card
         Arrays.sort(all7cards, Comparator.comparingInt(card -> ((Card) card).getRank().getValue()).reversed());
@@ -35,7 +37,7 @@ public class Pair {
         int highCardIndex = 2;
         Card[] selected5cards = new Card[5];
         for (Card card : all7cards) {
-            if(countedRanks.get(card.getRank()) == 2) {
+            if (countedRanks.get(card.getRank()) == 2) {
                 selected5cards[pairIndex] = card;
                 pairIndex++;
             } else if (countedRanks.get(card.getRank()) != 2 && highCardIndex <= 4) {

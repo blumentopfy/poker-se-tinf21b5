@@ -15,7 +15,6 @@ public class StakeLevelChoice implements LimitedChoice {
         this.choicesToRunnables = new HashMap<String, Runnable>();
     }
 
-
     @Override
     public LimitedChoice addOption(String option) {
         this.option = option;

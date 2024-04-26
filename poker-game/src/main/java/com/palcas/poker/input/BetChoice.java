@@ -38,7 +38,8 @@ public class BetChoice implements LimitedChoice {
 
         for (String option : this.optionsToRunnables.keySet()) {
             if (option.equals("(CALL)")) {
-                System.out.println("(CALL) " + playerToHighestBet.getKey().getName() + "'s bet of " + playerToHighestBet.getValue() + ".");
+                System.out.println("(CALL) " + playerToHighestBet.getKey().getName() + "'s bet of "
+                        + playerToHighestBet.getValue() + ".");
             } else {
                 System.out.println(option);
             }
@@ -55,7 +56,8 @@ public class BetChoice implements LimitedChoice {
             }
 
             for (String option : this.optionsToRunnables.keySet()) {
-                // Look at 2nd character of option according to how options are defined, not the best way I'm sure
+                // Look at 2nd character of option according to how options are defined, not the
+                // best way I'm sure
                 if (option.charAt(1) == userInput.charAt(0)) {
                     this.optionsToRunnables.get(option).run();
                     actionExecuted = true;

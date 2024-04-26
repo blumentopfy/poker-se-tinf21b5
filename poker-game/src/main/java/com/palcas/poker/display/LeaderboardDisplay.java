@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class LeaderboardDisplay {
     public static void displayLeaderboard(List<LeaderboardEntry> leaderboardTopTen, Scanner scanner) {
         DisplayElements.clearConsole();
-        if(leaderboardTopTen.size() == 0) {
+        if (leaderboardTopTen.size() == 0) {
             System.out.println("there are not entries yet in the leaderboard, you can be the first one ;-)");
             System.out.println("(press enter to return to main menu)");
             scanner.nextLine();
@@ -18,11 +18,12 @@ public class LeaderboardDisplay {
         System.out.printf(DisplayElements.SEPERATOR + "%n");
         System.out.printf("-----CURRENT LEADERBOARD-----%n");
         System.out.printf(DisplayElements.SEPERATOR + "%n");
-        System.out.printf(" %-4s | %-"+Math.min(maxNameLength, 20)+"s | %5s %n", "RANK", "NAME", "CHIPS");
+        System.out.printf(" %-4s | %-" + Math.min(maxNameLength, 20) + "s | %5s %n", "RANK", "NAME", "CHIPS");
         System.out.printf(DisplayElements.SEPERATOR + "%n");
         int rank = 1;
-        for (LeaderboardEntry entry: leaderboardTopTen) {
-            System.out.printf("  %02d  | %-"+Math.min(maxNameLength, 20)+"s | %05d %n", rank++, entry.getName(), entry.getChips());
+        for (LeaderboardEntry entry : leaderboardTopTen) {
+            System.out.printf("  %02d  | %-" + Math.min(maxNameLength, 20) + "s | %05d %n", rank++, entry.getName(),
+                    entry.getChips());
         }
         System.out.printf(DisplayElements.SEPERATOR + "%n");
         System.out.println("(press enter to return to main menu)");

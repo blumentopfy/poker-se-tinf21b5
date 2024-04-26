@@ -15,12 +15,13 @@ public class TwoPairs {
     public TwoPairs(CardsStatisticsService cardsStatistics) {
         this.cardsStatistics = cardsStatistics;
     }
+
     public boolean containsTwoPairs(Card[] cards) {
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(cards);
         boolean containsTwoOfAKind = false;
         for (int rankCount : countedRanks.values()) {
             if (rankCount == 2) {
-                if(containsTwoOfAKind) {
+                if (containsTwoOfAKind) {
                     return true;
                 } else {
                     containsTwoOfAKind = true;
@@ -30,9 +31,12 @@ public class TwoPairs {
         return false;
     }
 
-    //Structure of hand returned: card 0,1 are higher pair, cards 2,3 are lower pair, card 4 is high card
+    // Structure of hand returned: card 0,1 are higher pair, cards 2,3 are lower
+    // pair, card 4 is high card
     public Card[] selectHandForTwoPairs(Card[] all7cards) {
-        if (!containsTwoPairs(all7cards)) {return null;}
+        if (!containsTwoPairs(all7cards)) {
+            return null;
+        }
         Rank[] descendingSortedRanks = cardsStatistics.getDescendingOrderedRanks();
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(all7cards);
 
@@ -40,7 +44,7 @@ public class TwoPairs {
         Rank worsePair = null;
         for (Rank rank : descendingSortedRanks) {
             if (countedRanks.get(rank) == 2) {
-                if(betterPair == null) {
+                if (betterPair == null) {
                     betterPair = rank;
                 } else if (worsePair == null) {
                     worsePair = rank;
@@ -56,14 +60,14 @@ public class TwoPairs {
 
         Card[] selected5cards = new Card[5];
         for (Card card : all7cards) {
-            if(card.getRank() == betterPair) {
-                if(selected5cards[0] == null) {
+            if (card.getRank() == betterPair) {
+                if (selected5cards[0] == null) {
                     selected5cards[0] = card;
                 } else {
                     selected5cards[1] = card;
                 }
-            } else if(card.getRank() == worsePair) {
-                if(selected5cards[2] == null) {
+            } else if (card.getRank() == worsePair) {
+                if (selected5cards[2] == null) {
                     selected5cards[2] = card;
                 } else {
                     selected5cards[3] = card;

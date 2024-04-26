@@ -3,10 +3,10 @@ package com.palcas.poker.game;
 import com.palcas.poker.model.Rank;
 import com.palcas.poker.model.Suit;
 
-public class Card implements Comparable<Card>{
+public class Card implements Comparable<Card> {
     private final Suit suit;
     private final Rank rank;
-    
+
     public Card(Suit suit, Rank rank) {
         this.suit = suit;
         this.rank = rank;
@@ -22,7 +22,8 @@ public class Card implements Comparable<Card>{
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
         Card card = (Card) obj;
 
         return this.getSuit().equals(card.getSuit()) && this.getRank().equals(card.getRank());

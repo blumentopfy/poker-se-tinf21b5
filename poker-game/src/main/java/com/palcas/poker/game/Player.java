@@ -21,12 +21,12 @@ public class Player {
         this.bluffAffinity = generateRandomIntBetween(1, 100);
     }
 
-    public Player (String name) {
+    public Player(String name) {
         this.name = name;
         this.chips = 0;
     }
 
-    //TODO implement persisting for addChips and substractChips
+    // TODO implement persisting for addChips and substractChips
     public void addChips(int amountToAdd) {
         chips += amountToAdd;
     }
@@ -62,6 +62,7 @@ public class Player {
     public void setBet(int bet) {
         this.bet = bet;
     }
+
     public PlayerState getState() {
         return state;
     }
@@ -69,7 +70,7 @@ public class Player {
     public void setState(PlayerState state) {
         this.state = state;
     }
-        
+
     public void setName(String name) {
         this.name = name;
     }
@@ -95,7 +96,6 @@ public class Player {
         return random.ints(min, max).findFirst().getAsInt();
     }
 
-    
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -104,7 +104,9 @@ public class Player {
             return false;
         }
         Player player = (Player) o;
-        return Objects.equals(name, player.name) && chips == player.chips && Objects.equals(pocket, player.pocket) && bet == player.bet && Objects.equals(state, player.state) && aggressionLevel == player.aggressionLevel && bluffAffinity == player.bluffAffinity;
+        return Objects.equals(name, player.name) && chips == player.chips && Objects.equals(pocket, player.pocket)
+                && bet == player.bet && Objects.equals(state, player.state) && aggressionLevel == player.aggressionLevel
+                && bluffAffinity == player.bluffAffinity;
     }
 
     @Override
@@ -115,13 +117,13 @@ public class Player {
     @Override
     public String toString() {
         return "{" +
-            " name='" + getName() + "'" +
-            ", chips='" + getChips() + "'" +
-            ", pocket='" + getPocket() + "'" +
-            ", bet='" + getBet() + "'" +
-            ", state='" + getState() + "'" +
-            ", agressionLevel='" + getAggressionLevel() + "'" +
-            ", bluffAffinity='" + getBluffAffinity() + "'" +
-            "}";
+                " name='" + getName() + "'" +
+                ", chips='" + getChips() + "'" +
+                ", pocket='" + getPocket() + "'" +
+                ", bet='" + getBet() + "'" +
+                ", state='" + getState() + "'" +
+                ", agressionLevel='" + getAggressionLevel() + "'" +
+                ", bluffAffinity='" + getBluffAffinity() + "'" +
+                "}";
     }
 }

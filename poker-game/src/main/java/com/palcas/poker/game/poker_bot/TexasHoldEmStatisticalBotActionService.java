@@ -8,7 +8,7 @@ import com.palcas.poker.game.evaluation.BotPocketEvaluator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TexasHoldEmStatisticalBotActionService implements BotActionService{
+public class TexasHoldEmStatisticalBotActionService implements BotActionService {
     private BotPocketEvaluator pocketEvaluator;
     private int mentalCapacity;
 
@@ -39,7 +39,8 @@ public class TexasHoldEmStatisticalBotActionService implements BotActionService{
                 return new BotAction(BotAction.ActionType.CHECK);
             }
         } else if (winRateAgainstRandomOtherPockets >= 0.3 && winRateAgainstRandomOtherPockets < 0.7) {
-            // play passively because cards are okay; don't raise; but call if necessary amount is justifiable
+            // play passively because cards are okay; don't raise; but call if necessary
+            // amount is justifiable
             // if winRate is very average (0.5), then call up to 2 times bigBlind
             int maxJustifiableAmountToCall = (int) (winRateAgainstRandomOtherPockets * 4 * gameState.getBigBlind());
             if (bot.getBet() >= highestBetFromOtherPlayer) {
@@ -54,7 +55,7 @@ public class TexasHoldEmStatisticalBotActionService implements BotActionService{
                     return new BotAction(BotAction.ActionType.FOLD);
                 }
             }
-        }else if (winRateAgainstRandomOtherPockets >= 0.7) {
+        } else if (winRateAgainstRandomOtherPockets >= 0.7) {
             // play aggressively because cards are good. Raise
             int highestJustifiableBet = (int) (winRateAgainstRandomOtherPockets * 5 * gameState.getBigBlind());
             return raiseBy(highestJustifiableBet - bot.getBet(), bot);
@@ -72,7 +73,8 @@ public class TexasHoldEmStatisticalBotActionService implements BotActionService{
         double winRateAgainstRandomOtherPockets = timesWonAgainstNOtherPockets / (double) mentalCapacity;
         double botAggressionLevelDouble = bot.getAggressionLevel() / 100.0;
         int overallChipsOfBot = bot.getChips() + bot.getBet();
-        int highestJustifiableBet = (int) (botAggressionLevelDouble * winRateAgainstRandomOtherPockets * overallChipsOfBot);
+        int highestJustifiableBet = (int) (botAggressionLevelDouble * winRateAgainstRandomOtherPockets
+                * overallChipsOfBot);
 
         // if close to all in, then go all in
         if (highestJustifiableBet / (double) overallChipsOfBot >= 0.95) {
@@ -84,19 +86,21 @@ public class TexasHoldEmStatisticalBotActionService implements BotActionService{
             // if all in would be justifiable:
             if (overallChipsOfBot <= highestJustifiableBet) {
                 // if already all in:
-                if(bot.getChips() > 0) {
+                if (bot.getChips() > 0) {
                     return new BotAction(BotAction.ActionType.ALL_IN);
                 } else {
                     throw new IllegalStateException("bot is already all in, he doesn't have to decide this round");
                 }
             }
-            // if no ALL_IN justifiable, then fold, because highestJustifiableBet is smaller than what is needed
+            // if no ALL_IN justifiable, then fold, because highestJustifiableBet is smaller
+            // than what is needed
             return new BotAction(BotAction.ActionType.FOLD);
         } else if (highestJustifiableBet == highestBetFromOtherPlayer) {
-            //if a raise is neither necessary nor wanted, then just check
+            // if a raise is neither necessary nor wanted, then just check
             return new BotAction(BotAction.ActionType.CHECK);
         } else {
-            // if highest justifiable bet is higher than what is bet at the moment --> bet higher
+            // if highest justifiable bet is higher than what is bet at the moment --> bet
+            // higher
             return raiseBy(highestJustifiableBet - bot.getBet(), bot);
         }
     }

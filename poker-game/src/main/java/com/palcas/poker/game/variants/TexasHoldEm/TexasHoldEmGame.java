@@ -30,7 +30,8 @@ public class TexasHoldEmGame extends PokerGame {
         this.mainPlayer = mainPlayer;
         this.initialMainPlayerChips = mainPlayer.getChips();
         this.scanner = new Scanner(System.in);
-        this.botActionService = new TexasHoldEmStatisticalBotActionService(1000); //TODO adjust this depending on stakes level
+        this.botActionService = new TexasHoldEmStatisticalBotActionService(1000); // TODO adjust this depending on
+                                                                                  // stakes level
         chipsWon = 0;
     }
 
@@ -38,7 +39,8 @@ public class TexasHoldEmGame extends PokerGame {
         DisplayElements.clearConsole();
         System.out.println("Starting a game of Texas Hold'em...");
 
-        // Query player for number of players he wants to play with and how many chips everyone should have
+        // Query player for number of players he wants to play with and how many chips
+        // everyone should have
         int playerCount = new PlayerCountChoice(scanner).executeChoice().get();
         DisplayElements.clearConsole();
         new StakeLevelChoice(scanner)
@@ -50,14 +52,15 @@ public class TexasHoldEmGame extends PokerGame {
 
         DisplayElements.clearConsole();
 
-        // Populate player list with the main player and the number of players he wants to play with
+        // Populate player list with the main player and the number of players he wants
+        // to play with
         Collections.shuffle(PlayerNames.NAMES);
         List<String> playerNames = PlayerNames.NAMES.subList(0, playerCount);
 
         // Initialize players with random chips between 20x and 40x big blind
         this.gameState.players = playerNames.stream()
-            .map(player -> new Player(player, (int) (gameState.bigBlind * ((Math.random() * 20) + 20))))
-            .collect(Collectors.toList());
+                .map(player -> new Player(player, (int) (gameState.bigBlind * ((Math.random() * 20) + 20))))
+                .collect(Collectors.toList());
         this.gameState.players.add(this.mainPlayer);
 
         System.out.println(DisplayElements.SEPERATOR);
@@ -70,21 +73,21 @@ public class TexasHoldEmGame extends PokerGame {
         }
         System.out.println("(press enter to proceed)");
         scanner.nextLine();
-        
+
         // Create a new deck and shuffle it
         gameState.setDeck(new Deck().shuffleFullDeck());
 
         startPokerGameLoop();
 
-        //TODO save progress of the player
+        // TODO save progress of the player
 
         int chipsChange = mainPlayer.getChips() - initialMainPlayerChips;
-        GameResult gameResult = new GameResult(mainPlayer, 
-                                        chipsChange, 
-                                        chipsWon, 
-                                        roundsPlayed, 
-                                        roundsWon);
-        
+        GameResult gameResult = new GameResult(mainPlayer,
+                chipsChange,
+                chipsWon,
+                roundsPlayed,
+                roundsWon);
+
         return gameResult;
     }
 
@@ -96,7 +99,8 @@ public class TexasHoldEmGame extends PokerGame {
             // reset player states to WAITING_TO_BET and bets to 0
             resetStatesAndBets();
 
-            // shuffle here means creating a new deck and shuffling it, contrary to Collections.shuffle()
+            // shuffle here means creating a new deck and shuffling it, contrary to
+            // Collections.shuffle()
             gameState.getDeck().shuffleFullDeck();
 
             setBlinds();
@@ -104,8 +108,8 @@ public class TexasHoldEmGame extends PokerGame {
             gameState = new TexasHoldEmRound(gameState, botActionService).executeRound();
             roundsPlayed++;
 
-            //TODO process new gameState / winners in gameState
-            //processWinners();
+            // TODO process new gameState / winners in gameState
+            // processWinners();
 
             gameRunning = checkLosers();
 
@@ -132,29 +136,32 @@ public class TexasHoldEmGame extends PokerGame {
         if (gameState.players.get(gameState.smallBlindIndex) == mainPlayer) {
             System.out.println("You set the small blind of " + gameState.smallBlind + ".");
         } else {
-            System.out.println(gameState.players.get(gameState.smallBlindIndex).getName() + " sets the small blind of " + gameState.smallBlind + ".");
+            System.out.println(gameState.players.get(gameState.smallBlindIndex).getName() + " sets the small blind of "
+                    + gameState.smallBlind + ".");
         }
         gameState.players.get(gameState.smallBlindIndex).setBet(gameState.smallBlind);
-
 
         if (gameState.players.get(gameState.bigBlindIndex) == mainPlayer) {
             System.out.println("You set the big blind of " + gameState.bigBlind + ".");
         } else {
-            System.out.println(gameState.players.get(gameState.bigBlindIndex).getName() + " sets the big blind of " + gameState.bigBlind + ".");
+            System.out.println(gameState.players.get(gameState.bigBlindIndex).getName() + " sets the big blind of "
+                    + gameState.bigBlind + ".");
         }
         gameState.players.get(gameState.bigBlindIndex).setBet(gameState.bigBlind);
 
         gameState.pot = gameState.smallBlind + gameState.bigBlind;
-        gameState.setPlayerToHighestBet(new SimpleEntry<>(gameState.players.get(gameState.bigBlindIndex), gameState.bigBlind));
+        gameState.setPlayerToHighestBet(
+                new SimpleEntry<>(gameState.players.get(gameState.bigBlindIndex), gameState.bigBlind));
     }
 
-    //TODO move this to round
+    // TODO move this to round
     protected void splitPot(List<Player> winners) {
         if (winners.isEmpty()) {
             System.out.println("No winners to split the pot.");
             return;
         }
-        int chipsPerWinner = gameState.pot / winners.size();  // this automatically rounds down to the nearest whole number
+        int chipsPerWinner = gameState.pot / winners.size(); // this automatically rounds down to the nearest whole
+                                                             // number
         for (Player winner : winners) {
             winner.addChips(chipsPerWinner);
             System.out.println(winner.getName() + " wins " + chipsPerWinner + " chips!");
@@ -170,7 +177,8 @@ public class TexasHoldEmGame extends PokerGame {
         // If there's a remainder, keep them in the pot for next round
         int remainder = gameState.pot % winners.size();
         if (remainder > 0 && !winners.isEmpty()) {
-            System.out.println("The remaining " + remainder + " chips can't be distributed equally, so they stay in the pot for the next round!");
+            System.out.println("The remaining " + remainder
+                    + " chips can't be distributed equally, so they stay in the pot for the next round!");
         }
         gameState.pot = remainder;
     }
@@ -205,17 +213,17 @@ public class TexasHoldEmGame extends PokerGame {
         gameState.smallBlindIndex = 0;
         gameState.bigBlindIndex = 1;
         gameState.smallBlind = smallBlindValue;
-        gameState.bigBlind = 2*smallBlindValue;
+        gameState.bigBlind = 2 * smallBlindValue;
     }
 
     protected void processWinners() {
         List<Player> winners = gameState.getWinners();
         int pot = gameState.getPot();
-        
+
         if (winners.size() > 1) {
             System.out.println("Splitting pot of " + gameState.getPot() + " to " + winners.stream()
-                .map(Player::getName)
-                .collect(Collectors.joining(", ")));
+                    .map(Player::getName)
+                    .collect(Collectors.joining(", ")));
             splitPot(winners);
         } else {
             Player winner = winners.get(0);

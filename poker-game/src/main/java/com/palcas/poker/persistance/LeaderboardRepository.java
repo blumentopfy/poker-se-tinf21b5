@@ -5,5 +5,6 @@ import java.util.ArrayList;
 
 public interface LeaderboardRepository {
     ArrayList<LeaderboardEntry> getTopTen() throws IOException;
+
     void addToLeaderboard(String name, int chips) throws IOException;
 }

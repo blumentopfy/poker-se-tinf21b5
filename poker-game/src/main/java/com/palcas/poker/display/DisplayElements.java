@@ -16,6 +16,6 @@ public class DisplayElements {
         clearConsole();
         printSeperator();
     }
-    
+
     public static String SEPERATOR = "-----------------------------";
 }

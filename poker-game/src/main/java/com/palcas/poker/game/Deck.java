@@ -57,8 +57,8 @@ public class Deck {
     @Override
     public String toString() {
         return "{" +
-            " cards='" + getCards() + "'" +
-            "}";
+                " cards='" + getCards() + "'" +
+                "}";
     }
 
     public void removeCard(Card card) {

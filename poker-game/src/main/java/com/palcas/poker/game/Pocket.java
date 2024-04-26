@@ -29,7 +29,7 @@ public abstract class Pocket {
     @Override
     public String toString() {
         return "{" +
-            " cards='" + getCards() + "'" +
-            "}";
+                " cards='" + getCards() + "'" +
+                "}";
     }
 }

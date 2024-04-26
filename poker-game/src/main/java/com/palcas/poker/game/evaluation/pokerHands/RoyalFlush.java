@@ -17,10 +17,12 @@ public class RoyalFlush {
 
     public boolean containsRoyalFlush(Card[] cards) {
         Suit suitOfPotentialRoyalFlush = cardsStatistics.calculateSuitOfPotentialFlush(cards);
-        if (suitOfPotentialRoyalFlush == null) {return false;}
+        if (suitOfPotentialRoyalFlush == null) {
+            return false;
+        }
         Card[] setOfCardsWithFlushSuite = cardsStatistics.filterForSuit(suitOfPotentialRoyalFlush, cards);
 
-        //check manually for 10, Jack, Queen, King, Ace
+        // check manually for 10, Jack, Queen, King, Ace
         HashMap<Rank, Integer> countedRanks = cardsStatistics.countRanks(setOfCardsWithFlushSuite);
         return countedRanks.get(Rank.TEN) >= 1
                 && countedRanks.get(Rank.JACK) >= 1
@@ -30,12 +32,14 @@ public class RoyalFlush {
     }
 
     public Card[] selectHandForRoyalFlush(Card[] all7Cards) {
-        if (!containsRoyalFlush(all7Cards)) {return null;}
+        if (!containsRoyalFlush(all7Cards)) {
+            return null;
+        }
         Suit suitOfRoyalFlush = cardsStatistics.calculateSuitOfPotentialFlush(all7Cards);
 
         Card[] selected5cards = new Card[5];
-        for (Card card: all7Cards) {
-            if(card.getSuit() == suitOfRoyalFlush) {
+        for (Card card : all7Cards) {
+            if (card.getSuit() == suitOfRoyalFlush) {
                 if (card.getRank() == Rank.TEN) {
                     selected5cards[0] = card;
                 } else if (card.getRank() == Rank.JACK) {

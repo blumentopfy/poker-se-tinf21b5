@@ -10,12 +10,15 @@ public class CardsStatisticsService {
 
     /*
      * Counts how many cards of each rank there are
+     * 
      * @param mergedHandAndBoard Card-Array of 7 cards, whose ranks will be counted
-     * @return a HashMap<Rank, Integer> with the number of cards for each rank. This should add up to 7 again
+     * 
+     * @return a HashMap<Rank, Integer> with the number of cards for each rank. This
+     * should add up to 7 again
      */
     public HashMap<Rank, Integer> countRanks(Card[] mergedHandAndBoard) {
         HashMap<Rank, Integer> rankCounter = new HashMap<>();
-        for (Rank rank: Rank.values()) {
+        for (Rank rank : Rank.values()) {
             rankCounter.put(rank, 0);
             for (Card card : mergedHandAndBoard) {
                 if (card.getRank() == rank) {
@@ -29,12 +32,15 @@ public class CardsStatisticsService {
 
     /*
      * Counts how many cards of each suit there are
+     * 
      * @param mergedHandAndBoard Card-Array of 7 cards, whose suits will be counted
-     * @return a HashMap<Suit, Integer> with the number of cards for each suit. This should add up to 7 again
+     * 
+     * @return a HashMap<Suit, Integer> with the number of cards for each suit. This
+     * should add up to 7 again
      */
     public HashMap<Suit, Integer> countSuits(Card[] mergedHandAndBoard) {
         HashMap<Suit, Integer> suitCounter = new HashMap<>();
-        for (Suit suit: Suit.values()) {
+        for (Suit suit : Suit.values()) {
             suitCounter.put(suit, 0);
             for (Card card : mergedHandAndBoard) {
                 if (card.getSuit() == suit) {
@@ -59,8 +65,8 @@ public class CardsStatisticsService {
 
     public Card[] filterForSuit(Suit suit, Card[] cards) {
         List<Card> filteredCardsList = new ArrayList<Card>();
-        for (Card card: cards) {
-            if(card.getSuit() == suit) {
+        for (Card card : cards) {
+            if (card.getSuit() == suit) {
                 filteredCardsList.add(card);
             }
         }
@@ -74,14 +80,15 @@ public class CardsStatisticsService {
         Rank[] sortedRanks = Rank.values();
         Arrays.sort(Rank.values(), Comparator.comparingInt(Rank::getValue));
         int streak = 0;
-        // check for Ace at the beginning of the streak, since it can be the very lowest or very highest card
+        // check for Ace at the beginning of the streak, since it can be the very lowest
+        // or very highest card
         if (countedRanks.get(Rank.ACE) >= 1) {
             streak++;
         }
         for (Rank rank : sortedRanks) {
             if (countedRanks.get(rank) >= 1) {
                 streak++;
-                if(streak >= 5) {
+                if (streak >= 5) {
                     return true;
                 }
             } else {
@@ -105,7 +112,7 @@ public class CardsStatisticsService {
 
     public Card getCardByRank(Card[] cards, Rank rank) {
         for (Card card : cards) {
-            if(card.getRank() == rank) {
+            if (card.getRank() == rank) {
                 return card;
             }
         }
