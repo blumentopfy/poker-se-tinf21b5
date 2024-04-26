@@ -15,6 +15,7 @@ import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.GameState;
 import com.palcas.poker.game.Player;
+import com.palcas.poker.game.Pocket;
 import com.palcas.poker.game.Round;
 import com.palcas.poker.game.evaluation.HandEvaluationService;
 import com.palcas.poker.game.evaluation.TexasHoldEmHandEvaluationService;
@@ -129,7 +130,7 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected List<Player> determineWinners(HashMap<Player, TexasHoldEmPocket> playersWithPockets, List<Card> communityCards) {
+    protected List<Player> determineWinners(HashMap<Player, ? extends Pocket> playersWithPockets, List<Card> communityCards) {
         // Bring Information in right Format for handEvaluationService.determineWinner
         HashMap<Player, Card[]> playersWithPocketAndBoardCards = new HashMap<>();
         for (Player player : gameState.getPlayers()) {

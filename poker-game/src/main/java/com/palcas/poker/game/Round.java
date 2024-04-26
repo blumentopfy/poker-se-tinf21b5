@@ -15,12 +15,12 @@ public abstract class Round {
     List<Card> communityCards;
 
     public abstract GameState executeRound();
-    protected abstract LinkedHashMap<Player, TexasHoldEmPocket> distributePocketCards();
+    protected abstract LinkedHashMap<Player, ? extends Pocket> distributePocketCards();
     protected abstract void bettingLoop(int bigBlindIndex);
     protected abstract void flop();
     protected abstract void turn();
     protected abstract void river();
-    protected abstract List<Player> determineWinners(HashMap<Player, TexasHoldEmPocket> playersWithPockets, List<Card> communityCards);
+    protected abstract List<Player> determineWinners(HashMap<Player, ? extends Pocket> playersWithPockets, List<Card> communityCards);
     protected abstract void checkForWalk();
     protected abstract void bet(Player player);
     protected abstract void check(Player player);
