@@ -1,4 +1,4 @@
-package com.palcas.poker.game.variants.HoldEm;
+package com.palcas.poker.game.variants.TexasHoldEm;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,21 +23,21 @@ import com.palcas.poker.input.BetChoice;
 import com.palcas.poker.input.RaiseChoice;
 import com.palcas.poker.model.PlayerState;
 
-public class HoldEmRound extends Round {
+public class TexasHoldEmRound extends Round {
     private GameState gameState;
     private BotActionService botActionService;
     private List<Card> mainPlayerCards;
     private List<Card> communityCards;
     private static Entry<Player, Integer> playerToHighestBet;
 
-    public HoldEmRound(GameState gameState, BotActionService botActionService) {
+    public TexasHoldEmRound(GameState gameState, BotActionService botActionService) {
         super(gameState, botActionService, gameState.mainPlayer.getPocket().getCards());
     }
 
     @Override
     public GameState executeRound() {
         // Distribute pocket cards
-        HashMap<Player, HoldEmPocket> playersWithPockets = distributePocketCards();
+        HashMap<Player, TexasHoldEmPocket> playersWithPockets = distributePocketCards();
         List<Card> mainPlayerCards = playersWithPockets.get(gameState.mainPlayer).getCards();
         List<Card> communityCards = new ArrayList<Card>();    
 
@@ -73,10 +73,10 @@ public class HoldEmRound extends Round {
     }
 
     @Override
-    protected LinkedHashMap<Player, HoldEmPocket> distributePocketCards() {
-        LinkedHashMap<Player, HoldEmPocket> playersWithPockets = new LinkedHashMap<>();
+    protected LinkedHashMap<Player, TexasHoldEmPocket> distributePocketCards() {
+        LinkedHashMap<Player, TexasHoldEmPocket> playersWithPockets = new LinkedHashMap<>();
         for (Player player : this.gameState.getPlayers()) {
-            HoldEmPocket newPocket = new HoldEmPocket().populatePocket(this.gameState.getDeck());
+            TexasHoldEmPocket newPocket = new TexasHoldEmPocket().populatePocket(this.gameState.getDeck());
             player.setPocket(newPocket);
             playersWithPockets.put(player, newPocket);
         }
@@ -121,7 +121,7 @@ public class HoldEmRound extends Round {
             potentialWinner.setChips(potentialWinner.getChips() + gameState.getPot());
 
             if (potentialWinner == gameState.getMainPlayer()) {
-                HoldEmGame.chipsWon += gameState.getPot();
+                TexasHoldEmGame.chipsWon += gameState.getPot();
             }
 
             gameState.setPot(0);
@@ -129,7 +129,7 @@ public class HoldEmRound extends Round {
     }
 
     @Override
-    protected List<Player> determineWinners(HashMap<Player, HoldEmPocket> playersWithPockets, List<Card> communityCards) {
+    protected List<Player> determineWinners(HashMap<Player, TexasHoldEmPocket> playersWithPockets, List<Card> communityCards) {
         // Bring Information in right Format for handEvaluationService.determineWinner
         HashMap<Player, Card[]> playersWithPocketAndBoardCards = new HashMap<>();
         for (Player player : gameState.getPlayers()) {

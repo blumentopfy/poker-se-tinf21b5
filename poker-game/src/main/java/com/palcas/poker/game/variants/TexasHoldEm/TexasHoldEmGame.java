@@ -1,4 +1,4 @@
-package com.palcas.poker.game.variants.HoldEm;
+package com.palcas.poker.game.variants.TexasHoldEm;
 
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
@@ -16,7 +16,7 @@ import com.palcas.poker.game.poker_bot.TexasHoldEmStatisticalBotActionService;
 import com.palcas.poker.input.*;
 import com.palcas.poker.model.PlayerState;
 
-public class HoldEmGame extends PokerGame {
+public class TexasHoldEmGame extends PokerGame {
     private final Scanner scanner;
     private final Player mainPlayer;
     private final int initialMainPlayerChips;
@@ -25,7 +25,7 @@ public class HoldEmGame extends PokerGame {
     public static int chipsWon;
     public static int roundsWon;
 
-    public HoldEmGame(Player mainPlayer, ArrayList<Player> players) {
+    public TexasHoldEmGame(Player mainPlayer, ArrayList<Player> players) {
         this.gameState = new GameState(mainPlayer, players);
         this.mainPlayer = mainPlayer;
         this.initialMainPlayerChips = mainPlayer.getChips();
@@ -101,7 +101,7 @@ public class HoldEmGame extends PokerGame {
 
             setBlinds();
 
-            gameState = new HoldEmRound(gameState, botActionService).executeRound();
+            gameState = new TexasHoldEmRound(gameState, botActionService).executeRound();
             roundsPlayed++;
 
             //TODO process new gameState / winners in gameState

@@ -1,4 +1,4 @@
-package com.palcas.poker.game.variants.HoldEm;
+package com.palcas.poker.game.variants.OmahaHoldEm;
 
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.Deck;
@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 //This class represents the unique cards each player get to play with in any round of the poker game
-public class HoldEmPocket extends Pocket {
+public class OmahaHoldEmPocket extends Pocket {
     List<Card> cards;
 
-    public HoldEmPocket() {
+    public OmahaHoldEmPocket() {
         this.cards = new ArrayList<Card>();
     }
 
@@ -23,9 +23,10 @@ public class HoldEmPocket extends Pocket {
         this.cards = cards;
     }
 
-    public HoldEmPocket populatePocket(Deck deck) {
-        cards.add(deck.drawCard());
-        cards.add(deck.drawCard());
+    public OmahaHoldEmPocket populatePocket(Deck deck) {
+        for (int i = 0; i < 5; i++) {
+            cards.add(deck.drawCard());
+        }
         return this;
     }
 }

@@ -1,9 +1,7 @@
 package com.palcas.poker.game.poker_bot;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import com.palcas.poker.game.*;
 import com.palcas.poker.game.evaluation.HandEvaluationService;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.palcas.poker.display.DisplayElements;
-import com.palcas.poker.game.variants.HoldEm.HoldEmGame;
+import com.palcas.poker.game.variants.TexasHoldEm.TexasHoldEmGame;
 import com.palcas.poker.input.PokerVariantChoice;
 
 public class Session {
@@ -27,7 +27,7 @@ public class Session {
     }
 
     private void startHoldEmGame() {
-        GameResult gameResult = new HoldEmGame(mainPlayer, players).playGame();
+        GameResult gameResult = new TexasHoldEmGame(mainPlayer, players).playGame();
         //TODO persist game result
     }
 
