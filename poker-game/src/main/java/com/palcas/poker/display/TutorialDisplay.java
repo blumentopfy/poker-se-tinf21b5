@@ -20,8 +20,8 @@ public class TutorialDisplay {
 
     public static void playerCountInfo(Scanner scanner) {
         DisplayElements.clearWithSeperator();
-        System.out.println("Usually, you would be prompted for how many players you want to play with at this stage");
-        System.out.println("In this tutorial however, we will play with 3 additional players.");
+        System.out.println("Usually, you would be prompted for how many players you want to play with at this stage\n"
+                + "In this tutorial however, we will play with 3 additional players.");
         DisplayElements.printSeperator();
         System.out.println("(press enter to continue the tutorial)");
         DisplayElements.printSeperator();
@@ -32,14 +32,13 @@ public class TutorialDisplay {
         DisplayElements.clearWithSeperator();
         System.out.println("BLINDS");
         DisplayElements.printSeperator();
-        System.out.println("Your next choice would be to pick your preffered Blind-setup");
-        System.out.println("Blinds in Poker serve a specific purpose.");
-        System.out.println("They exist so every round of poker at least has some chips to play for.");
-        System.out.println(
-                "Additionally, when a player wants to bet or raise (terms further explainer later), they at least have to bet the amount of the big blind");
-        System.out.println("For starters, we reccomend playing a low-stakes game, meaning a low big blind");
-        System.out.println("The big blind will also increase regularly");
-        System.out.println("For the purpose of this tutorial, we have selected a low-stakes game for you.");
+        System.out.println("Your next choice would be to pick your preferred Blind-setup\n"
+                + "Blinds in Poker serve a specific purpose.\n"
+                + "They exist so every round of poker at least has some chips to play for.\n"
+                + "Additionally, when a player wants to bet or raise (terms further explained later), they at least have to bet the amount of the big blind\n"
+                + "For starters, we recommend playing a low-stakes game, meaning a low big blind\n"
+                + "The big blind will also increase regularly\n"
+                + "For the purpose of this tutorial, we have selected a low-stakes game for you.");
         DisplayElements.printSeperator();
         System.out.println("(press enter to continue the tutorial)");
         DisplayElements.printSeperator();
@@ -67,25 +66,26 @@ public class TutorialDisplay {
         DisplayElements.clearWithSeperator();
         System.out.println("DECK");
         DisplayElements.printSeperator();
-        System.out.println("In Poker, you play with a standard deck of 52 cards.");
-        System.out.println("The deck consists of 4 suits: Hearts, Diamonds, Clubs and Spades.");
-        System.out.println("Each suit has 13 cards: 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King, Ace");
-        System.out.println("The goal of the game is to make the best possible hand out of the cards available to you.");
-        System.out.println("The hands are ranked from highest to lowest:");
-        System.out.println(
-                "Royal Flush, Straight Flush, Four of a Kind, Full House, Flush, Straight, Three of a Kind, Two Pair, One Pair, High Card");
-        System.out.println("This is what each of these terms mean:");
-        System.out.println("Royal Flush: A, K, Q, J, 10 of the same suit");
-        System.out.println("Straight flush: 5 cards in a row of the same suit");
-        System.out.println("Four of a Kind: 4 cards of the same rank");
-        System.out.println("Full House: 3 cards of the same rank and 2 cards of the same rank");
-        System.out.println("Flush: 5 cards of the same suit");
-        System.out.println("Straight: 5 cards in a row");
-        System.out.println("Three of a Kind: 3 cards of the same rank");
-        System.out.println("Two Pair: 2 cards of the same rank and 2 cards of the same rank");
-        System.out.println("One Pair: 2 cards of the same rank");
-        System.out.println("High Card: The highest card in your hand");
-        System.out.println("The player with the best hand wins the round and takes the pot.");
+
+        System.out.println("In Poker, you play with a standard deck of 52 cards.\n"
+                + "The deck consists of 4 suits: Hearts, Diamonds, Clubs and Spades.\n"
+                + "Each suit has 13 cards: 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King, Ace\n"
+                + "The goal of the game is to make the best possible hand out of the cards available to you.\n"
+                + "The hands are ranked from highest to lowest:\n"
+                + "Royal Flush, Straight Flush, Four of a Kind, Full House, Flush, Straight, Three of a Kind, Two Pair, One Pair, High Card\n"
+                + "This is what each of these terms mean:\n"
+                + "Royal Flush: A, K, Q, J, 10 of the same suit\n"
+                + "Straight flush: 5 cards in a row of the same suit\n"
+                + "Four of a Kind: 4 cards of the same rank\n"
+                + "Full House: 3 cards of the same rank and 2 cards of the same rank\n"
+                + "Flush: 5 cards of the same suit\n"
+                + "Straight: 5 cards in a row\n"
+                + "Three of a Kind: 3 cards of the same rank\n"
+                + "Two Pair: 2 cards of the same rank and 2 cards of the same rank\n"
+                + "One Pair: 2 cards of the same rank\n"
+                + "High Card: The highest card in your hand\n"
+                + "The player with the best hand wins the round and takes the pot.");
+
         DisplayElements.printSeperator();
         System.out.println("(press enter to continue the tutorial)");
         DisplayElements.printSeperator();
@@ -96,20 +96,18 @@ public class TutorialDisplay {
         DisplayElements.clearWithSeperator();
         System.out.println("ROUNDS");
         DisplayElements.printSeperator();
-        System.out.println("In Poker, a round consists of 4 phases:");
-        System.out.println(
-                "1. Pre-flop: Each player is dealt 2 cards \"face down\". The player after the big blind starts the betting.");
-        System.out.println("2. Flop: 3 cards are dealt face up in the middle of the table");
-        System.out.println("3. Turn: 1 card is dealt face up next to the flop");
-        System.out.println("4. River: 1 card is dealt face up next to the turn");
-        System.out.println(
-                "After every player recieves their cards, they have the option to either fold, call or raise.");
-        System.out.println(
-                "Raising means you increase the bet, calling means you match the bet and folding means you forfeit the round.");
-        System.out.println("The first player to bet is the player after the big blind.");
-        System.out.println("After the flop, turn and river, the player after the dealer starts the betting.");
-        System.out.println(
-                "The player with the best hand wins the round and takes the pot (meaning all bets accumulated over the last rounds).");
+
+        System.out.println("In Poker, a round consists of 4 phases:\n"
+                + "1. Pre-flop: Each player is dealt 2 cards \"face down\". The player after the big blind starts the betting.\n"
+                + "2. Flop: 3 cards are dealt face up in the middle of the table\n"
+                + "3. Turn: 1 card is dealt face up next to the flop\n"
+                + "4. River: 1 card is dealt face up next to the turn\n"
+                + "After every player recieves their cards, they have the option to either fold, call or raise.\n"
+                + "Raising means you increase the bet, calling means you match the bet and folding means you forfeit the round.\n"
+                + "The first player to bet is the player after the big blind.\n"
+                + "After the flop, turn and river, the player after the dealer starts the betting.\n"
+                + "The player with the best hand wins the round and takes the pot (meaning all bets accumulated over the last rounds).");
+
         DisplayElements.printSeperator();
         System.out.println("(press enter to continue the tutorial)");
         DisplayElements.printSeperator();
