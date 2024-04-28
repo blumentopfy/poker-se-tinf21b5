@@ -35,7 +35,7 @@ public class TexasHoldEmRound extends Round {
     private static Entry<Player, Integer> playerToHighestBet;
 
     public TexasHoldEmRound(GameState gameState, BotActionService botActionService) {
-        super(gameState, botActionService, gameState.mainPlayer.getPocket().getCards());
+        super(gameState, botActionService);
     }
 
     @Override

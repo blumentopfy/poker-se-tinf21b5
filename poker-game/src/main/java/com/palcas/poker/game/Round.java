@@ -36,9 +36,8 @@ public abstract class Round {
     protected abstract void botAllIn(Player bot);
     protected abstract boolean checkIfBettingOver();
     
-    public Round(GameState gameState, BotActionService botActionService, List<Card> mainPlayerCards) {
+    public Round(GameState gameState, BotActionService botActionService) {
         this.gameState = gameState;
         this.botActionService = botActionService;
-        this.mainPlayerCards = mainPlayerCards;
     }
 }
