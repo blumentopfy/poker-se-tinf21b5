@@ -1,5 +1,7 @@
 package com.palcas.poker.game.poker_bot;
 
+import java.util.Optional;
+
 public class BotAction {
     private ActionType actionType;
 
@@ -24,8 +26,8 @@ public class BotAction {
         return actionType;
     }
 
-    public Integer getRaiseAmount() {
-        return raiseAmount;
+    public Optional<Integer> getRaiseAmount() {
+        return Optional.of(raiseAmount);
     }
 
     public void setActionType(ActionType actionType) {
