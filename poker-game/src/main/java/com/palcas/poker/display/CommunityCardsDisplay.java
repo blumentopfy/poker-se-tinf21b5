@@ -57,11 +57,10 @@ public class CommunityCardsDisplay {
         System.out.println("These are your pocket cards:");
         PocketDisplay.displayColoredPocket(cards.get(0), cards.get(1));
         DisplayElements.printSeperator();
+        PauseDisplay.continueWithEnter();
     }
 
     public static void printPostFlopBoard(String state, List<Card> mainPlayerCards, List<Card> communityCards) {
-        DisplayElements.clearConsole();
-
         DisplayElements.printSeperator();
         System.out.println("Currently: " + state);
         DisplayElements.printSeperator();
@@ -73,5 +72,6 @@ public class CommunityCardsDisplay {
         System.out.println("These are the community cards:");
         displayColoredCommunityCards(communityCards.toArray(new Card[0]));
         DisplayElements.printSeperator();
+        PauseDisplay.continueWithEnter();
     }
 }

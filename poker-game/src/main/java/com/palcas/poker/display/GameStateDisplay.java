@@ -12,6 +12,7 @@ public class GameStateDisplay {
             String blindStatus = getBlindRepresentationOf(player, gameState);
             System.out.printf(" %-20s | %-5s | %-15s | %-15d | %-15d %n", player.getName(), blindStatus, player.getState().getCoolString(), player.getBet(), player.getChips());
         }
+        PauseDisplay.continueWithEnter();
     }
 
     private static String getBlindRepresentationOf(Player player, GameState gameState) {

@@ -37,7 +37,7 @@ public class DifficultyChoice implements LimitedChoice {
     @Override
     public void executeChoice() {
         System.out.println("----------DIFFICULTY----------");
-        System.out.println("Please choose how you would like to log in:");
+        System.out.println("Please choose the difficulty of the other players:");
 
         List<String> choices = new ArrayList<>(this.choicesToRunnables.keySet());
 
