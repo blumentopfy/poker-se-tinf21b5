@@ -56,9 +56,18 @@ public class EmpiricalBotActionService implements BotActionService {
                 }
             }
         } else if (winRateAgainstRandomOtherPockets >= 0.7) {
-            // play aggressively because cards are good. Raise
+            // play aggressively because cards are good. Raise or Call
             int highestJustifiableBet = (int) (winRateAgainstRandomOtherPockets * 5 * gameState.getBigBlind());
-            return raiseBy(highestJustifiableBet - bot.getBet(), bot);
+            if(highestJustifiableBet > highestBetFromOtherPlayer) {
+                return raiseBy(highestJustifiableBet - bot.getBet(), bot);
+            } else {
+                //if the necessary bet is only 20% higher, then call. If it is even higher, then fold
+                if(highestBetFromOtherPlayer/(double)highestJustifiableBet <= 1.2) {
+                    return new BotAction(BotAction.ActionType.CALL);
+                } else {
+                    return new BotAction(BotAction.ActionType.FOLD);
+                }
+            }
         }
         throw new IllegalStateException("The bot was unable to make a decision pre flop");
     }
@@ -67,7 +76,7 @@ public class EmpiricalBotActionService implements BotActionService {
     public BotAction decidePostFlopAction(Player bot, List<Card> communityCards, GameState gameState) {
         ArrayList<Card> botPocket = new ArrayList<>(bot.getPocket().getCards());
         int timesWonAgainstNOtherPockets = pocketEvaluator.evaluatePostFlopPocket(
-                new ArrayList<>(communityCards),
+                communityCards,
                 botPocket,
                 mentalCapacity);
         double winRateAgainstRandomOtherPockets = timesWonAgainstNOtherPockets / (double) mentalCapacity;

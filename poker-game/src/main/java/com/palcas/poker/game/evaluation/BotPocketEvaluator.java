@@ -5,6 +5,7 @@ import com.palcas.poker.game.Deck;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class BotPocketEvaluator {
     HandEvaluationService handEvaluationService;
@@ -30,7 +31,7 @@ public class BotPocketEvaluator {
      * @return number of virtual pockets, the original pocket would win against or
      * would draw
      */
-    public int evaluatePostFlopPocket(ArrayList<Card> communityCards, ArrayList<Card> pocketCards, int numberPockets) {
+    public int evaluatePostFlopPocket(List<Card> communityCards, ArrayList<Card> pocketCards, int numberPockets) {
         // create deck with all cards except the known cards
         Deck deck = new Deck().shuffleFullDeck();
         for (Card card : communityCards) {
@@ -85,7 +86,7 @@ public class BotPocketEvaluator {
      * 
      * @returns the number of wins + draws against the simulated pockets
      */
-    public int evaluatePreFlopPocket(ArrayList<Card> pocketCards, int numberPockets) {
+    public int evaluatePreFlopPocket(List<Card> pocketCards, int numberPockets) {
         // create deck with all cards except the known cards
         Deck deckWithKnownCardsRemoved = new Deck().shuffleFullDeck();
         deckWithKnownCardsRemoved.removeCard(pocketCards.get(0));
