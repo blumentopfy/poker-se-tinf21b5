@@ -6,13 +6,16 @@ import com.palcas.poker.game.Player;
 public class GameStateDisplay {
     public static void display(GameState gameState) {
         System.out.printf("-----CURRENT GAME STATUS-----%n");
-        System.out.printf(" %-20s | %-5s | %-15s | %-15s | %-15s %n", "PLAYER", "BLIND", "STATUS", "CHIPS IN POT", "CHIPS ON STACK");
+        System.out.printf(" %-20s | %-5s | %-15s | %-15s | %-15s %n", "PLAYER", "BLIND", "STATUS", "CHIPS IN POT",
+                "CHIPS ON STACK");
         System.out.printf("-".repeat(84) + "%n");
         for (Player player : gameState.getPlayers()) {
             String blindStatus = getBlindRepresentationOf(player, gameState);
-            System.out.printf(" %-20s | %-5s | %-15s | %-15d | %-15d %n", player.getName(), blindStatus, player.getState().getCoolString(), player.getBet(), player.getChips());
+            System.out.printf(" %-20s | %-5s | %-15s | %-15d | %-15d %n", player.getName(), blindStatus,
+                    player.getState().getCoolString(), player.getBet(), player.getChips());
         }
         PauseDisplay.continueWithEnter();
+        DisplayElements.printSeperator();
     }
 
     private static String getBlindRepresentationOf(Player player, GameState gameState) {
@@ -24,6 +27,5 @@ public class GameStateDisplay {
             return "---";
         }
     }
-
 
 }

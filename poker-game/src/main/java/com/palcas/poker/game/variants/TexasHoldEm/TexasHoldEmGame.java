@@ -37,37 +37,20 @@ public class TexasHoldEmGame extends PokerGame {
 
     public GameResult playGame() {
         DisplayElements.clearConsole();
-        new DifficultyChoice(scanner)
-                .addOption("Easy")
-                .withAction(() -> wantsToPlayOnHard = false)
-                .addOption("Hard")
-                .withAction(() -> wantsToPlayOnHard = true)
-                .executeChoice();
+        queryPlayerForDifficulty();
 
-        // Query player for number of players he wants to play with and how many chips
-        // everyone should have
+        // Query player for number of players he wants to play with
         int playerCount = new PlayerCountChoice(scanner).executeChoice().get();
-        new StakeLevelChoice(scanner)
-                // TODO Once StatisticalBotActionService is debugged, set second param to
-                // "wantsToPlayOnHard"
-                .addOption("Low Stakes (Blinds: 5/10)")
-                .withAction(() -> initializeBlindsAndBotActionService(5, true))
-                .addOption("Medium Stakes (Blinds: 25/50)")
-                .withAction(() -> initializeBlindsAndBotActionService(25, true))
-                .addOption("High Stakes (Blinds: 100/200)")
-                .withAction(() -> initializeBlindsAndBotActionService(100, true))
-                .addOption("Very High Stakes (Blinds: 500/1000)")
-                .withAction(() -> initializeBlindsAndBotActionService(500, true))
-                .executeChoice();
+
+        queryPlayerForStakes();
 
         DisplayElements.clearConsole();
 
-        // Populate player list with the main player and the number of players he wants
-        // to play with
+        // Populate player list with the main player and bots
         Collections.shuffle(PlayerNames.NAMES);
         List<String> playerNames = PlayerNames.NAMES.subList(0, playerCount);
 
-        // Initialize players with random chips between 20x and 40x big blind
+        // Initialize players
         this.gameState.players = playerNames.stream()
                 .map(player -> new Player(player, (int) (gameState.bigBlind * ((Math.random() * 20) + 20))))
                 .collect(Collectors.toList());
@@ -81,13 +64,11 @@ public class TexasHoldEmGame extends PokerGame {
                 System.out.println(player.getName() + " - Chips: " + player.getChips());
             }
         }
+
         DisplayElements.printSeperator();
         System.out.println("(press enter to proceed)");
         DisplayElements.printSeperator();
         scanner.nextLine();
-
-        // Create a new deck and shuffle it
-        gameState.setDeck(new Deck().shuffleFullDeck());
 
         startPokerGameLoop();
 
@@ -102,10 +83,14 @@ public class TexasHoldEmGame extends PokerGame {
     }
 
     protected void startPokerGameLoop() {
+        // Create a new deck and shuffle it
+        gameState.setDeck(new Deck());
+
         boolean gameRunning = true;
         while (gameRunning) {
             DisplayElements.clearWithSeperator();
             System.out.println("Starting round " + gameState.getRoundsPlayed() + ".");
+
             // reset player states to WAITING_TO_BET and bets to 0
             resetStatesAndBets();
 
@@ -251,5 +236,25 @@ public class TexasHoldEmGame extends PokerGame {
                 roundsWon++;
             }
         }
+    }
+
+    private void queryPlayerForDifficulty() {
+        new DifficultyChoice(scanner)
+                .addOption("Easy")
+                .withAction(() -> wantsToPlayOnHard = false)
+                .addOption("Hard")
+                .withAction(() -> wantsToPlayOnHard = true)
+                .executeChoice();
+    }
+
+    private void queryPlayerForStakes() {
+        new StakeLevelChoice(scanner)
+                .addOption("Low")
+                .withAction(() -> initializeBlindsAndBotActionService(5, !wantsToPlayOnHard))
+                .addOption("Medium")
+                .withAction(() -> initializeBlindsAndBotActionService(10, !wantsToPlayOnHard))
+                .addOption("High")
+                .withAction(() -> initializeBlindsAndBotActionService(20, !wantsToPlayOnHard))
+                .executeChoice();
     }
 }
