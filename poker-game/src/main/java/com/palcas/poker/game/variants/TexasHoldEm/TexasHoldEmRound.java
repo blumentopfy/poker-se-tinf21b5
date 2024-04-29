@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 import com.palcas.poker.App;
 import com.palcas.poker.display.CommunityCardsDisplay;
@@ -108,7 +109,6 @@ public class TexasHoldEmRound extends Round {
     protected boolean checkIfBettingOver() {
         // Betting is not over if any player is still waiting to bet
         for (Player player : gameState.getPlayers()) {
-            // ... a player is still waiting to bet
             if (player.getState() == PlayerState.WAITING_TO_BET) {
                 return false;
             }
@@ -180,9 +180,19 @@ public class TexasHoldEmRound extends Round {
                 return;
             }
             PauseDisplay.continueWithEnter();
+            String option;
+            Consumer<Player> action;
+
+            // If there hasn't been any bets yet, calling is not an option
+            if (playerToHighestBet.getValue() == 0) {
+                option = "(C)heck";
+                action = this::mainPlayerCheck;
+            } else {
+                option = "(CALL)";
+                action = this::mainPlayerCall;
+            }
             new BetChoice(scanner, playerToHighestBet)
-                    .addOption("(C)heck").withAction(() -> mainPlayerCheck(player))
-                    .addOption("(CALL)").withAction(() -> mainPlayerCall(player))
+                    .addOption(option).withAction(() -> action.accept(player))
                     .addOption("(R)aise").withAction(() -> mainPlayerRaise(player))
                     .addOption("(F)old").withAction(() -> mainPlayerFold(player))
                     .addOption("(A)ll in").withAction(() -> mainPlayerAllIn(player))
@@ -196,6 +206,13 @@ public class TexasHoldEmRound extends Round {
                 System.out.println(player.getName() + " is already all in, continuing with the next player...");
                 return;
             }
+
+            if (playerToHighestBet.getKey() == player) {
+                System.out.println(
+                        player.getName() + " is already the highest better, continuing with the next player...");
+                return;
+            }
+
             BotAction botAction;
             if (gameState.getRoundStatus() == RoundStatus.PRE_FLOP) {
                 botAction = botActionService.decidePreFlopAction(player, gameState.getPlayers(), gameState);
@@ -313,6 +330,7 @@ public class TexasHoldEmRound extends Round {
         int chipsToCall = playerToHighestBet.getValue() - player.getBet();
         player.setBet(player.getBet() + chipsToCall);
         player.setChips(player.getChips() - chipsToCall);
+        player.setState(PlayerState.CALLED);
         System.out.println("You call " + chipsToCall + ".");
         gameState.setPot(gameState.getPot() + chipsToCall);
         System.out.println("The pot is now at " + gameState.getPot() + ".");

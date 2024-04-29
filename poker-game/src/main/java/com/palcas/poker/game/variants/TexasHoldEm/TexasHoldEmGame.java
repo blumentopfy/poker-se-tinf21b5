@@ -81,7 +81,9 @@ public class TexasHoldEmGame extends PokerGame {
                 System.out.println(player.getName() + " - Chips: " + player.getChips());
             }
         }
+        DisplayElements.printSeperator();
         System.out.println("(press enter to proceed)");
+        DisplayElements.printSeperator();
         scanner.nextLine();
 
         // Create a new deck and shuffle it
@@ -104,7 +106,7 @@ public class TexasHoldEmGame extends PokerGame {
     protected void startPokerGameLoop() {
         boolean gameRunning = true;
         while (gameRunning) {
-            DisplayElements.clearConsole();
+            DisplayElements.clearWithSeperator();
             System.out.println("Starting round " + gameState.getRoundsPlayed() + ".");
             // reset player states to WAITING_TO_BET and bets to 0
             resetStatesAndBets();
@@ -114,10 +116,6 @@ public class TexasHoldEmGame extends PokerGame {
             setBlinds();
 
             gameState = new TexasHoldEmRound(gameState, botActionService).executeRound();
-            roundsPlayed++;
-
-            // TODO process new gameState / winners in gameState
-            // processWinners();
 
             gameRunning = checkLosers();
 

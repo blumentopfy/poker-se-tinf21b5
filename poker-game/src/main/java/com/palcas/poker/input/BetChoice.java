@@ -35,7 +35,6 @@ public class BetChoice implements LimitedChoice {
     public void executeChoice() {
         DisplayElements.printSeperator();
         System.out.println("Please choose an action:");
-
         for (String option : this.optionsToRunnables.keySet()) {
             if (option.equals("(CALL)")) {
                 System.out.println("(CALL) " + playerToHighestBet.getKey().getName() + "'s bet of "
@@ -44,6 +43,7 @@ public class BetChoice implements LimitedChoice {
                 System.out.println(option);
             }
         }
+        DisplayElements.printSeperator();
 
         while (true) {
             String userInput = scanner.nextLine();
@@ -73,7 +73,7 @@ public class BetChoice implements LimitedChoice {
                 System.out.println("\"CALL\" for calling");
                 System.out.println("\"R\" for raising");
                 System.out.println("\"F\" for folding");
-
+                DisplayElements.printSeperator();
             }
         }
     }
