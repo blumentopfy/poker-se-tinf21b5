@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 import com.palcas.poker.display.BoardDisplay;
 import com.palcas.poker.display.DisplayElements;
+import com.palcas.poker.display.GameStateDisplay;
+import com.palcas.poker.display.PauseDisplay;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.GameState;
 import com.palcas.poker.game.Player;
@@ -162,6 +164,8 @@ public class TexasHoldEmRound extends Round {
     protected void bet(Player player) {
         Scanner scanner = new Scanner(System.in);
         if (player == gameState.getMainPlayer()) {
+            GameStateDisplay.display(gameState);
+            PauseDisplay.continueWithEnter();
             new BetChoice(scanner, playerToHighestBet)
                     .addOption("(C)heck").withAction(() -> mainPlayerCheck(player))
                     .addOption("(CALL)").withAction(() -> mainPlayerCall(player))
