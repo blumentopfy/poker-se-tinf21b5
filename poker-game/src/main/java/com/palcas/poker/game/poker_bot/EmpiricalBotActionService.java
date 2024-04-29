@@ -8,11 +8,11 @@ import com.palcas.poker.game.evaluation.BotPocketEvaluator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TexasHoldEmStatisticalBotActionService implements BotActionService {
+public class EmpiricalBotActionService implements BotActionService {
     private BotPocketEvaluator pocketEvaluator;
     private int mentalCapacity;
 
-    public TexasHoldEmStatisticalBotActionService(int mentalCapacity) {
+    public EmpiricalBotActionService(int mentalCapacity) {
         pocketEvaluator = new BotPocketEvaluator();
         this.mentalCapacity = mentalCapacity;
     }
