@@ -174,7 +174,14 @@ public class TexasHoldEmRound extends Round {
                     .addOption("(A)ll in").withAction(() -> mainPlayerAllIn(player))
                     .executeChoice();
         } else {
-            // TODO Szenarien in denen der Bot keine Wahl hat abfangen
+            if (player.getState() == PlayerState.FOLDED) {
+                System.out.println(player.getName() + " already folded, continuing with the next player...");
+                return;
+            }
+            if (player.getState() == PlayerState.IS_ALL_IN) {
+                System.out.println(player.getName() + " is already all in, continuing with the next player...");
+                return;
+            }
             BotAction botAction;
             if(gameState.getRoundStatus() == RoundStatus.PRE_FLOP) {
                 botAction = botActionService.decidePreFlopAction(player, gameState.getPlayers(), gameState);
@@ -194,6 +201,11 @@ public class TexasHoldEmRound extends Round {
                 System.out.println("instead, " + player.getName() + " will fold and feel bad for being a bad bot");
             }
         }
+    }
+
+    private BotAction decideForBotIfItHasNoChoiceAnyways(Player bot) {
+
+        return null;
     }
 
     @Override
