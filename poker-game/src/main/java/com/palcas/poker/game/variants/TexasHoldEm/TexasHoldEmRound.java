@@ -409,11 +409,14 @@ public class TexasHoldEmRound extends Round {
 
     private void setPlayersBackToWaitingToBet(Player playerToExclude) {
         for (Player player : this.gameState.getPlayers()) {
+            // For all players other than the one raising, reset their state to
+            // WAITING_TO_BET in case they haven't FOLDED or are ALL_IN
             if (player.getState() == PlayerState.CHECKED
                     || player.getState() == PlayerState.RAISED
-                    || player.getState() == PlayerState.CALLED
-                            && player != playerToExclude) {
-                player.setState(PlayerState.WAITING_TO_BET);
+                    || player.getState() == PlayerState.CALLED) {
+                if (player != playerToExclude) {
+                    player.setState(PlayerState.WAITING_TO_BET);
+                }
             }
         }
     }
