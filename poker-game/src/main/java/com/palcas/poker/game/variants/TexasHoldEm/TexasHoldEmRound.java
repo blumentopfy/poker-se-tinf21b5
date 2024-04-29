@@ -187,6 +187,7 @@ public class TexasHoldEmRound extends Round {
             if (playerToHighestBet.getValue() == 0) {
                 option = "(C)heck";
                 action = this::mainPlayerCheck;
+            // if there HAS been a bet, checking isn't
             } else {
                 option = "(CALL)";
                 action = this::mainPlayerCall;

@@ -91,8 +91,6 @@ public class TexasHoldEmGame extends PokerGame {
 
         startPokerGameLoop();
 
-        // TODO save progress of the player
-
         int chipsChange = mainPlayer.getChips() - initialMainPlayerChips;
         GameResult gameResult = new GameResult(mainPlayer,
                 chipsChange,
