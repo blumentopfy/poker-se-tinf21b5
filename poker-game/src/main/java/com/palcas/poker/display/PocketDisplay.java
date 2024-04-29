@@ -13,7 +13,7 @@ public class PocketDisplay {
         System.out.println("   │         │   │         │");
         System.out.println("   │  " + firstCardColorCode + CardDisplay.getFormattedRank(card1) + neutralColorCode + "  │   │  " + secondCardColorCode +  CardDisplay.getFormattedRank(card2) + neutralColorCode + "  │");
         System.out.println("   │         │   │         │");
-        System.out.println("   │ " + secondCardColorCode + CardDisplay.getFormattedSuit(card1) + neutralColorCode + " │   │ " + secondCardColorCode + CardDisplay.getFormattedSuit(card2) + neutralColorCode + " │");
+        System.out.println("   │ " + firstCardColorCode + CardDisplay.getFormattedSuit(card1) + neutralColorCode + " │   │ " + secondCardColorCode + CardDisplay.getFormattedSuit(card2) + neutralColorCode + " │");
         System.out.println("   │         │   │         │");
         System.out.println("   └─────────┘   └─────────┘");
     }
