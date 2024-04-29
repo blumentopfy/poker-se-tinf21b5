@@ -87,8 +87,8 @@ public class TexasHoldEmRound extends Round {
     @Override
     protected LinkedHashMap<Player, TexasHoldEmPocket> distributePocketCards() {
         LinkedHashMap<Player, TexasHoldEmPocket> playersWithPockets = new LinkedHashMap<>();
-        for (Player player : this.gameState.getPlayers()) {
-            TexasHoldEmPocket newPocket = new TexasHoldEmPocket().populatePocket(this.gameState.getDeck());
+        for (Player player : gameState.getPlayers()) {
+            TexasHoldEmPocket newPocket = new TexasHoldEmPocket().populatePocket(gameState.getDeck());
             player.setPocket(newPocket);
             playersWithPockets.put(player, newPocket);
         }
@@ -97,20 +97,13 @@ public class TexasHoldEmRound extends Round {
 
     @Override
     protected boolean checkIfBettingOver() {
-        // Betting is not over if either...
+        // Betting is not over if any player is still waiting to bet
         for (Player player : gameState.getPlayers()) {
             // ... a player is still waiting to bet
             if (player.getState() == PlayerState.WAITING_TO_BET) {
                 return false;
-                // ... or a player has checked and has not called the highest bet/raise
-            } else if (player.getState() == PlayerState.CHECKED && player.getBet() != playerToHighestBet.getValue()) {
-                return false;
-                // ... or a player has raised but not to the currently highest bet
-            } else if (player.getState() == PlayerState.RAISED && player.getBet() != playerToHighestBet.getValue()) {
-                return false;
             }
         }
-
         // If none of the conditions above are met, betting is over
         return true;
     }
@@ -149,12 +142,16 @@ public class TexasHoldEmRound extends Round {
         // Bring Information in right Format for handEvaluationService.determineWinner
         HashMap<Player, Card[]> playersWithPocketAndBoardCards = new HashMap<>();
         for (Player player : gameState.getPlayers()) {
+            if (player.getState() == PlayerState.FOLDED) {
+                continue;
+            }
+
             Card[] all7cardsOfPlayer = new Card[7];
             for (int i = 0; i < 5; i++) {
                 all7cardsOfPlayer[i] = communityCards.get(i);
             }
-            all7cardsOfPlayer[5] = playersWithPockets.get(player).getCards().get(0);
-            all7cardsOfPlayer[6] = playersWithPockets.get(player).getCards().get(0);
+            all7cardsOfPlayer[5] = player.getPocket().getCards().get(0);
+            all7cardsOfPlayer[6] = player.getPocket().getCards().get(1);
             playersWithPocketAndBoardCards.put(player, all7cardsOfPlayer);
         }
         // Determine Winner
@@ -259,12 +256,18 @@ public class TexasHoldEmRound extends Round {
             throw new IllegalBotActionException(
                     bot.getName() + " tried to raise, but doesn't have enough chips to do so");
         } else {
+            // Update bot data
             bot.setBet(bot.getBet() + chipsToRaise);
             bot.setChips(bot.getChips() - chipsToRaise);
+            bot.setState(PlayerState.RAISED);
             System.out.println(bot.getName() + " raises by " + chipsToRaise + ".");
+
+            // Update game state
             playerToHighestBet.setValue(playerToHighestBet.getValue() + chipsToRaise);
             gameState.setPot(gameState.getPot() + chipsToRaise);
             System.out.println("The pot is now at " + gameState.getPot() + ".");
+
+            setPlayersBackToWaitingToBet(bot);
         }
     }
 
@@ -306,29 +309,33 @@ public class TexasHoldEmRound extends Round {
 
     @Override
     protected void mainPlayerRaise(Player player) {
-        // TODO don't use a new scanner, pass down the singleton instead
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = App.globalScanner;
         Optional<Object> raiseAmountOptional = new RaiseChoice(scanner).executeChoice();
         // confident casting since we know the RaiseChoice returns an Integer
         int chipsToRaise = (int) raiseAmountOptional.get();
 
         // check if raise is higher than current highest bet
-        if (chipsToRaise + player.getBet() < playerToHighestBet.getValue()) {
+        if (chipsToRaise + player.getBet() <= playerToHighestBet.getValue()) {
             System.out.println("You have to raise at least to " + playerToHighestBet.getValue() + " to raise.");
-            bet(player);
+            mainPlayerRaise(player);
             return;
             // check if player has enough chips
         } else if (chipsToRaise > player.getChips()) {
             System.out.println("You don't have enough chips to raise by " + chipsToRaise + ".");
-            bet(player);
+            mainPlayerRaise(player);
             return;
         } else {
+            // Update player data
             player.setBet(player.getBet() + chipsToRaise);
             player.setChips(player.getChips() - chipsToRaise);
+            player.setState(PlayerState.RAISED);
 
+            // Update game state
             playerToHighestBet.setValue(playerToHighestBet.getValue() + chipsToRaise);
             gameState.setPot(gameState.getPot() + chipsToRaise);
             System.out.println("The pot is now at " + gameState.getPot() + ".");
+
+            setPlayersBackToWaitingToBet(player);
         }
     }
 
@@ -400,12 +407,15 @@ public class TexasHoldEmRound extends Round {
         bettingLoop(gameState.getBigBlindIndex());
     }
 
-    public GameState getGameState() {
-        return this.gameState;
-    }
-
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
+    private void setPlayersBackToWaitingToBet(Player playerToExclude) {
+        for (Player player : this.gameState.getPlayers()) {
+            if (player.getState() == PlayerState.CHECKED
+                    || player.getState() == PlayerState.RAISED
+                    || player.getState() == PlayerState.CALLED
+                            && player != playerToExclude) {
+                player.setState(PlayerState.WAITING_TO_BET);
+            }
+        }
     }
 
     public BotActionService getBotActionService() {
@@ -430,11 +440,6 @@ public class TexasHoldEmRound extends Round {
 
     public void setCommunityCards(List<Card> communityCards) {
         this.communityCards = communityCards;
-    }
-
-    public Round gameState(GameState gameState) {
-        setGameState(gameState);
-        return this;
     }
 
     public Round botActionService(BotActionService botActionService) {

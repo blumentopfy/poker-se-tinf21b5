@@ -141,25 +141,30 @@ public class TexasHoldEmGame extends PokerGame {
     }
 
     protected void setBlinds() {
-        if (gameState.players.get(gameState.smallBlindIndex) == mainPlayer) {
+        Player smallBlindPlayer = gameState.players.get(gameState.smallBlindIndex);
+        Player bigBlindPlayer = gameState.players.get(gameState.bigBlindIndex);
+        // Set the small blind for player or bot
+        if (smallBlindPlayer == mainPlayer) {
             System.out.println("You set the small blind of " + gameState.smallBlind + ".");
         } else {
-            System.out.println(gameState.players.get(gameState.smallBlindIndex).getName() + " sets the small blind of "
+            System.out.println(smallBlindPlayer.getName() + " sets the small blind of "
                     + gameState.smallBlind + ".");
         }
-        gameState.players.get(gameState.smallBlindIndex).setBet(gameState.smallBlind);
+        smallBlindPlayer.setBet(gameState.smallBlind);
 
-        if (gameState.players.get(gameState.bigBlindIndex) == mainPlayer) {
+        // Set the big blind for player or bot
+        if (bigBlindPlayer == mainPlayer) {
             System.out.println("You set the big blind of " + gameState.bigBlind + ".");
         } else {
-            System.out.println(gameState.players.get(gameState.bigBlindIndex).getName() + " sets the big blind of "
+            System.out.println(bigBlindPlayer.getName() + " sets the big blind of "
                     + gameState.bigBlind + ".");
         }
-        gameState.players.get(gameState.bigBlindIndex).setBet(gameState.bigBlind);
+        bigBlindPlayer.setBet(gameState.bigBlind);
 
         gameState.pot = gameState.smallBlind + gameState.bigBlind;
         gameState.setPlayerToHighestBet(
-                new SimpleEntry<>(gameState.players.get(gameState.bigBlindIndex), gameState.bigBlind));
+                new SimpleEntry<>(bigBlindPlayer, gameState.bigBlind));
+        bigBlindPlayer.setState(PlayerState.CALLED);
     }
 
     // TODO move this to round
@@ -228,7 +233,6 @@ public class TexasHoldEmGame extends PokerGame {
             // the decision
             this.botActionService = new EmpiricalBotActionService(smallBlindValue / 5);
         } else {
-            // for low stakes, play with RNG bot
             this.botActionService = new StatisticalBotActionService();
         }
     }
