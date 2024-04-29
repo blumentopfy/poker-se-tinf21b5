@@ -15,7 +15,6 @@ public class StatisticalBotActionService implements BotActionService {
         this.handEvaluator = new TexasHoldEmHandEvaluationService();
     }
 
-    // TODO implement bluffing
     public BotAction decidePreFlopAction(Player bot, List<Player> players, GameState gameState) {
         int bigBlindAmount = gameState.getBigBlind();
         Pocket pocket = bot.getPocket();
@@ -34,6 +33,8 @@ public class StatisticalBotActionService implements BotActionService {
 
             if (foldRandomlyWithProbabilityOf(finalMultiplier)) {
                 return new BotAction(BotAction.ActionType.FOLD);
+            } else if (bot.getChips() < gameState.getPlayerToHighestBet().getValue()) {
+                return new BotAction(BotAction.ActionType.ALL_IN);
             } else {
                 return new BotAction(BotAction.ActionType.CALL);
             }
@@ -69,6 +70,8 @@ public class StatisticalBotActionService implements BotActionService {
 
         if (foldRandomlyWithProbabilityOf(botHandRanking.getValue() / 10)) {
             return new BotAction(BotAction.ActionType.FOLD);
+        } else if (bot.getChips() < gameState.getPlayerToHighestBet().getValue()) {
+            return new BotAction(BotAction.ActionType.ALL_IN);
         }
 
         return new BotAction(BotAction.ActionType.CALL);
