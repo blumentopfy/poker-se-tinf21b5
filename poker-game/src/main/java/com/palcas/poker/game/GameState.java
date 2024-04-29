@@ -122,7 +122,7 @@ public class GameState {
         this.deck = deck;
     }
 
-    public Entry<Player, Integer> getPlayerToHighestBet() {
+    public SimpleEntry<Player, Integer> getPlayerToHighestBet() {
         return this.playerToHighestBet;
     }
 
