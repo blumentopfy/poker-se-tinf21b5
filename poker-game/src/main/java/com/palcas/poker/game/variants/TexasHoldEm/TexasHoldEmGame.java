@@ -183,12 +183,14 @@ public class TexasHoldEmGame extends PokerGame {
         }
     }
 
+    // Should return true if game is still running, false if game is over
     protected boolean checkLosers() {
-        boolean gameRunning = true;
-        for (Player player : gameState.players) {
+        Iterator<Player> iterator = gameState.players.iterator();
+        while (iterator.hasNext()) {
+            Player player = iterator.next();
             if (player.getChips() <= gameState.bigBlind) {
                 System.out.println(player.getName() + " doesn't have enough chips and has lost the game.");
-                gameState.players.remove(player);
+                iterator.remove();
             }
         }
 

@@ -42,8 +42,8 @@ public class TexasHoldEmRound extends Round {
     public GameState executeRound() {
         // Distribute pocket cards
         HashMap<Player, TexasHoldEmPocket> playersWithPockets = distributePocketCards();
-        List<Card> mainPlayerCards = playersWithPockets.get(gameState.mainPlayer).getCards();
-        List<Card> communityCards = new ArrayList<Card>();
+        mainPlayerCards = playersWithPockets.get(gameState.mainPlayer).getCards();
+        communityCards = new ArrayList<Card>();
 
         // Pre-Flop-Betting
         gameState.setRoundStatus(RoundStatus.PRE_FLOP);
@@ -179,7 +179,7 @@ public class TexasHoldEmRound extends Round {
             if (playerToHighestBet.getValue() == 0) {
                 option = "(C)heck";
                 action = this::mainPlayerCheck;
-            // if there HAS been a bet, checking isn't
+                // if there HAS been a bet, checking isn't
             } else {
                 option = "(CALL)";
                 action = this::mainPlayerCall;
@@ -294,7 +294,7 @@ public class TexasHoldEmRound extends Round {
         bot.setBet(allInAmount);
         bot.setChips(0);
         bot.setState(PlayerState.IS_ALL_IN);
-        System.out.println(bot.getName() + " goes all in with a total of" + allInAmount + "!");
+        System.out.println(bot.getName() + " goes all in with a total of " + allInAmount + "!");
         if (playerToHighestBet.getValue() < allInAmount) {
             gameState.setPlayerToHighestBet(new AbstractMap.SimpleEntry<>(bot, bot.getBet()));
             playerToHighestBet = gameState.getPlayerToHighestBet();
@@ -429,7 +429,7 @@ public class TexasHoldEmRound extends Round {
     }
 
     private void setPlayersBackToWaitingToBetExceptFor(Player playerToExclude) {
-        for (Player player : this.gameState.getPlayers()) {
+        for (Player player : gameState.getPlayers()) {
             // For all players other than the one raising, reset their state to
             // WAITING_TO_BET in case they haven't FOLDED or are ALL_IN
             if (player.getState() == PlayerState.CHECKED
