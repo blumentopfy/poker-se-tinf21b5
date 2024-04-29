@@ -12,7 +12,7 @@ public class StakeLevelChoice implements LimitedChoice {
 
     public StakeLevelChoice(Scanner scanner) {
         this.scanner = scanner;
-        this.choicesToRunnables = new HashMap<String, Runnable>();
+        this.choicesToRunnables = new LinkedHashMap<String, Runnable>();
     }
 
     @Override
@@ -33,7 +33,6 @@ public class StakeLevelChoice implements LimitedChoice {
         System.out.println("Please choose a stake level:");
 
         List<String> choices = new ArrayList<>(this.choicesToRunnables.keySet());
-        choices = choices.reversed();
 
         for (int i = 0; i < choices.size(); i++) {
             System.out.println((i + 1) + ". " + choices.get(i));

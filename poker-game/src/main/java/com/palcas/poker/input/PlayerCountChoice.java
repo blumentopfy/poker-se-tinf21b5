@@ -4,6 +4,8 @@ import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.Scanner;
 
+import com.palcas.poker.display.DisplayElements;
+
 public class PlayerCountChoice implements ChoiceWithOpenOption {
     private final Scanner scanner;
 
@@ -12,6 +14,7 @@ public class PlayerCountChoice implements ChoiceWithOpenOption {
     }
 
     public Optional<Integer> executeChoice() {
+        System.out.println("----------PLAYER COUNT----------");
         System.out.println("Please enter the number of players (1-8):");
 
         int playerCount;
@@ -21,7 +24,9 @@ public class PlayerCountChoice implements ChoiceWithOpenOption {
                 scanner.nextLine(); // Consume the newline character
 
                 if (playerCount >= 1 && playerCount <= 8) {
-                    break; // Exit the loop if a valid number is entered
+                    System.out.println("Player count set to " + playerCount+1 + ".");
+                    DisplayElements.printSeperator();
+                    return Optional.of(playerCount);
                 } else {
                     System.out.println("Invalid number! Please enter a number between 1 and 8.");
                 }
@@ -30,7 +35,5 @@ public class PlayerCountChoice implements ChoiceWithOpenOption {
                 scanner.nextLine(); // Consume the invalid input
             }
         }
-
-        return Optional.of(playerCount);
     }
 }

@@ -1,6 +1,7 @@
 package com.palcas.poker.input;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -9,32 +10,33 @@ import java.util.Scanner;
 
 import com.palcas.poker.display.DisplayElements;
 
-public class LoginChoice implements LimitedChoice {
+public class DifficultyChoice implements LimitedChoice {
+
     private final Scanner scanner;
     private final Map<String, Runnable> choicesToRunnables;
     String option;
     int choice;
 
-    public LoginChoice(Scanner scanner) {
+    public DifficultyChoice(Scanner scanner) {
         this.scanner = scanner;
         this.choicesToRunnables = new LinkedHashMap<String, Runnable>();
     }
 
     @Override
-    public LoginChoice addOption(String option) {
+    public DifficultyChoice addOption(String option) {
         this.option = option;
         return this;
     }
 
     @Override
-    public LoginChoice withAction(Runnable action) {
+    public DifficultyChoice withAction(Runnable action) {
         this.choicesToRunnables.put(this.option, action);
         return this;
     }
 
     @Override
     public void executeChoice() {
-        System.out.println("----------LOGIN----------");
+        System.out.println("----------DIFFICULTY----------");
         System.out.println("Please choose how you would like to log in:");
 
         List<String> choices = new ArrayList<>(this.choicesToRunnables.keySet());
@@ -59,6 +61,8 @@ public class LoginChoice implements LimitedChoice {
         if (choice >= 1 && choice <= choices.size()) {
             // Execute the choice that is stored at the index of the choice - 1
             choicesToRunnables.get(choices.get(choice - 1)).run();
+            System.out.println("You have chosen " + choices.get(choice - 1) + " difficulty.");
+            DisplayElements.printSeperator();
         } else {
             System.out.println("Invalid choice, please try again.");
         }

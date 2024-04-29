@@ -23,6 +23,7 @@ public class TexasHoldEmGame extends PokerGame {
     private final int initialMainPlayerChips;
     private BotActionService botActionService;
     private GameState gameState;
+    private static boolean wantsToPlayOnHard;
     public static int chipsWon;
     public static int roundsWon;
 
@@ -36,21 +37,27 @@ public class TexasHoldEmGame extends PokerGame {
 
     public GameResult playGame() {
         DisplayElements.clearConsole();
-        System.out.println("Starting a game of Texas Hold'em...");
+        new DifficultyChoice(scanner)
+                .addOption("Easy")
+                .withAction(() -> wantsToPlayOnHard = false)
+                .addOption("Hard")
+                .withAction(() -> wantsToPlayOnHard = true)
+                .executeChoice();
 
         // Query player for number of players he wants to play with and how many chips
         // everyone should have
         int playerCount = new PlayerCountChoice(scanner).executeChoice().get();
-        DisplayElements.clearConsole();
         new StakeLevelChoice(scanner)
+                // TODO Once StatisticalBotActionService is debugged, set second param to
+                // "wantsToPlayOnHard"
                 .addOption("Low Stakes (Blinds: 5/10)")
-                    .withAction(() -> initializeBlindsAndBotActionService(5, false))
+                .withAction(() -> initializeBlindsAndBotActionService(5, false))
                 .addOption("Medium Stakes (Blinds: 25/50)")
-                    .withAction(() -> initializeBlindsAndBotActionService(25, true))
+                .withAction(() -> initializeBlindsAndBotActionService(25, false))
                 .addOption("High Stakes (Blinds: 100/200)")
-                    .withAction(() -> initializeBlindsAndBotActionService(100, true))
+                .withAction(() -> initializeBlindsAndBotActionService(100, false))
                 .addOption("Very High Stakes (Blinds: 500/1000)")
-                    .withAction(() -> initializeBlindsAndBotActionService(500, true))
+                .withAction(() -> initializeBlindsAndBotActionService(500, false))
                 .executeChoice();
 
         DisplayElements.clearConsole();
@@ -217,7 +224,8 @@ public class TexasHoldEmGame extends PokerGame {
         gameState.bigBlind = 2 * smallBlindValue;
         if (useEmpiricalBotActionService) {
             // the EmpiricalBotActionService shall simulate smallBlindValue/5 other Pockets.
-            // so the higher the small blind, the mor pockets get simulated and the better the decision
+            // so the higher the small blind, the mor pockets get simulated and the better
+            // the decision
             this.botActionService = new EmpiricalBotActionService(smallBlindValue / 5);
         } else {
             // for low stakes, play with RNG bot
