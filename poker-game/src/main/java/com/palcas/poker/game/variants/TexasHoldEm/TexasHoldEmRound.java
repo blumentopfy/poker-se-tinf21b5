@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
 
+import com.palcas.poker.App;
 import com.palcas.poker.display.CommunityCardsDisplay;
 import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.display.GameStateDisplay;
@@ -163,9 +164,13 @@ public class TexasHoldEmRound extends Round {
 
     @Override
     protected void bet(Player player) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = App.globalScanner;
         if (player == gameState.getMainPlayer()) {
             GameStateDisplay.display(gameState);
+            if (player.getState() == PlayerState.FOLDED) {
+                System.out.println("You already folded, continuing with the next player...");
+                return;
+            }
             PauseDisplay.continueWithEnter();
             new BetChoice(scanner, playerToHighestBet)
                     .addOption("(C)heck").withAction(() -> mainPlayerCheck(player))
@@ -184,7 +189,7 @@ public class TexasHoldEmRound extends Round {
                 return;
             }
             BotAction botAction;
-            if(gameState.getRoundStatus() == RoundStatus.PRE_FLOP) {
+            if (gameState.getRoundStatus() == RoundStatus.PRE_FLOP) {
                 botAction = botActionService.decidePreFlopAction(player, gameState.getPlayers(), gameState);
             } else {
                 botAction = botActionService.decidePostFlopAction(player, communityCards, gameState);
@@ -199,6 +204,7 @@ public class TexasHoldEmRound extends Round {
                 }
             } catch (IllegalBotActionException e) {
                 System.out.println(e.getMessage());
+                player.setState(PlayerState.FOLDED);
                 System.out.println("instead, " + player.getName() + " will fold and feel bad for being a bad bot");
             }
         }
@@ -230,7 +236,8 @@ public class TexasHoldEmRound extends Round {
 
     protected void botCheck(Player bot) throws IllegalBotActionException {
         if (bot.getBet() < playerToHighestBet.getValue()) {
-            throw new IllegalBotActionException("Bot tried to Check, even though the highest Bet is larger than his bet");
+            throw new IllegalBotActionException(
+                    "Bot tried to Check, even though the highest Bet is larger than his bet");
         } else {
             bot.setState(PlayerState.CHECKED);
             System.out.println(bot.getName() + " checks.");
@@ -240,14 +247,17 @@ public class TexasHoldEmRound extends Round {
     @Override
     protected void botRaise(Player bot, BotAction botAction) throws IllegalBotActionException {
         Optional<Integer> raiseAmountOptional = botAction.getRaiseAmount();
-        int chipsToRaise = raiseAmountOptional.orElseThrow(() -> new IllegalBotActionException("Bot tried to raise, but didn't provide by how much"));
+        int chipsToRaise = raiseAmountOptional
+                .orElseThrow(() -> new IllegalBotActionException(
+                        bot.getName() + " tried to raise, but didn't provide by how much"));
 
         // check if raise is higher than current highest bet
         if (chipsToRaise + bot.getBet() < playerToHighestBet.getValue()) {
-            throw new IllegalBotActionException("Bot tried to raise, but didn't raise enough");
-        // check if player has enough chips
+            throw new IllegalBotActionException(bot.getName() + " tried to raise, but didn't raise enough");
+            // check if player has enough chips
         } else if (chipsToRaise > bot.getChips()) {
-            throw new IllegalBotActionException("Bot tried to raise, but doesn't have enough chips to do so");
+            throw new IllegalBotActionException(
+                    bot.getName() + " tried to raise, but doesn't have enough chips to do so");
         } else {
             bot.setBet(bot.getBet() + chipsToRaise);
             bot.setChips(bot.getChips() - chipsToRaise);
@@ -271,7 +281,6 @@ public class TexasHoldEmRound extends Round {
         gameState.setPot(gameState.getPot() + chipsToRaise);
         System.out.println("The pot is now at " + gameState.getPot() + ".");
     }
-
 
     @Override
     protected void mainPlayerCheck(Player player) {
@@ -297,7 +306,7 @@ public class TexasHoldEmRound extends Round {
 
     @Override
     protected void mainPlayerRaise(Player player) {
-        //TODO don't use a new scanner, pass down the singleton instead
+        // TODO don't use a new scanner, pass down the singleton instead
         Scanner scanner = new Scanner(System.in);
         Optional<Object> raiseAmountOptional = new RaiseChoice(scanner).executeChoice();
         // confident casting since we know the RaiseChoice returns an Integer
