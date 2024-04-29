@@ -1,14 +1,7 @@
 package com.palcas.poker.game.variants.TexasHoldEm;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Scanner;
 import java.util.function.Consumer;
 
 import com.palcas.poker.App;
@@ -209,6 +202,7 @@ public class TexasHoldEmRound extends Round {
             if (playerToHighestBet.getKey() == player) {
                 System.out.println(
                         player.getName() + " is already the highest better, continuing with the next player...");
+                player.setState(PlayerState.CHECKED);
                 return;
             }
 
@@ -248,6 +242,7 @@ public class TexasHoldEmRound extends Round {
         }
         bot.setBet(bot.getBet() + chipsToCall);
         bot.setChips(bot.getChips() - chipsToCall);
+        bot.setState(PlayerState.CALLED);
         System.out.println(bot.getName() + " calls " + chipsToCall + ".");
         gameState.setPot(gameState.getPot() + chipsToCall);
     }
@@ -288,7 +283,7 @@ public class TexasHoldEmRound extends Round {
             playerToHighestBet = gameState.getPlayerToHighestBet();
             gameState.setPot(gameState.getPot() + chipsToRaise);
 
-            setPlayersBackToWaitingToBet(bot);
+            setPlayersBackToWaitingToBetExceptFor(bot);
         }
     }
 
@@ -302,6 +297,7 @@ public class TexasHoldEmRound extends Round {
         if (playerToHighestBet.getValue() < allInAmount) {
             gameState.setPlayerToHighestBet(new AbstractMap.SimpleEntry<>(bot, bot.getBet()));
             playerToHighestBet = gameState.getPlayerToHighestBet();
+            setPlayersBackToWaitingToBetExceptFor(bot);
         }
         gameState.setPot(gameState.getPot() + chipsToRaise);
         System.out.println("The pot is now at " + gameState.getPot() + ".");
@@ -357,7 +353,7 @@ public class TexasHoldEmRound extends Round {
             gameState.setPlayerToHighestBet(new AbstractMap.SimpleEntry<>(player, player.getBet()));
             playerToHighestBet = gameState.getPlayerToHighestBet();
 
-            setPlayersBackToWaitingToBet(player);
+            setPlayersBackToWaitingToBetExceptFor(player);
         }
     }
 
@@ -378,6 +374,7 @@ public class TexasHoldEmRound extends Round {
         if (playerToHighestBet.getValue() < allInAmount) {
             gameState.setPlayerToHighestBet(new AbstractMap.SimpleEntry<>(player, player.getBet()));
             playerToHighestBet = gameState.getPlayerToHighestBet();
+            setPlayersBackToWaitingToBetExceptFor(player);
         }
         gameState.setPot(gameState.getPot() + chipsToRaise);
         System.out.println("The pot is now at " + gameState.getPot() + ".");
@@ -400,6 +397,7 @@ public class TexasHoldEmRound extends Round {
 
     @Override
     protected void bettingLoop(int bigBlindIndex) {
+        setPlayersBackToWaitingToBet();
         GameStateDisplay.display(gameState);
         // Start betting at index of big blind + 1
         // Since this will overflow, we will take the modulo of the player count
@@ -429,7 +427,7 @@ public class TexasHoldEmRound extends Round {
         bettingLoop(gameState.getBigBlindIndex());
     }
 
-    private void setPlayersBackToWaitingToBet(Player playerToExclude) {
+    private void setPlayersBackToWaitingToBetExceptFor(Player playerToExclude) {
         for (Player player : this.gameState.getPlayers()) {
             // For all players other than the one raising, reset their state to
             // WAITING_TO_BET in case they haven't FOLDED or are ALL_IN
@@ -439,6 +437,18 @@ public class TexasHoldEmRound extends Round {
                 if (player != playerToExclude) {
                     player.setState(PlayerState.WAITING_TO_BET);
                 }
+            }
+        }
+    }
+
+    private void setPlayersBackToWaitingToBet() {
+        for (Player player : this.gameState.getPlayers()) {
+            // For all players other than the one raising, reset their state to
+            // WAITING_TO_BET in case they haven't FOLDED or are ALL_IN
+            if (player.getState() == PlayerState.CHECKED
+                    || player.getState() == PlayerState.RAISED
+                    || player.getState() == PlayerState.CALLED) {
+                player.setState(PlayerState.WAITING_TO_BET);
             }
         }
     }
