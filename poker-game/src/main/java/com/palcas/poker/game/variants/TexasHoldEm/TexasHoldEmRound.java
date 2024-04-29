@@ -32,10 +32,12 @@ public class TexasHoldEmRound extends Round {
     private BotActionService botActionService;
     private List<Card> mainPlayerCards;
     private List<Card> communityCards;
-    private static Entry<Player, Integer> playerToHighestBet;
+    private Entry<Player, Integer> playerToHighestBet;
 
     public TexasHoldEmRound(GameState gameState, BotActionService botActionService) {
-        super(gameState, botActionService);
+        this.playerToHighestBet = gameState.getPlayerToHighestBet();
+        this.gameState = gameState;
+        this.botActionService = botActionService;
     }
 
     @Override
@@ -198,7 +200,7 @@ public class TexasHoldEmRound extends Round {
 
     @Override
     protected void botCall(Player bot) throws IllegalBotActionException {
-        int chipsToCall = playerToHighestBet.getValue() - bot.getBet();
+        int chipsToCall = gameState.getPlayerToHighestBet().getValue() - bot.getBet();
         if (bot.getChips() < chipsToCall) {
             throw new IllegalBotActionException("Bot tried to call, but doesn't have enough chips");
         }

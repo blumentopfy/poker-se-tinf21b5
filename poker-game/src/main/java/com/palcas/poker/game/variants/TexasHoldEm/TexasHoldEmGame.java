@@ -99,8 +99,6 @@ public class TexasHoldEmGame extends PokerGame {
             // reset player states to WAITING_TO_BET and bets to 0
             resetStatesAndBets();
 
-            // shuffle here means creating a new deck and shuffling it, contrary to
-            // Collections.shuffle()
             gameState.getDeck().shuffleFullDeck();
 
             setBlinds();

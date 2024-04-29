@@ -35,8 +35,9 @@ public class OmahaHoldEmRound extends Round {
     private static Entry<Player, Integer> playerToHighestBet;
 
     public OmahaHoldEmRound(GameState gameState, BotActionService botActionService) {
-        super(gameState, botActionService);
-    }
+        this.gameState = gameState;
+        this.botActionService = botActionService;
+        }
 
     @Override
     public GameState executeRound() {
