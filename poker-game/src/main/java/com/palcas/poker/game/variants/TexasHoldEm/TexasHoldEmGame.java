@@ -135,9 +135,8 @@ public class TexasHoldEmGame extends PokerGame {
     protected void resetStatesAndBets() {
         for (Player player : gameState.players) {
             player.setState(PlayerState.WAITING_TO_BET);
+            player.setBet(0);
         }
-
-        gameState.players.stream().forEach(player -> player.setBet(0));
     }
 
     protected void setBlinds() {
@@ -204,6 +203,7 @@ public class TexasHoldEmGame extends PokerGame {
     }
 
     protected boolean checkLosers() {
+        boolean gameRunning = true;
         for (Player player : gameState.players) {
             if (player.getChips() <= gameState.bigBlind) {
                 System.out.println(player.getName() + " doesn't have enough chips and has lost the game.");
@@ -213,12 +213,12 @@ public class TexasHoldEmGame extends PokerGame {
 
         if (gameState.players.size() == 1) {
             System.out.println("Only one player left, " + gameState.players.get(0).getName() + ", who wins the game!");
-            return true;
+            return false;
         } else if (!gameState.players.contains(mainPlayer)) {
             System.out.println("You have lost the game.");
-            return true;
-        } else {
             return false;
+        } else {
+            return true;
         }
     }
 

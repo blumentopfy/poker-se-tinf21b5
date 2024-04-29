@@ -36,6 +36,7 @@ public class TexasHoldEmRound extends Round {
     private List<Card> mainPlayerCards;
     private List<Card> communityCards;
     private Entry<Player, Integer> playerToHighestBet;
+    private static boolean walkOccured = false;
 
     public TexasHoldEmRound(GameState gameState, BotActionService botActionService) {
         this.playerToHighestBet = gameState.getPlayerToHighestBet();
@@ -56,30 +57,38 @@ public class TexasHoldEmRound extends Round {
         bettingLoop(gameState.bigBlindIndex);
 
         // Flop
-        gameState.setRoundStatus(RoundStatus.FLOP);
-        for (int i = 0; i < 3; i++) {
-            communityCards.add(gameState.getDeck().drawCard());
+        if (!walkOccured) {
+            gameState.setRoundStatus(RoundStatus.FLOP);
+            for (int i = 0; i < 3; i++) {
+                communityCards.add(gameState.getDeck().drawCard());
+            }
+            CommunityCardsDisplay.printPostFlopBoard("Flop", mainPlayerCards, communityCards);
+            System.out.println("Starting flop betting.");
+            bettingLoop(gameState.bigBlindIndex);
         }
-        CommunityCardsDisplay.printPostFlopBoard("Flop", mainPlayerCards, communityCards);
-        System.out.println("Starting flop betting.");
-        bettingLoop(gameState.bigBlindIndex);
 
         // Turn
-        gameState.setRoundStatus(RoundStatus.TURN);
-        communityCards.add(gameState.getDeck().drawCard());
-        CommunityCardsDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
-        System.out.println("Starting turn betting.");
-        bettingLoop(gameState.bigBlindIndex);
+        if (!walkOccured) {
+            gameState.setRoundStatus(RoundStatus.TURN);
+            communityCards.add(gameState.getDeck().drawCard());
+            CommunityCardsDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
+            System.out.println("Starting turn betting.");
+            bettingLoop(gameState.bigBlindIndex);
+        }
 
         // River
-        gameState.setRoundStatus(RoundStatus.RIVER);
-        communityCards.add(gameState.getDeck().drawCard());
-        CommunityCardsDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
-        System.out.println("Starting river betting.");
-        bettingLoop(gameState.bigBlindIndex);
+        if (!walkOccured) {
+            gameState.setRoundStatus(RoundStatus.RIVER);
+            communityCards.add(gameState.getDeck().drawCard());
+            CommunityCardsDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
+            System.out.println("Starting river betting.");
+            bettingLoop(gameState.bigBlindIndex);
+        }
 
         // Check winner
-        gameState.setWinners(determineWinners(playersWithPockets, communityCards));
+        if (!walkOccured) {
+            gameState.setWinners(determineWinners(playersWithPockets, communityCards));
+        }
 
         return gameState;
     }
@@ -124,6 +133,7 @@ public class TexasHoldEmRound extends Round {
         if (playersNotFoldedCount == 1) {
             System.out.println(
                     potentialWinner.getName() + " wins the pot of " + gameState.getPot() + " without a showdown!");
+            DisplayElements.printSeperator();
             System.out.println("Congratulations, " + potentialWinner.getName() + "! :)");
             potentialWinner.setChips(potentialWinner.getChips() + gameState.getPot());
             PauseDisplay.continueWithEnter();
@@ -132,7 +142,8 @@ public class TexasHoldEmRound extends Round {
                 TexasHoldEmGame.chipsWon += gameState.getPot();
             }
 
-            gameState.setPot(0);
+            gameState.setWinners(List.of(potentialWinner));
+            walkOccured = true;
         }
     }
 

@@ -16,23 +16,43 @@ public abstract class Round {
     List<Card> communityCards;
 
     public abstract GameState executeRound();
+
     protected abstract LinkedHashMap<Player, ? extends Pocket> distributePocketCards();
+
     protected abstract void bettingLoop(int bigBlindIndex);
+
     protected abstract void flop();
+
     protected abstract void turn();
+
     protected abstract void river();
-    protected abstract List<Player> determineWinners(HashMap<Player, ? extends Pocket> playersWithPockets, List<Card> communityCards);
+
+    protected abstract List<Player> determineWinners(HashMap<Player, ? extends Pocket> playersWithPockets,
+            List<Card> communityCards);
+
     protected abstract void checkForWalk();
+
     protected abstract void bet(Player player);
+
     protected abstract void mainPlayerCheck(Player player);
+
     protected abstract void mainPlayerCall(Player player);
+
     protected abstract void mainPlayerRaise(Player player);
+
     protected abstract void mainPlayerFold(Player player);
+
     protected abstract void mainPlayerAllIn(Player player);
+
     protected abstract void botCheck(Player bot) throws IllegalBotActionException;
+
     protected abstract void botCall(Player bot) throws IllegalBotActionException;
+
     protected abstract void botRaise(Player bot, BotAction botAction) throws IllegalBotActionException;
+
     protected abstract void botFold(Player bot);
+
     protected abstract void botAllIn(Player bot);
+
     protected abstract boolean checkIfBettingOver();
 }
