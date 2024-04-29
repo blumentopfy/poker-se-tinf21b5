@@ -141,7 +141,7 @@ public class TutorialDisplay {
     public static void printMainPlayerPocket(List<Card> cards, Scanner scanner) {
         DisplayElements.clearWithSeperator();
         System.out.println("These are your pocket cards:");
-        HandDisplay.displayColoredPokerHand(cards.get(0), cards.get(1));
+        PocketDisplay.displayColoredPocket(cards.get(0), cards.get(1));
         System.out.println("That's a pretty decent pocket! Let's see how the round plays out.");
         DisplayElements.printSeperator();
         System.out.println("(press enter to continue the Tutorial)");
@@ -232,12 +232,12 @@ public class TutorialDisplay {
         System.out.println("These are the cards of " + gameState.players.get(2).getName() + ":");
         Card botFirstCard = gameState.players.get(2).getPocket().getCards().get(0);
         Card botSecondCard = gameState.players.get(2).getPocket().getCards().get(1);
-        HandDisplay.displayColoredPokerHand(botFirstCard, botSecondCard);
+        PocketDisplay.displayColoredPocket(botFirstCard, botSecondCard);
         DisplayElements.printSeperator();
         System.out.println("These are your cards:");
         Card playerFirstCard = gameState.players.get(3).getPocket().getCards().get(0);
         Card playerSecondCard = gameState.players.get(3).getPocket().getCards().get(1);
-        HandDisplay.displayColoredPokerHand(playerFirstCard, playerSecondCard);
+        PocketDisplay.displayColoredPocket(playerFirstCard, playerSecondCard);
         DisplayElements.printSeperator();
         System.out.println("This means with your Full House, you win this round and with it the pot of " + gameState.pot
                 + " chips!");

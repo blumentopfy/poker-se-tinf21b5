@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.palcas.poker.display.BoardDisplay;
+import com.palcas.poker.display.CommunityCardsDisplay;
 import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.display.GameStateDisplay;
 import com.palcas.poker.display.PauseDisplay;
@@ -51,7 +51,7 @@ public class TexasHoldEmRound extends Round {
 
         // Pre-Flop-Betting
         gameState.setRoundStatus(RoundStatus.PRE_FLOP);
-        BoardDisplay.printPreFlopBoard("Pre-Flop-Betting", mainPlayerCards);
+        CommunityCardsDisplay.printPreFlopBoard("Pre-Flop-Betting", mainPlayerCards);
         bettingLoop(gameState.bigBlindIndex);
 
         // Flop
@@ -59,21 +59,21 @@ public class TexasHoldEmRound extends Round {
         for (int i = 0; i < 3; i++) {
             communityCards.add(gameState.getDeck().drawCard());
         }
-        BoardDisplay.printPostFlopBoard("Flop", mainPlayerCards, communityCards);
+        CommunityCardsDisplay.printPostFlopBoard("Flop", mainPlayerCards, communityCards);
         System.out.println("Starting flop betting.");
         bettingLoop(gameState.bigBlindIndex);
 
         // Turn
         gameState.setRoundStatus(RoundStatus.TURN);
         communityCards.add(gameState.getDeck().drawCard());
-        BoardDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
+        CommunityCardsDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
         System.out.println("Starting turn betting.");
         bettingLoop(gameState.bigBlindIndex);
 
         // River
         gameState.setRoundStatus(RoundStatus.RIVER);
         communityCards.add(gameState.getDeck().drawCard());
-        BoardDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
+        CommunityCardsDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
         System.out.println("Starting river betting.");
         bettingLoop(gameState.bigBlindIndex);
 
@@ -347,14 +347,14 @@ public class TexasHoldEmRound extends Round {
     @Override
     protected void turn() {
         communityCards.add(gameState.getDeck().drawCard());
-        BoardDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
+        CommunityCardsDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
         System.out.println("Starting turn betting.");
         bettingLoop(gameState.getBigBlindIndex());
     }
 
     protected void river() {
         communityCards.add(gameState.getDeck().drawCard());
-        BoardDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
+        CommunityCardsDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
         System.out.println("Starting river betting.");
         bettingLoop(gameState.getBigBlindIndex());
     }
@@ -386,7 +386,7 @@ public class TexasHoldEmRound extends Round {
         for (int i = 0; i < 3; i++) {
             communityCards.add(gameState.getDeck().drawCard());
         }
-        BoardDisplay.printPostFlopBoard("Flop", mainPlayerCards, communityCards);
+        CommunityCardsDisplay.printPostFlopBoard("Flop", mainPlayerCards, communityCards);
         System.out.println("Starting flop betting.");
         bettingLoop(gameState.getBigBlindIndex());
     }

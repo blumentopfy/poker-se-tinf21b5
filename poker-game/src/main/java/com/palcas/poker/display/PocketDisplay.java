@@ -2,9 +2,9 @@ package com.palcas.poker.display;
 
 import com.palcas.poker.game.Card;
 
-public class HandDisplay {
+public class PocketDisplay {
 
-    public static void displayColoredPokerHand(Card card1, Card card2) {
+    public static void displayColoredPocket(Card card1, Card card2) {
         String firstCardColorCode = CardDisplay.getColorCode(card1);
         String secondCardColorCode = CardDisplay.getColorCode(card2);
 

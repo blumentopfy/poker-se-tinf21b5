@@ -4,13 +4,11 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Scanner;
 
 import com.palcas.poker.constants.PlayerNames;
-import com.palcas.poker.display.BoardDisplay;
+import com.palcas.poker.display.CommunityCardsDisplay;
 import com.palcas.poker.display.DisplayElements;
-import com.palcas.poker.display.HandDisplay;
 import com.palcas.poker.display.TutorialDisplay;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.Deck;
@@ -18,7 +16,6 @@ import com.palcas.poker.game.GameState;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.game.Pocket;
 import com.palcas.poker.game.variants.TexasHoldEm.TexasHoldEmPocket;
-import com.palcas.poker.input.BetChoice;
 import com.palcas.poker.model.PlayerState;
 import com.palcas.poker.model.Rank;
 import com.palcas.poker.model.Suit;
@@ -58,7 +55,7 @@ public class Tutorial {
 
         // Flop
         communityCards = initializeCommunityCards();
-        BoardDisplay.printPostFlopBoard("FLOP",
+        CommunityCardsDisplay.printPostFlopBoard("FLOP",
                 gameState.players.get(3).getPocket().getCards(),
                 communityCards);
         TutorialDisplay.explainFlop(gameState, scanner);
@@ -70,7 +67,7 @@ public class Tutorial {
 
         // Turn
         communityCards.add(new Card(Suit.HEARTS, Rank.SEVEN));
-        BoardDisplay.printPostFlopBoard("TURN",
+        CommunityCardsDisplay.printPostFlopBoard("TURN",
                 gameState.players.get(3).getPocket().getCards(),
                 communityCards);
 
@@ -80,7 +77,7 @@ public class Tutorial {
 
         // River
         communityCards.add(new Card(Suit.DIAMONDS, Rank.KING));
-        BoardDisplay.printPostFlopBoard("RIVER",
+        CommunityCardsDisplay.printPostFlopBoard("RIVER",
                 gameState.players.get(3).getPocket().getCards(),
                 communityCards);
         simulateLastBotChecking();

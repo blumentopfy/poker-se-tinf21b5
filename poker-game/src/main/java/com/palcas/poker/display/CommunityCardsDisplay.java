@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.palcas.poker.game.Card;
 
-public class BoardDisplay {
+public class CommunityCardsDisplay {
 
-    public static void displayColoredPokerBoard(Card[] board) {
+    public static void displayColoredCommunityCards(Card[] board) {
         String neutralColorCode = "\u001B[0m";
         System.out.println("   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐");
         System.out.println("   │         │   │         │   │         │   │         │   │         │");
@@ -43,7 +43,7 @@ public class BoardDisplay {
         DisplayElements.printSeperator();
 
         System.out.println("These are your pocket cards:");
-        HandDisplay.displayColoredPokerHand(cards.get(0), cards.get(1));
+        PocketDisplay.displayColoredPocket(cards.get(0), cards.get(1));
         DisplayElements.printSeperator();
     }
 
@@ -55,11 +55,11 @@ public class BoardDisplay {
         DisplayElements.printSeperator();
 
         System.out.println("These are your pocket cards:");
-        HandDisplay.displayColoredPokerHand(mainPlayerCards.get(0), mainPlayerCards.get(1));
+        PocketDisplay.displayColoredPocket(mainPlayerCards.get(0), mainPlayerCards.get(1));
         DisplayElements.printSeperator();
 
         System.out.println("These are the community cards:");
-        displayColoredPokerBoard(communityCards.toArray(new Card[0]));
+        displayColoredCommunityCards(communityCards.toArray(new Card[0]));
         DisplayElements.printSeperator();
     }
 }

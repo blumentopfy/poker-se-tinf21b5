@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.palcas.poker.display.BoardDisplay;
+import com.palcas.poker.display.CommunityCardsDisplay;
 import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.GameState;
@@ -47,26 +47,26 @@ public class OmahaHoldEmRound extends Round {
         List<Card> communityCards = new ArrayList<Card>();
 
         // Preflop-Betting
-        BoardDisplay.printPreFlopBoard("Preflop-Betting", mainPlayerCards);
+        CommunityCardsDisplay.printPreFlopBoard("Preflop-Betting", mainPlayerCards);
         bettingLoop(gameState.bigBlindIndex);
 
         // Flop
         for (int i = 0; i < 3; i++) {
             communityCards.add(gameState.getDeck().drawCard());
         }
-        BoardDisplay.printPostFlopBoard("Flop", mainPlayerCards, communityCards);
+        CommunityCardsDisplay.printPostFlopBoard("Flop", mainPlayerCards, communityCards);
         System.out.println("Starting flop betting.");
         bettingLoop(gameState.bigBlindIndex);
 
         // Turn
         communityCards.add(gameState.getDeck().drawCard());
-        BoardDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
+        CommunityCardsDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
         System.out.println("Starting turn betting.");
         bettingLoop(gameState.bigBlindIndex);
 
         // River
         communityCards.add(gameState.getDeck().drawCard());
-        BoardDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
+        CommunityCardsDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
         System.out.println("Starting river betting.");
         bettingLoop(gameState.bigBlindIndex);
 
@@ -278,14 +278,14 @@ public class OmahaHoldEmRound extends Round {
     @Override
     protected void turn() {
         communityCards.add(gameState.getDeck().drawCard());
-        BoardDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
+        CommunityCardsDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
         System.out.println("Starting turn betting.");
         bettingLoop(gameState.getBigBlindIndex());
     }
 
     protected void river() {
         communityCards.add(gameState.getDeck().drawCard());
-        BoardDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
+        CommunityCardsDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
         System.out.println("Starting river betting.");
         bettingLoop(gameState.getBigBlindIndex());
     }
@@ -317,7 +317,7 @@ public class OmahaHoldEmRound extends Round {
         for (int i = 0; i < 3; i++) {
             communityCards.add(gameState.getDeck().drawCard());
         }
-        BoardDisplay.printPostFlopBoard("Flop", mainPlayerCards, communityCards);
+        CommunityCardsDisplay.printPostFlopBoard("Flop", mainPlayerCards, communityCards);
         System.out.println("Starting flop betting.");
         bettingLoop(gameState.getBigBlindIndex());
     }
