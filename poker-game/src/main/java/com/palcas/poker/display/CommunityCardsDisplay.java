@@ -6,33 +6,45 @@ import com.palcas.poker.game.Card;
 
 public class CommunityCardsDisplay {
 
-    public static void displayColoredCommunityCards(Card[] board) {
+    public static void displayColoredCommunityCards(Card[] communityCards) {
         String neutralColorCode = "\u001B[0m";
         System.out.println("   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐");
         System.out.println("   │         │   │         │   │         │   │         │   │         │");
-        System.out.println(generateRankLineString(board));
+        System.out.println(generateRankLineString(communityCards));
         System.out.println("   │         │   │         │   │         │   │         │   │         │");
-        System.out.println(generateSuiteLineString(board));
+        System.out.println(generateSuiteLineString(communityCards));
         System.out.println("   │         │   │         │   │         │   │         │   │         │");
         System.out.println("   └─────────┘   └─────────┘   └─────────┘   └─────────┘   └─────────┘");
     }
 
-    public static String generateRankLineString(Card[] board) {
+    public static String generateRankLineString(Card[] communityCards) {
         String neutralColorCode = "\u001B[0m";
         String rankLineString = "";
-        for (int i = 0; i < board.length; i++) {
-            rankLineString += "   │  " + CardDisplay.getColorCode(board[i]) + CardDisplay.getFormattedRank(board[i])
+        for (int i = 0; i < communityCards.length; i++) {
+            rankLineString += "   │  " + CardDisplay.getColorCode(communityCards[i]) + CardDisplay.getFormattedRank(communityCards[i])
                     + neutralColorCode + "  │";
+        }
+        if(communityCards.length == 3) {
+            rankLineString += "   │    ?    │   │    ?    │";
+        }
+        if(communityCards.length == 4) {
+            rankLineString += "   │    ?    │";
         }
         return rankLineString;
     }
 
-    public static String generateSuiteLineString(Card[] board) {
+    public static String generateSuiteLineString(Card[] communityCards) {
         String neutralColorCode = "\u001B[0m";
         String suiteLineString = "";
-        for (int i = 0; i < board.length; i++) {
-            suiteLineString += "   │ " + CardDisplay.getColorCode(board[i]) + CardDisplay.getFormattedSuit(board[i])
+        for (int i = 0; i < communityCards.length; i++) {
+            suiteLineString += "   │ " + CardDisplay.getColorCode(communityCards[i]) + CardDisplay.getFormattedSuit(communityCards[i])
                     + neutralColorCode + " │";
+        }
+        if(communityCards.length == 3) {
+            suiteLineString += "   │    ?    │   │    ?    │";
+        }
+        if(communityCards.length == 4) {
+            suiteLineString += "   │    ?    │";
         }
         return suiteLineString;
     }
