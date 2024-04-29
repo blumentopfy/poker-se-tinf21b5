@@ -17,7 +17,7 @@ public abstract class PokerGame {
 
     protected abstract GameResult playGame();
     protected abstract void startPokerGameLoop();
-    protected abstract void initializeBlinds(int smallBlindValue);
+    protected abstract void initializeBlindsAndBotActionService(int smallBlindValue, boolean useEmpiricalBotActionService);
     protected abstract void resetStatesAndBets();
     protected abstract void setBlinds();
     protected abstract void adjustBlinds(int round);

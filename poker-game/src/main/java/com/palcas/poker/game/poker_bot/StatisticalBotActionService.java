@@ -8,10 +8,10 @@ import com.palcas.poker.game.evaluation.HandEvaluationService;
 import com.palcas.poker.game.evaluation.HandRanking;
 import com.palcas.poker.game.evaluation.TexasHoldEmHandEvaluationService;
 
-public class TexasHoldEmBotActionService implements BotActionService {
+public class StatisticalBotActionService implements BotActionService {
     private HandEvaluationService handEvaluator;
 
-    public TexasHoldEmBotActionService() {
+    public StatisticalBotActionService() {
         this.handEvaluator = new TexasHoldEmHandEvaluationService();
     }
 

@@ -19,7 +19,9 @@ import com.palcas.poker.game.Pocket;
 import com.palcas.poker.game.Round;
 import com.palcas.poker.game.evaluation.HandEvaluationService;
 import com.palcas.poker.game.evaluation.TexasHoldEmHandEvaluationService;
+import com.palcas.poker.game.poker_bot.BotAction;
 import com.palcas.poker.game.poker_bot.BotActionService;
+import com.palcas.poker.game.poker_bot.IllegalBotActionException;
 import com.palcas.poker.game.variants.TexasHoldEm.TexasHoldEmGame;
 import com.palcas.poker.input.BetChoice;
 import com.palcas.poker.input.RaiseChoice;
@@ -33,8 +35,9 @@ public class OmahaHoldEmRound extends Round {
     private static Entry<Player, Integer> playerToHighestBet;
 
     public OmahaHoldEmRound(GameState gameState, BotActionService botActionService) {
-        super(gameState, botActionService, gameState.mainPlayer.getPocket().getCards());
-    }
+        this.gameState = gameState;
+        this.botActionService = botActionService;
+        }
 
     @Override
     public GameState executeRound() {
@@ -154,10 +157,10 @@ public class OmahaHoldEmRound extends Round {
         Scanner scanner = new Scanner(System.in);
         if (player == gameState.getMainPlayer()) {
             new BetChoice(scanner, playerToHighestBet)
-                    .addOption("(C)heck").withAction(() -> check(player))
-                    .addOption("(CALL)").withAction(() -> call(player))
-                    .addOption("(R)aise").withAction(() -> raise(player))
-                    .addOption("(F)old").withAction(() -> fold(player))
+                    .addOption("(C)heck").withAction(() -> mainPlayerCheck(player))
+                    .addOption("(CALL)").withAction(() -> mainPlayerCall(player))
+                    .addOption("(R)aise").withAction(() -> mainPlayerRaise(player))
+                    .addOption("(F)old").withAction(() -> mainPlayerFold(player))
                     .executeChoice();
         } else {
             // TODO implement AI
@@ -169,7 +172,7 @@ public class OmahaHoldEmRound extends Round {
     }
 
     @Override
-    protected void check(Player player) {
+    protected void mainPlayerCheck(Player player) {
         if (player.getBet() < playerToHighestBet.getValue()) {
             System.out.println("You have to call at least " + playerToHighestBet.getValue() + " to check.");
             bet(player);
@@ -185,7 +188,7 @@ public class OmahaHoldEmRound extends Round {
     }
 
     @Override
-    protected void call(Player player) {
+    protected void mainPlayerCall(Player player) {
         int chipsToCall = playerToHighestBet.getValue() - player.getBet();
         player.setBet(player.getBet() + chipsToCall);
         player.setChips(player.getChips() - chipsToCall);
@@ -201,7 +204,7 @@ public class OmahaHoldEmRound extends Round {
     }
 
     @Override
-    protected void raise(Player player) {
+    protected void mainPlayerRaise(Player player) {
         Scanner scanner = new Scanner(System.in);
         Optional<Object> raiseAmountOptional = new RaiseChoice(scanner).executeChoice();
         // confident casting since we know the RaiseChoice returns an Integer
@@ -233,13 +236,43 @@ public class OmahaHoldEmRound extends Round {
     }
 
     @Override
-    protected void fold(Player player) {
+    protected void mainPlayerFold(Player player) {
         player.setState(PlayerState.FOLDED);
         if (player == gameState.getMainPlayer()) {
             System.out.println("You fold.");
         } else {
             System.out.println(player.getName() + " folds.");
         }
+    }
+
+    @Override
+    protected void mainPlayerAllIn(Player player) {
+        //TODO
+    }
+
+    @Override
+    protected void botCheck(Player bot) throws IllegalBotActionException {
+        //TODO
+    }
+
+    @Override
+    protected void botCall(Player bot) throws IllegalBotActionException {
+        //TODO
+    }
+
+    @Override
+    protected void botRaise(Player bot, BotAction botAction) throws IllegalBotActionException {
+        //TODO
+    }
+
+    @Override
+    protected void botFold(Player bot) {
+        //TODO
+    }
+
+    @Override
+    protected void botAllIn(Player bot) {
+        //TODO
     }
 
     @Override

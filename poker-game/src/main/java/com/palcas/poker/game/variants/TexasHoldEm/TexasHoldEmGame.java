@@ -12,7 +12,8 @@ import com.palcas.poker.game.GameState;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.game.PokerGame;
 import com.palcas.poker.game.poker_bot.BotActionService;
-import com.palcas.poker.game.poker_bot.TexasHoldEmStatisticalBotActionService;
+import com.palcas.poker.game.poker_bot.EmpiricalBotActionService;
+import com.palcas.poker.game.poker_bot.StatisticalBotActionService;
 import com.palcas.poker.input.*;
 import com.palcas.poker.model.PlayerState;
 
@@ -20,7 +21,7 @@ public class TexasHoldEmGame extends PokerGame {
     private final Scanner scanner;
     private final Player mainPlayer;
     private final int initialMainPlayerChips;
-    private final BotActionService botActionService;
+    private BotActionService botActionService;
     private GameState gameState;
     public static int chipsWon;
     public static int roundsWon;
@@ -30,8 +31,6 @@ public class TexasHoldEmGame extends PokerGame {
         this.mainPlayer = mainPlayer;
         this.initialMainPlayerChips = mainPlayer.getChips();
         this.scanner = new Scanner(System.in);
-        this.botActionService = new TexasHoldEmStatisticalBotActionService(1000); // TODO adjust this depending on
-                                                                                  // stakes level
         chipsWon = 0;
     }
 
@@ -44,10 +43,14 @@ public class TexasHoldEmGame extends PokerGame {
         int playerCount = new PlayerCountChoice(scanner).executeChoice().get();
         DisplayElements.clearConsole();
         new StakeLevelChoice(scanner)
-                .addOption("Low Stakes (Blinds: 5/10)").withAction(() -> initializeBlinds(5))
-                .addOption("Medium Stakes (Blinds: 25/50)").withAction(() -> initializeBlinds(25))
-                .addOption("High Stakes (Blinds: 100/200)").withAction(() -> initializeBlinds(100))
-                .addOption("Very High Stakes (Blinds: 500/1000)").withAction(() -> initializeBlinds(500))
+                .addOption("Low Stakes (Blinds: 5/10)")
+                    .withAction(() -> initializeBlindsAndBotActionService(5, false))
+                .addOption("Medium Stakes (Blinds: 25/50)")
+                    .withAction(() -> initializeBlindsAndBotActionService(25, true))
+                .addOption("High Stakes (Blinds: 100/200)")
+                    .withAction(() -> initializeBlindsAndBotActionService(100, true))
+                .addOption("Very High Stakes (Blinds: 500/1000)")
+                    .withAction(() -> initializeBlindsAndBotActionService(500, true))
                 .executeChoice();
 
         DisplayElements.clearConsole();
@@ -99,8 +102,6 @@ public class TexasHoldEmGame extends PokerGame {
             // reset player states to WAITING_TO_BET and bets to 0
             resetStatesAndBets();
 
-            // shuffle here means creating a new deck and shuffling it, contrary to
-            // Collections.shuffle()
             gameState.getDeck().shuffleFullDeck();
 
             setBlinds();
@@ -209,11 +210,19 @@ public class TexasHoldEmGame extends PokerGame {
         }
     }
 
-    protected void initializeBlinds(int smallBlindValue) {
+    protected void initializeBlindsAndBotActionService(int smallBlindValue, boolean useEmpiricalBotActionService) {
         gameState.smallBlindIndex = 0;
         gameState.bigBlindIndex = 1;
         gameState.smallBlind = smallBlindValue;
         gameState.bigBlind = 2 * smallBlindValue;
+        if (useEmpiricalBotActionService) {
+            // the EmpiricalBotActionService shall simulate smallBlindValue/5 other Pockets.
+            // so the higher the small blind, the mor pockets get simulated and the better the decision
+            this.botActionService = new EmpiricalBotActionService(smallBlindValue / 5);
+        } else {
+            // for low stakes, play with RNG bot
+            this.botActionService = new StatisticalBotActionService();
+        }
     }
 
     protected void processWinners() {

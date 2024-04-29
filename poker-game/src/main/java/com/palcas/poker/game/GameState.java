@@ -1,5 +1,7 @@
 package com.palcas.poker.game;
 
+import com.palcas.poker.game.variants.RoundStatus;
+
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +17,16 @@ public class GameState {
     public int bigBlind;
     public int smallBlind;
     public int pot;
+    private RoundStatus roundStatus;
+
+    public RoundStatus getRoundStatus() {
+        return roundStatus;
+    }
+
+    public void setRoundStatus(RoundStatus roundStatus) {
+        this.roundStatus = roundStatus;
+    }
+
     private HashMap<Player, Pocket> playersWithPockets;
     private List<Card> communityCards;
     private Deck deck;
