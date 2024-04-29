@@ -132,6 +132,7 @@ public class TexasHoldEmRound extends Round {
                     potentialWinner.getName() + " wins the pot of " + gameState.getPot() + " without a showdown!");
             System.out.println("Congratulations, " + potentialWinner.getName() + "! :)");
             potentialWinner.setChips(potentialWinner.getChips() + gameState.getPot());
+            PauseDisplay.continueWithEnter();
 
             if (potentialWinner == gameState.getMainPlayer()) {
                 TexasHoldEmGame.chipsWon += gameState.getPot();
@@ -335,7 +336,7 @@ public class TexasHoldEmRound extends Round {
         player.setBet(allInAmount);
         player.setChips(0);
         player.setState(PlayerState.IS_ALL_IN);
-        System.out.println("You go all in with a total of" + allInAmount + "!");
+        System.out.println("You go all in with a total of " + allInAmount + "!");
         if (playerToHighestBet.getValue() < allInAmount) {
             playerToHighestBet.setValue(allInAmount);
         }

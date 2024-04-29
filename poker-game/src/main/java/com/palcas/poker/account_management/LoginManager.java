@@ -22,7 +22,7 @@ public class LoginManager {
             Account account = accountRepository.loadAccount(username);
             if (account != null
                     && account.getPasswordHash().equals(hashPassword(password, account.getPasswordSalt()))) {
-                return Optional.of(new Player(account.getName(), account.getChips()));
+                return Optional.of(new Player(account.getName(), account.getChips(), accountRepository));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -39,7 +39,7 @@ public class LoginManager {
             String salt = getSalt();
             Account newAccount = new Account(username, hashPassword(password, salt), salt);
             accountRepository.saveAccount(newAccount);
-            return Optional.of(new Player(newAccount.getName(), newAccount.getChips()));
+            return Optional.of(new Player(newAccount.getName(), newAccount.getChips(), accountRepository));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

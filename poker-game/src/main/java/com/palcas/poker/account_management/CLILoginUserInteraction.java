@@ -2,6 +2,7 @@ package com.palcas.poker.account_management;
 
 import com.palcas.poker.constants.JacksonPersistenceSettings;
 import com.palcas.poker.game.Player;
+import com.palcas.poker.persistance.AccountRepository;
 import com.palcas.poker.persistance.JacksonAccountRepository;
 
 import java.io.IOException;
@@ -11,10 +12,12 @@ import java.util.Scanner;
 public class CLILoginUserInteraction implements LoginUserInteraction {
     Scanner scanner;
     LoginManager loginManager;
+    AccountRepository accountRepository;
 
     public CLILoginUserInteraction() {
         scanner = new Scanner(System.in);
-        loginManager = new LoginManager(new JacksonAccountRepository(JacksonPersistenceSettings.ACCOUNT_FILE_PATH));
+        this.accountRepository = new JacksonAccountRepository(JacksonPersistenceSettings.ACCOUNT_FILE_PATH);
+        loginManager = new LoginManager(accountRepository);
     }
 
     @Override
