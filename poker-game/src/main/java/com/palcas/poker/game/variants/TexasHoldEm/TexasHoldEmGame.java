@@ -51,13 +51,13 @@ public class TexasHoldEmGame extends PokerGame {
                 // TODO Once StatisticalBotActionService is debugged, set second param to
                 // "wantsToPlayOnHard"
                 .addOption("Low Stakes (Blinds: 5/10)")
-                .withAction(() -> initializeBlindsAndBotActionService(5, false))
+                .withAction(() -> initializeBlindsAndBotActionService(5, true))
                 .addOption("Medium Stakes (Blinds: 25/50)")
-                .withAction(() -> initializeBlindsAndBotActionService(25, false))
+                .withAction(() -> initializeBlindsAndBotActionService(25, true))
                 .addOption("High Stakes (Blinds: 100/200)")
-                .withAction(() -> initializeBlindsAndBotActionService(100, false))
+                .withAction(() -> initializeBlindsAndBotActionService(100, true))
                 .addOption("Very High Stakes (Blinds: 500/1000)")
-                .withAction(() -> initializeBlindsAndBotActionService(500, false))
+                .withAction(() -> initializeBlindsAndBotActionService(500, true))
                 .executeChoice();
 
         DisplayElements.clearConsole();
