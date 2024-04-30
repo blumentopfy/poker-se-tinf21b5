@@ -11,8 +11,10 @@ public class GameStateDisplay {
         System.out.printf("-".repeat(84) + "%n");
         for (Player player : gameState.getPlayers()) {
             String blindStatus = getBlindRepresentationOf(player, gameState);
-            System.out.printf(" %-20s | %-5s | %-15s | %-15d | %-15d %n", player.getName(), blindStatus,
-                    player.getState().getCoolString(), player.getBet(), player.getChips());
+            String statusName = player.getState().getStateName();
+            String statusColor = player.getState().getStateColor();
+            System.out.printf(" %-20s | %-5s |" + statusColor + " %-15s \u001B[0m| %-15d | %-15d %n", player.getName(), blindStatus,
+                        statusName, player.getBet(), player.getChips());
         }
         PauseDisplay.continueWithEnter();
         DisplayElements.printSeperator();
