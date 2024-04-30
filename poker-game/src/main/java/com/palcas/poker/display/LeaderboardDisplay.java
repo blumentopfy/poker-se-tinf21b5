@@ -22,7 +22,7 @@ public class LeaderboardDisplay {
         System.out.printf(DisplayElements.SEPERATOR + "%n");
         int rank = 1;
         for (LeaderboardEntry entry : leaderboardTopTen) {
-            System.out.printf("  %02d  | %-" + Math.min(maxNameLength, 20) + "s | %05d %n", rank++, entry.getName(),
+            System.out.printf("  %02d  | %-" + Math.min(maxNameLength, 20) + "s | %5d %n", rank++, entry.getName(),
                     entry.getChips());
         }
         System.out.printf(DisplayElements.SEPERATOR + "%n");

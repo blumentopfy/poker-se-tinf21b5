@@ -53,7 +53,7 @@ public class App {
         // Main menu
         new MainMenuChoice()
                 .addOption("Play a round of poker").withAction(session::start)
-                .addOption("Highscore").withAction(() -> {
+                .addOption("Leaderboard").withAction(() -> {
                     try {
                         LeaderboardDisplay.displayLeaderboard(leaderboardRepository.getTopTen(), globalScanner);
                     } catch (IOException e) {
