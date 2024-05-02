@@ -25,7 +25,7 @@ public class TexasHoldEmHandEvaluationServiceTest {
     }
 
     @Test
-    public void testCompare1(){
+    public void compareTwoSameHandsEvenThoughPocketsAreDifferent(){
         Card commoncard1 = new Card(Suit.DIAMONDS, Rank.KING);
         Card commoncard2 = new Card(Suit.HEARTS, Rank.KING);
         Card commoncard3 = new Card(Suit.CLUBS, Rank.KING);
@@ -46,7 +46,7 @@ public class TexasHoldEmHandEvaluationServiceTest {
     }
 
     @Test
-    public void testCompare2(){
+    public void compareTwoSlightlyDifferentHands(){
         Card commoncard1 = new Card(Suit.DIAMONDS, Rank.KING);
         Card commoncard2 = new Card(Suit.HEARTS, Rank.KING);
         Card commoncard3 = new Card(Suit.CLUBS, Rank.KING);
@@ -66,7 +66,7 @@ public class TexasHoldEmHandEvaluationServiceTest {
     }
 
     @Test
-    public void testCompare3(){
+    public void compareTwoDifferentHands(){
         Card commoncard1 = new Card(Suit.DIAMONDS, Rank.KING);
         Card commoncard2 = new Card(Suit.HEARTS, Rank.KING);
         Card commoncard3 = new Card(Suit.CLUBS, Rank.KING);
@@ -87,27 +87,22 @@ public class TexasHoldEmHandEvaluationServiceTest {
 
 
 
-
-
     @Test
-    public void testFullHouse1() {
-        Card card1a = new Card(Suit.SPADES, Rank.TWO);
-        Card card2a = new Card(Suit.CLUBS, Rank.TWO);
-        Card card3a = new Card(Suit.HEARTS, Rank.TWO);
-        Card card4a = new Card(Suit.DIAMONDS, Rank.THREE);
-        Card card5a = new Card(Suit.SPADES, Rank.THREE);
-        Card card6a = new Card(Suit.HEARTS, Rank.FOUR);
-        Card card7a = new Card(Suit.HEARTS, Rank.FIVE);
-        Card[] cardsa = {card1a, card2a, card3a, card4a, card5a, card6a, card7a};
+    public void compareTwoFullHouses() {
+        Card communityCard1 = new Card(Suit.SPADES, Rank.TWO);
+        Card communityCard2 = new Card(Suit.CLUBS, Rank.TWO);
+        Card communityCard3 = new Card(Suit.HEARTS, Rank.TWO);
+        Card communityCard4 = new Card(Suit.DIAMONDS, Rank.THREE);
+        Card communityCard5 = new Card(Suit.DIAMONDS, Rank.FOUR);
 
-        Card card1b = new Card(Suit.SPADES, Rank.TWO);
-        Card card2b = new Card(Suit.CLUBS, Rank.TWO);
-        Card card3b = new Card(Suit.HEARTS, Rank.TWO);
-        Card card4b = new Card(Suit.SPADES, Rank.THREE);
-        Card card5b = new Card(Suit.DIAMONDS, Rank.FOUR);
-        Card card6b = new Card(Suit.HEARTS, Rank.FOUR);
-        Card card7b = new Card(Suit.HEARTS, Rank.FIVE);
-        Card[] cardsb = {card1b, card2b, card3b, card4b, card5b, card6b, card7b};
+
+        Card pocketCard1a = new Card(Suit.SPADES, Rank.THREE);
+        Card pocketCard2a = new Card(Suit.HEARTS, Rank.FIVE);
+        Card[] cardsa = {communityCard1, communityCard2, communityCard3, communityCard4, communityCard5, pocketCard1a, pocketCard2a};
+
+        Card pocketCard1b = new Card(Suit.HEARTS, Rank.FOUR);
+        Card pocketCard2b = new Card(Suit.HEARTS, Rank.FIVE);
+        Card[] cardsb = {communityCard1, communityCard2, communityCard3, communityCard4, communityCard5, pocketCard1b, pocketCard2b};
 
 
         Card[] selectedCardsA = handCheckerService.select(cardsa);
@@ -237,7 +232,7 @@ public class TexasHoldEmHandEvaluationServiceTest {
 
 
     @Test
-    public void testDetermineWinner3() {
+    public void TwoWinnersIfBestHandsAreEqual() {
         Card commoncard1 = new Card(Suit.DIAMONDS, Rank.KING);
         Card commoncard2 = new Card(Suit.HEARTS, Rank.KING);
         Card commoncard3 = new Card(Suit.CLUBS, Rank.KING);
