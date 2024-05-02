@@ -1,5 +1,6 @@
 package com.palcas.poker.persistance;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.palcas.poker.constants.JacksonPersistenceSettings;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.FileWriter;
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class JacksonAccountRepositoryTest {
@@ -25,7 +27,6 @@ public class JacksonAccountRepositoryTest {
                 + "{\"name\": \"Bob\", \"passwordHash\": \"013bd4cdf01910a5a02bb51ad7b50de82553a1d31827ed5c1f6760bca326dcc2\", \"passwordSalt\": \"69\", \"chips\": 2000}"
                 + "]";
         try (FileWriter writer = new FileWriter(JacksonPersistenceSettings.TEST_ACCOUNT_FILE_PATH)) {
-            System.out.println("set up the test data");
             writer.write(testData);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -82,5 +83,33 @@ public class JacksonAccountRepositoryTest {
 
         assertEquals("Alice", updatedAlice.getName());
         assertEquals("96a6602ef951499be98990c3acf28d434056eeb865c1186b2e3c5456babc62ba", alice.getPasswordHash());
+    }
+
+    @Test
+    public void throwsExceptionBecauseJSONFileIsBroken() {
+        try (FileWriter writer = new FileWriter(JacksonPersistenceSettings.TEST_ACCOUNT_FILE_PATH)) {
+            writer.write("hellothere{this\"isa}}broken[]assf1le[[[[[[");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        assertThrows(JsonParseException.class, () -> accountRepository.loadAccount("Alice"));
+    }
+
+    @Test void returnsNullBecauseAccountIsNotFond() {
+        try {
+            Account nonexistentAccount = accountRepository.loadAccount("Ghost");
+            assertEquals(null, nonexistentAccount);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test void returnsNullIfNameIsNull() {
+        try {
+            Account account = accountRepository.loadAccount(null);
+            assertEquals(null, account);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
