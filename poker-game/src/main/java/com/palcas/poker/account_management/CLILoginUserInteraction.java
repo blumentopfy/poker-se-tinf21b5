@@ -16,7 +16,9 @@ public class CLILoginUserInteraction implements LoginUserInteraction {
 
     public CLILoginUserInteraction() {
         scanner = new Scanner(System.in);
-        this.accountRepository = new JacksonAccountRepository(JacksonPersistenceSettings.ACCOUNT_FILE_PATH);
+        this.accountRepository = new JacksonAccountRepository(
+                JacksonPersistenceSettings.ACCOUNT_FILE_PATH
+        );
         loginManager = new LoginManager(accountRepository);
     }
 

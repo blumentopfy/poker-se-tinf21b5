@@ -1,4 +1,4 @@
-package com.palcas.poker.display.persistance;
+package com.palcas.poker.persistance;
 
 import com.palcas.poker.constants.JacksonPersistenceSettings;
 import com.palcas.poker.persistance.Account;
