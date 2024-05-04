@@ -17,15 +17,6 @@ public class GameState {
     public int smallBlind;
     public int pot;
     private RoundStatus roundStatus;
-
-    public RoundStatus getRoundStatus() {
-        return roundStatus;
-    }
-
-    public void setRoundStatus(RoundStatus roundStatus) {
-        this.roundStatus = roundStatus;
-    }
-
     private HashMap<Player, Pocket> playersWithPockets;
     private List<Card> communityCards;
     private Deck deck;
@@ -33,7 +24,6 @@ public class GameState {
     private int roundsWonByMainPlayer;
     private SimpleEntry<Player, Integer> playerToHighestBet;
     private List<Player> winners;
-
     public GameState(Player mainPlayer, ArrayList<Player> players) {
         this.mainPlayer = mainPlayer;
         this.players = players;
@@ -43,6 +33,14 @@ public class GameState {
         this.pot = 0;
         this.roundsPlayed = 0;
         this.roundsWonByMainPlayer = 0;
+    }
+
+    public RoundStatus getRoundStatus() {
+        return roundStatus;
+    }
+
+    public void setRoundStatus(RoundStatus roundStatus) {
+        this.roundStatus = roundStatus;
     }
 
     public Player getMainPlayer() {
