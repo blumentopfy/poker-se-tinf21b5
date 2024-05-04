@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-import com.palcas.poker.constants.PlayerNames;
+import com.palcas.poker.game.constants.PlayerNames;
 import com.palcas.poker.display.CommunityCardsDisplay;
 import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.display.TutorialDisplay;

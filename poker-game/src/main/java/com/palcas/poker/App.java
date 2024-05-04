@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import com.palcas.poker.account_management.CLILoginUserInteraction;
-import com.palcas.poker.constants.JacksonPersistenceSettings;
+import com.palcas.poker.persistance.constants.JacksonPersistenceSettings;
 import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.display.LeaderboardDisplay;
 import com.palcas.poker.game.Player;

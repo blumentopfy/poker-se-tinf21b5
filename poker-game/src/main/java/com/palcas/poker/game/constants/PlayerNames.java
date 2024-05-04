@@ -1,4 +1,4 @@
-package com.palcas.poker.constants;
+package com.palcas.poker.game.constants;
 
 import java.util.Arrays;
 import java.util.List;

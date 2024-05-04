@@ -1,4 +1,4 @@
-package com.palcas.poker.constants;
+package com.palcas.poker.persistance.constants;
 
 public class JacksonPersistenceSettings {
     public static String ACCOUNT_FILE_PATH = "poker-game/data/accounts.json";

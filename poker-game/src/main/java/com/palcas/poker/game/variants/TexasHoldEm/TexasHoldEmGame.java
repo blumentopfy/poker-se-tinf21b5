@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.stream.Collectors;
 
-import com.palcas.poker.constants.PlayerNames;
+import com.palcas.poker.game.constants.PlayerNames;
 import com.palcas.poker.display.DisplayElements;
 import com.palcas.poker.game.Deck;
 import com.palcas.poker.game.GameResult;

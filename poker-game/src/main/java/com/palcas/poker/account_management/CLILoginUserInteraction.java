@@ -1,6 +1,6 @@
 package com.palcas.poker.account_management;
 
-import com.palcas.poker.constants.JacksonPersistenceSettings;
+import com.palcas.poker.persistance.constants.JacksonPersistenceSettings;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.persistance.AccountRepository;
 import com.palcas.poker.persistance.JacksonAccountRepository;
