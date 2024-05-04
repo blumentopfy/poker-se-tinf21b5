@@ -3,17 +3,17 @@ package com.palcas.poker;
 import java.io.IOException;
 import java.util.Scanner;
 
-import com.palcas.poker.account_management.CLILoginUserInteraction;
+import com.palcas.poker.user_interaction.CLILoginUserInteraction;
 import com.palcas.poker.persistance.constants.JacksonPersistenceSettings;
-import com.palcas.poker.display.DisplayElements;
-import com.palcas.poker.display.LeaderboardDisplay;
+import com.palcas.poker.user_interaction.display.DisplayElements;
+import com.palcas.poker.user_interaction.display.LeaderboardDisplay;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.game.Session;
 import com.palcas.poker.game.tutorial.Tutorial;
-import com.palcas.poker.input.LoginChoice;
-import com.palcas.poker.input.MainMenuChoice;
-import com.palcas.poker.persistance.JacksonLeaderboardRepository;
-import com.palcas.poker.persistance.LeaderboardRepository;
+import com.palcas.poker.user_interaction.choices.LoginChoice;
+import com.palcas.poker.user_interaction.choices.MainMenuChoice;
+import com.palcas.poker.persistance.leaderboard.JacksonLeaderboardRepository;
+import com.palcas.poker.persistance.leaderboard.LeaderboardRepository;
 
 // Entry point for the game, should really only include welcome & game loop
 public class App {

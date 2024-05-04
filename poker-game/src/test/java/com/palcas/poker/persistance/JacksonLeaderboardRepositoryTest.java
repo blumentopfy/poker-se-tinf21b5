@@ -1,6 +1,9 @@
 package com.palcas.poker.persistance;
 
 import com.palcas.poker.persistance.constants.JacksonPersistenceSettings;
+import com.palcas.poker.persistance.leaderboard.JacksonLeaderboardRepository;
+import com.palcas.poker.persistance.leaderboard.LeaderboardEntry;
+import com.palcas.poker.persistance.leaderboard.LeaderboardRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

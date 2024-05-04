@@ -5,7 +5,10 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.stream.Collectors;
 
 import com.palcas.poker.game.constants.PlayerNames;
-import com.palcas.poker.display.DisplayElements;
+import com.palcas.poker.user_interaction.choices.DifficultyChoice;
+import com.palcas.poker.user_interaction.choices.PlayerCountChoice;
+import com.palcas.poker.user_interaction.choices.StakeLevelChoice;
+import com.palcas.poker.user_interaction.display.DisplayElements;
 import com.palcas.poker.game.Deck;
 import com.palcas.poker.game.GameResult;
 import com.palcas.poker.game.GameState;
@@ -14,7 +17,6 @@ import com.palcas.poker.game.PokerGame;
 import com.palcas.poker.game.poker_bot.BotActionService;
 import com.palcas.poker.game.poker_bot.EmpiricalBotActionService;
 import com.palcas.poker.game.poker_bot.StatisticalBotActionService;
-import com.palcas.poker.input.*;
 import com.palcas.poker.game.model.PlayerState;
 
 public class TexasHoldEmGame extends PokerGame {

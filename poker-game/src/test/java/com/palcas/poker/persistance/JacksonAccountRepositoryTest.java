@@ -1,6 +1,9 @@
 package com.palcas.poker.persistance;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.palcas.poker.persistance.account.Account;
+import com.palcas.poker.persistance.account.AccountRepository;
+import com.palcas.poker.persistance.account.JacksonAccountRepository;
 import com.palcas.poker.persistance.constants.JacksonPersistenceSettings;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

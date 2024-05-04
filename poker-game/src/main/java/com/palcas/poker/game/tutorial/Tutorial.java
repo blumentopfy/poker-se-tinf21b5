@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.palcas.poker.game.constants.PlayerNames;
-import com.palcas.poker.display.CommunityCardsDisplay;
-import com.palcas.poker.display.DisplayElements;
-import com.palcas.poker.display.TutorialDisplay;
+import com.palcas.poker.user_interaction.display.CommunityCardsDisplay;
+import com.palcas.poker.user_interaction.display.DisplayElements;
+import com.palcas.poker.user_interaction.display.TutorialDisplay;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.Deck;
 import com.palcas.poker.game.GameState;

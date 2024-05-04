@@ -3,9 +3,9 @@ package com.palcas.poker.game;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.palcas.poker.display.DisplayElements;
+import com.palcas.poker.user_interaction.display.DisplayElements;
 import com.palcas.poker.game.variants.TexasHoldEm.TexasHoldEmGame;
-import com.palcas.poker.input.PokerVariantChoice;
+import com.palcas.poker.user_interaction.choices.PokerVariantChoice;
 
 public class Session {
     private ArrayList<Player> players;

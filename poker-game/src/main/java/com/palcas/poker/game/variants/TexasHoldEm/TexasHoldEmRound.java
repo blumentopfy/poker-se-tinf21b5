@@ -5,10 +5,10 @@ import java.util.Map.Entry;
 import java.util.function.Consumer;
 
 import com.palcas.poker.App;
-import com.palcas.poker.display.CommunityCardsDisplay;
-import com.palcas.poker.display.DisplayElements;
-import com.palcas.poker.display.GameStateDisplay;
-import com.palcas.poker.display.PauseDisplay;
+import com.palcas.poker.user_interaction.display.CommunityCardsDisplay;
+import com.palcas.poker.user_interaction.display.DisplayElements;
+import com.palcas.poker.user_interaction.display.GameStateDisplay;
+import com.palcas.poker.user_interaction.display.PauseDisplay;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.GameState;
 import com.palcas.poker.game.Player;
@@ -20,8 +20,8 @@ import com.palcas.poker.game.poker_bot.BotAction;
 import com.palcas.poker.game.poker_bot.BotActionService;
 import com.palcas.poker.game.poker_bot.IllegalBotActionException;
 import com.palcas.poker.game.variants.RoundStatus;
-import com.palcas.poker.input.BetChoice;
-import com.palcas.poker.input.RaiseChoice;
+import com.palcas.poker.user_interaction.choices.BetChoice;
+import com.palcas.poker.user_interaction.choices.RaiseChoice;
 import com.palcas.poker.game.model.PlayerState;
 
 public class TexasHoldEmRound extends Round {

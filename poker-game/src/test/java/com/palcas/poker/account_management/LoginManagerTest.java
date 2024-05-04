@@ -1,8 +1,11 @@
 package com.palcas.poker.account_management;
 
+import com.palcas.poker.persistance.login.AccountAlreadyExistsException;
+import com.palcas.poker.persistance.login.LoginManager;
+import com.palcas.poker.persistance.login.PasswordRequirementsException;
 import com.palcas.poker.persistance.constants.JacksonPersistenceSettings;
 import com.palcas.poker.game.Player;
-import com.palcas.poker.persistance.JacksonAccountRepository;
+import com.palcas.poker.persistance.account.JacksonAccountRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
