@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class RaiseChoice implements ChoiceWithOpenOption {
+public class RaiseChoice implements OpenChoice {
     private Scanner scanner;
     private int raiseAmount;
 

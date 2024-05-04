@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import com.palcas.poker.user_interaction.display.DisplayElements;
 
-public class PlayerCountChoice implements ChoiceWithOpenOption {
+public class PlayerCountChoice implements OpenChoice {
     private final Scanner scanner;
 
     public PlayerCountChoice(Scanner scanner) {
