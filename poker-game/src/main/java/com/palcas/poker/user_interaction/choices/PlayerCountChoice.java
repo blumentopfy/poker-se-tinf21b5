@@ -24,7 +24,7 @@ public class PlayerCountChoice implements OpenChoice {
                 scanner.nextLine(); // Consume the newline character
 
                 if (playerCount >= 1 && playerCount <= 8) {
-                    System.out.println("Player count set to " + ++playerCount + ".");
+                    System.out.println("Player count set to " + (playerCount+1) + ".");
                     DisplayElements.printSeperator();
                     return Optional.of(playerCount);
                 } else {
