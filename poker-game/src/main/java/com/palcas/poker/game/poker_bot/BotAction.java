@@ -27,7 +27,7 @@ public class BotAction {
     }
 
     public Optional<Integer> getRaiseAmount() {
-        return Optional.of(raiseAmount);
+        return Optional.ofNullable(raiseAmount);
     }
 
     public void setActionType(ActionType actionType) {
