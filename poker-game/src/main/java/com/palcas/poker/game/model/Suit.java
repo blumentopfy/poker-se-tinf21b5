@@ -1,4 +1,4 @@
-package com.palcas.poker.model;
+package com.palcas.poker.game.model;
 
     // Enum for Suit of the card like Hearts or Diamonds
     public enum Suit {

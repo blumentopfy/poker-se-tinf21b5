@@ -3,8 +3,8 @@ package com.palcas.poker.game;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.palcas.poker.model.Rank;
-import com.palcas.poker.model.Suit;
+import com.palcas.poker.game.model.Rank;
+import com.palcas.poker.game.model.Suit;
 import java.util.Objects;
 
 public class Deck {

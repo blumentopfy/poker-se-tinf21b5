@@ -2,8 +2,8 @@ package com.palcas.poker.game.checker.pokerHands;
 
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.evaluation.BotPocketEvaluator;
-import com.palcas.poker.model.Rank;
-import com.palcas.poker.model.Suit;
+import com.palcas.poker.game.model.Rank;
+import com.palcas.poker.game.model.Suit;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

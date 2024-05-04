@@ -1,4 +1,4 @@
-package com.palcas.poker.model;
+package com.palcas.poker.game.model;
 
 public enum Rank {
     // Enum for the Rank of the card like 7 or King

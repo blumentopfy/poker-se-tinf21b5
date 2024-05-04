@@ -15,7 +15,7 @@ import com.palcas.poker.game.poker_bot.BotActionService;
 import com.palcas.poker.game.poker_bot.EmpiricalBotActionService;
 import com.palcas.poker.game.poker_bot.StatisticalBotActionService;
 import com.palcas.poker.input.*;
-import com.palcas.poker.model.PlayerState;
+import com.palcas.poker.game.model.PlayerState;
 
 public class TexasHoldEmGame extends PokerGame {
     private final Scanner scanner;

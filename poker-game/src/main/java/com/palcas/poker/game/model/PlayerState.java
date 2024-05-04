@@ -1,4 +1,4 @@
-package com.palcas.poker.model;
+package com.palcas.poker.game.model;
 
 public enum PlayerState {
     FOLDED("folded", "\u001B[31m"), //red

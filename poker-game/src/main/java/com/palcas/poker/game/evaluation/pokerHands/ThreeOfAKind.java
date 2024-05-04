@@ -1,6 +1,6 @@
 package com.palcas.poker.game.evaluation.pokerHands;
 
-import com.palcas.poker.model.Rank;
+import com.palcas.poker.game.model.Rank;
 import com.palcas.poker.game.Card;
 import com.palcas.poker.game.evaluation.CardsStatisticsService;
 

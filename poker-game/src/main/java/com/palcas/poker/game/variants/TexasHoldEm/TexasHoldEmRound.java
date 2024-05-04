@@ -22,7 +22,7 @@ import com.palcas.poker.game.poker_bot.IllegalBotActionException;
 import com.palcas.poker.game.variants.RoundStatus;
 import com.palcas.poker.input.BetChoice;
 import com.palcas.poker.input.RaiseChoice;
-import com.palcas.poker.model.PlayerState;
+import com.palcas.poker.game.model.PlayerState;
 
 public class TexasHoldEmRound extends Round {
     private GameState gameState;

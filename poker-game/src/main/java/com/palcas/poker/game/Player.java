@@ -3,7 +3,7 @@ package com.palcas.poker.game;
 import java.io.IOException;
 import java.util.Random;
 
-import com.palcas.poker.model.PlayerState;
+import com.palcas.poker.game.model.PlayerState;
 import com.palcas.poker.persistance.Account;
 import com.palcas.poker.persistance.AccountRepository;
 

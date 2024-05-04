@@ -16,9 +16,9 @@ import com.palcas.poker.game.GameState;
 import com.palcas.poker.game.Player;
 import com.palcas.poker.game.Pocket;
 import com.palcas.poker.game.variants.TexasHoldEm.TexasHoldEmPocket;
-import com.palcas.poker.model.PlayerState;
-import com.palcas.poker.model.Rank;
-import com.palcas.poker.model.Suit;
+import com.palcas.poker.game.model.PlayerState;
+import com.palcas.poker.game.model.Rank;
+import com.palcas.poker.game.model.Suit;
 
 public class Tutorial {
     private static GameState gameState;

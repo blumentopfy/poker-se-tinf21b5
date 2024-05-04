@@ -3,8 +3,8 @@ package com.palcas.poker.display;
 import java.util.Map;
 
 import com.palcas.poker.game.Card;
-import com.palcas.poker.model.Rank;
-import com.palcas.poker.model.Suit;
+import com.palcas.poker.game.model.Rank;
+import com.palcas.poker.game.model.Suit;
 
 public class CardDisplay {
     static final String space = " ";
