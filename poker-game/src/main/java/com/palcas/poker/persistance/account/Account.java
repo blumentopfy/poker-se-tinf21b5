@@ -3,6 +3,8 @@ package com.palcas.poker.persistance.account;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 public class Account {
     private String name;
     private String passwordHash;
@@ -57,5 +59,18 @@ public class Account {
 
     public void setChips(int chips) {
         this.chips = chips;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return Objects.equals(name, account.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, passwordHash, passwordSalt, chips);
     }
 }

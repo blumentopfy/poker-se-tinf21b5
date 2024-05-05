@@ -1,5 +1,6 @@
 package com.palcas.poker.persistance.account;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,8 +18,8 @@ public class JacksonAccountRepository implements AccountRepository {
     public Account loadAccount(String name) throws IOException {
         File file = new File(filePath);
         if (!file.exists() || file.length() == 0) {
-            System.out.println("account file doesn't exist or is empty");
-            throw new IOException("account file doesn't exist or is empty");
+            createNew(file);
+            return null;
         }
 
         Account[] accounts = objectMapper.readValue(file, Account[].class);
@@ -46,7 +47,6 @@ public class JacksonAccountRepository implements AccountRepository {
                     break;
                 }
             }
-
             if (!found) {
                 Account[] newAccounts = new Account[accounts.length + 1];
                 System.arraycopy(accounts, 0, newAccounts, 0, accounts.length);
@@ -54,9 +54,34 @@ public class JacksonAccountRepository implements AccountRepository {
                 accounts = newAccounts;
             }
         } else {
+            createNew(file);
             accounts = new Account[] { account };
         }
 
         objectMapper.writeValue(file, accounts);
+    }
+
+    public static String extractLowestDirectoryPath(File file) {
+        file = file.getParentFile();
+        if (file == null) {
+            return null;
+        }
+        return file.getPath();
+    }
+
+    private static void createNew(File file) throws IOException {
+        String directoryPath = extractLowestDirectoryPath(file);
+        File directory = new File(directoryPath);
+        if (!file.exists()) {
+            directory.mkdirs();
+        }
+        try {
+            file.createNewFile();
+            FileWriter writer = new FileWriter(file);
+            writer.write("[]");
+            writer.close();
+        } catch (IOException e) {
+            throw new IOException("could not create and write new file");
+        }
     }
 }
