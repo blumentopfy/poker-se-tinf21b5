@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -107,12 +108,74 @@ public class JacksonAccountRepositoryTest {
         }
     }
 
+    // #Requirement
     @Test void returnsNullIfNameIsNull() {
+        Account account;
         try {
-            Account account = accountRepository.loadAccount(null);
-            assertEquals(null, account);
+            account = accountRepository.loadAccount(null);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        assertEquals(null, account);
+    }
+
+    // #LifeSaver #BugFix
+    @Test void returnsNullAndCreatesEmptyFileIfFileDoesntExistYet() {
+        //the non-existing-account-filepath must point to a non-existing account
+        AccountRepository corruptAccountRepository = new JacksonAccountRepository(JacksonPersistenceSettings.NON_EXISTING_ACCOUNT_FILE_PATH);
+        Account account;
+        File file = new File(JacksonPersistenceSettings.NON_EXISTING_ACCOUNT_FILE_PATH);
+
+        try {
+            account = corruptAccountRepository.loadAccount("Alice");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        assertEquals(null, account);
+        assert(file.exists());
+
+        // Clean up: Delete the file after assertions
+        deleteCreatedFile(file);
+    }
+
+    // #LifeSaver #BugFix
+    @Test void createsFileWithAccountIfFileDoesntExistYet() {
+        //the non-existing-account-filepath must point to a non-existing account
+        AccountRepository corruptAccountRepository = new JacksonAccountRepository(JacksonPersistenceSettings.NON_EXISTING_ACCOUNT_FILE_PATH);
+        File file = new File(JacksonPersistenceSettings.NON_EXISTING_ACCOUNT_FILE_PATH);
+        Account accountToAdd = new Account("Georg", "634aa687c3365f3d3ac110f61542a4fcf839b5efba21b6893d201a63aa8ecda6", "9572");
+        Account receivedAccount;
+
+        try {
+            corruptAccountRepository.saveAccount(accountToAdd);
+            receivedAccount = corruptAccountRepository.loadAccount("Georg");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        assertEquals(accountToAdd, receivedAccount);
+        assert(file.exists());
+
+        // Clean up: Delete the file after assertions
+        deleteCreatedFile(file);
+    }
+
+    public static void deleteCreatedFile(File file) {
+        File direcotry = new File(extractLowestDirectoryPath(file));
+        if (file.exists()) {
+            file.delete();
+        }
+        if (direcotry.exists()) {
+            direcotry.delete();
+        }
+    }
+
+    public static String extractLowestDirectoryPath(File file) {
+        file = file.getParentFile();
+        if (file == null) {
+            return null;
+        }
+        return file.getPath();
     }
 }
