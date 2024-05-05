@@ -24,7 +24,7 @@ import com.palcas.poker.user_interaction.choices.BetChoice;
 import com.palcas.poker.user_interaction.choices.RaiseChoice;
 import com.palcas.poker.game.model.PlayerState;
 
-public class TexasHoldEmRound extends Round {
+public class TexasHoldEmRound implements Round {
     private GameState gameState;
     private BotActionService botActionService;
     private List<Card> mainPlayerCards;
@@ -88,7 +88,7 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected LinkedHashMap<Player, TexasHoldEmPocket> distributePocketCards() {
+    public LinkedHashMap<Player, TexasHoldEmPocket> distributePocketCards() {
         LinkedHashMap<Player, TexasHoldEmPocket> playersWithPockets = new LinkedHashMap<>();
         for (Player player : gameState.getPlayers()) {
             TexasHoldEmPocket newPocket = new TexasHoldEmPocket().populatePocket(gameState.getDeck());
@@ -99,7 +99,7 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected boolean checkIfBettingOver() {
+    public boolean checkIfBettingOver() {
         // Betting is not over if any player is still waiting to bet
         for (Player player : gameState.getPlayers()) {
             if (player.getState() == PlayerState.WAITING_TO_BET) {
@@ -141,7 +141,7 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected List<Player> determineWinners(HashMap<Player, ? extends Pocket> playersWithPockets,
+    public List<Player> determineWinners(HashMap<Player, ? extends Pocket> playersWithPockets,
             List<Card> communityCards) {
         // Bring Information in right Format for handEvaluationService.determineWinner
         HashMap<Player, Card[]> playersWithPocketAndBoardCards = new HashMap<>();
@@ -164,7 +164,7 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected void bet(Player player) {
+    public void bet(Player player) {
         Scanner scanner = App.globalScanner;
         if (player == gameState.getMainPlayer()) {
             GameStateDisplay.display(gameState);
@@ -230,13 +230,13 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected void botFold(Player bot) {
+    public void botFold(Player bot) {
         bot.setState(PlayerState.FOLDED);
         System.out.println(bot.getName() + " folds.");
     }
 
     @Override
-    protected void botCall(Player bot) throws IllegalBotActionException {
+    public void botCall(Player bot) throws IllegalBotActionException {
         int chipsToCall = gameState.getPlayerToHighestBet().getValue() - bot.getBet();
         if (bot.getChips() < chipsToCall) {
             throw new IllegalBotActionException("Bot tried to call, but doesn't have enough chips");
@@ -248,7 +248,7 @@ public class TexasHoldEmRound extends Round {
         gameState.setPot(gameState.getPot() + chipsToCall);
     }
 
-    protected void botCheck(Player bot) throws IllegalBotActionException {
+    public void botCheck(Player bot) throws IllegalBotActionException {
         if (bot.getBet() < playerToHighestBet.getValue()) {
             throw new IllegalBotActionException(
                     "Bot tried to Check, even though the highest Bet is larger than his bet");
@@ -259,7 +259,7 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected void botRaise(Player bot, BotAction botAction) throws IllegalBotActionException {
+    public void botRaise(Player bot, BotAction botAction) throws IllegalBotActionException {
         Optional<Integer> raiseAmountOptional = botAction.getRaiseAmount();
         int chipsToRaise = raiseAmountOptional
                 .orElseThrow(() -> new IllegalBotActionException(
@@ -288,7 +288,7 @@ public class TexasHoldEmRound extends Round {
         }
     }
 
-    protected void botAllIn(Player bot) {
+    public void botAllIn(Player bot) {
         int chipsToRaise = bot.getChips();
         int allInAmount = bot.getChips() + bot.getBet();
         bot.setBet(allInAmount);
@@ -305,7 +305,7 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected void mainPlayerCheck(Player player) {
+    public void mainPlayerCheck(Player player) {
         if (player.getBet() < playerToHighestBet.getValue()) {
             System.out.println("You have to call at least " + playerToHighestBet.getValue() + " to check.");
             bet(player);
@@ -317,7 +317,7 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected void mainPlayerCall(Player player) {
+    public void mainPlayerCall(Player player) {
         int chipsToCall = playerToHighestBet.getValue() - player.getBet();
         player.setBet(player.getBet() + chipsToCall);
         player.setChips(player.getChips() - chipsToCall);
@@ -328,7 +328,7 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected void mainPlayerRaise(Player player) {
+    public void mainPlayerRaise(Player player) {
         Scanner scanner = App.globalScanner;
         Optional<Object> raiseAmountOptional = new RaiseChoice(scanner).executeChoice();
         // confident casting since we know the RaiseChoice returns an Integer
@@ -359,13 +359,13 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected void mainPlayerFold(Player player) {
+    public void mainPlayerFold(Player player) {
         player.setState(PlayerState.FOLDED);
         System.out.println("You fold.");
     }
 
     @Override
-    protected void mainPlayerAllIn(Player player) {
+    public void mainPlayerAllIn(Player player) {
         int chipsToRaise = player.getChips();
         int allInAmount = player.getChips() + player.getBet();
         player.setBet(allInAmount);
@@ -382,14 +382,14 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected void turn() {
+    public void turn() {
         communityCards.add(gameState.getDeck().drawCard());
         CommunityCardsDisplay.printPostFlopBoard("Turn", mainPlayerCards, communityCards);
         System.out.println("Starting turn betting.");
         bettingLoop(gameState.getBigBlindIndex());
     }
 
-    protected void river() {
+    public void river() {
         communityCards.add(gameState.getDeck().drawCard());
         CommunityCardsDisplay.printPostFlopBoard("River", mainPlayerCards, communityCards);
         System.out.println("Starting river betting.");
@@ -397,7 +397,7 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected void bettingLoop(int bigBlindIndex) {
+    public void bettingLoop(int bigBlindIndex) {
         setPlayersBackToWaitingToBet();
         GameStateDisplay.display(gameState);
         // Start betting at index of big blind + 1
@@ -419,7 +419,7 @@ public class TexasHoldEmRound extends Round {
     }
 
     @Override
-    protected void flop() {
+    public void flop() {
         for (int i = 0; i < 3; i++) {
             communityCards.add(gameState.getDeck().drawCard());
         }
