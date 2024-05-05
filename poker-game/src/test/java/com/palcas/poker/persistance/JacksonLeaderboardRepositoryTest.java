@@ -1,5 +1,6 @@
 package com.palcas.poker.persistance;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.palcas.poker.persistance.constants.JacksonPersistenceSettings;
 import com.palcas.poker.persistance.leaderboard.JacksonLeaderboardRepository;
 import com.palcas.poker.persistance.leaderboard.LeaderboardEntry;
@@ -8,10 +9,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class JacksonLeaderboardRepositoryTest {
     private static LeaderboardRepository leaderboardRepository;
@@ -113,5 +116,73 @@ public class JacksonLeaderboardRepositoryTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    public void throwsExceptionBecauseJSONFileIsBroken() {
+        try (FileWriter writer = new FileWriter(JacksonPersistenceSettings.TEST_LEADERBOARD_FILE_PATH)) {
+            writer.write("hellothere{this\"isa}}broken[]assf1le[[[[[[");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        assertThrows(JsonParseException.class, () -> leaderboardRepository.getTopTen());
+    }
+
+    // #BugFix
+    @Test void createsFileAndReturnsEmptyListIfLeaderboardFileDoesntExist() {
+        LeaderboardRepository corruptLeaderboardRepository = new JacksonLeaderboardRepository(JacksonPersistenceSettings.NON_EXISTING_LEADERBOARD_FILE_PATH);
+        File file = new File(JacksonPersistenceSettings.NON_EXISTING_LEADERBOARD_FILE_PATH);
+
+        List<LeaderboardEntry> topTen;
+        try {
+            topTen = corruptLeaderboardRepository.getTopTen();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        assertEquals(topTen.size(), 0);
+        assert(file.exists());
+
+        // Clean up
+        deleteCreatedFile(file);
+    }
+
+    // #BugFix
+    @Test void createsAndWritesIntoNewFileIfLeaderboardFileDoesntExist() {
+        LeaderboardRepository corruptLeaderboardRepository = new JacksonLeaderboardRepository(JacksonPersistenceSettings.NON_EXISTING_LEADERBOARD_FILE_PATH);
+        File file = new File(JacksonPersistenceSettings.NON_EXISTING_LEADERBOARD_FILE_PATH);
+        List<LeaderboardEntry> leaderboard;
+
+        try {
+            corruptLeaderboardRepository.addToLeaderboard("Pascal", 1984);
+            leaderboard = corruptLeaderboardRepository.getTopTen();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        assertEquals(1, leaderboard.size());
+        assert(file.exists());
+
+        // Clean up
+        deleteCreatedFile(file);
+    }
+
+
+    public static void deleteCreatedFile(File file) {
+        File directory = new File(extractLowestDirectoryPath(file));
+        if (file.exists()) {
+            file.delete();
+        }
+        if (directory.exists()) {
+            directory.delete();
+        }
+    }
+
+    public static String extractLowestDirectoryPath(File file) {
+        file = file.getParentFile();
+        if (file == null) {
+            return null;
+        }
+        return file.getPath();
     }
 }
