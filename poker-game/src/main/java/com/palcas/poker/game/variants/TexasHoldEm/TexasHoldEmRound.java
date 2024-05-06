@@ -84,6 +84,10 @@ public class TexasHoldEmRound implements Round {
             gameState.setWinners(determineWinners(playersWithPockets, communityCards));
         }
 
+        //Display Winners
+        GameStateDisplay.displayWinners(gameState);
+        
+
         return gameState;
     }
 

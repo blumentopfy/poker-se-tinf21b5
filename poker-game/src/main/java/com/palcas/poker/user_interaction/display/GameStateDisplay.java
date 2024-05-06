@@ -1,5 +1,7 @@
 package com.palcas.poker.user_interaction.display;
 
+import java.util.List;
+
 import com.palcas.poker.game.GameState;
 import com.palcas.poker.game.Player;
 
@@ -28,6 +30,21 @@ public class GameStateDisplay {
         } else {
             return "---";
         }
+    }
+
+    public static void displayWinners(GameState gameState) {
+        DisplayElements.printSeperator();
+        System.out.println("The winners are: ");
+        for (Player winner : gameState.getWinners()) {
+            System.out.println(winner.getName());
+        }
+        System.out.println("They have won the pot containing " + gameState.getPot() + " chips.");
+        System.out.println("This is the hand they have won with: ");
+        for (Player winner : gameState.getWinners()) {
+            PocketDisplay.displayColoredPocket(winner.getPocket().getCards().get(0), winner.getPocket().getCards().get(1));
+        }
+        DisplayElements.printSeperator();
+        PauseDisplay.continueWithEnter();
     }
 
 }
