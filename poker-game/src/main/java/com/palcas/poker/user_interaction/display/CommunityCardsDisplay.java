@@ -8,27 +8,27 @@ public class CommunityCardsDisplay {
 
     public static void displayColoredCommunityCards(Card[] communityCards) {
         String neutralColorCode = "\u001B[0m";
-        System.out.println("   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐");
-        System.out.println("   │         │   │         │   │         │   │         │   │         │");
+        System.out.println("   +---------+   +---------+   +---------+   +---------+   +---------+");
+        System.out.println("   |         |   |         |   |         |   |         |   |         |");
         System.out.println(generateRankLineString(communityCards));
-        System.out.println("   │         │   │         │   │         │   │         │   │         │");
+        System.out.println("   |         |   |         |   |         |   |         |   |         |");
         System.out.println(generateSuiteLineString(communityCards));
-        System.out.println("   │         │   │         │   │         │   │         │   │         │");
-        System.out.println("   └─────────┘   └─────────┘   └─────────┘   └─────────┘   └─────────┘");
+        System.out.println("   |         |   |         |   |         |   |         |   |         |");
+        System.out.println("   +---------+   +---------+   +---------+   +---------+   +---------+");
     }
 
     public static String generateRankLineString(Card[] communityCards) {
         String neutralColorCode = "\u001B[0m";
         String rankLineString = "";
         for (int i = 0; i < communityCards.length; i++) {
-            rankLineString += "   │  " + CardDisplay.getColorCode(communityCards[i]) + CardDisplay.getFormattedRank(communityCards[i])
-                    + neutralColorCode + "  │";
+            rankLineString += "   |  " + CardDisplay.getColorCode(communityCards[i]) + CardDisplay.getFormattedRank(communityCards[i])
+                    + neutralColorCode + "  |";
         }
         if(communityCards.length == 3) {
-            rankLineString += "   │    ?    │   │    ?    │";
+            rankLineString += "   |    ?    |   |    ?    |";
         }
         if(communityCards.length == 4) {
-            rankLineString += "   │    ?    │";
+            rankLineString += "   |    ?    |";
         }
         return rankLineString;
     }
@@ -37,14 +37,14 @@ public class CommunityCardsDisplay {
         String neutralColorCode = "\u001B[0m";
         String suiteLineString = "";
         for (int i = 0; i < communityCards.length; i++) {
-            suiteLineString += "   │ " + CardDisplay.getColorCode(communityCards[i]) + CardDisplay.getFormattedSuit(communityCards[i])
-                    + neutralColorCode + " │";
+            suiteLineString += "   | " + CardDisplay.getColorCode(communityCards[i]) + CardDisplay.getFormattedSuit(communityCards[i])
+                    + neutralColorCode + " |";
         }
         if(communityCards.length == 3) {
-            suiteLineString += "   │    ?    │   │    ?    │";
+            suiteLineString += "   |    ?    |   |    ?    |";
         }
         if(communityCards.length == 4) {
-            suiteLineString += "   │    ?    │";
+            suiteLineString += "   |    ?    |";
         }
         return suiteLineString;
     }
